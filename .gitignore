@@ -46,6 +46,9 @@ yarn-error.log*
 # portable developer tooling downloaded locally (e.g. GitHub CLI)
 /.tools/
 
+# generated sheet of production values for pasting into the host's dashboard
+/HOSTINGER-ENV.txt
+
 # vercel
 .vercel
 
