@@ -1,0 +1,150 @@
+{
+  "brand": {
+    "name": "EL DAMARANY",
+    "latin": "EL DAMARANY",
+    "legalName": "EL DAMARANY for Contracting & Road Paving",
+    "since": "Since 1978"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "projects": "Projects",
+    "capabilities": "Capabilities",
+    "qualitySafety": "Quality & Safety",
+    "riskManagement": "Risk Management",
+    "sectors": "Sectors",
+    "contact": "Contact",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primaryNavigation": "Primary navigation"
+  },
+  "common": {
+    "exploreWork": "Explore Our Work",
+    "discoverCompany": "Discover EL DAMARANY",
+    "discussProject": "Discuss a Project",
+    "contactUs": "Contact Us",
+    "moreAbout": "More About the Company",
+    "viewProject": "View Project",
+    "viewAllProjects": "All Projects",
+    "viewAllServices": "All Services",
+    "readMore": "Read More",
+    "backHome": "Back Home",
+    "scroll": "Scroll",
+    "loading": "Loading…",
+    "search": "Search",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "skipToContent": "Skip to content",
+    "switchLanguage": "Switch language",
+    "whatsapp": "WhatsApp",
+    "chatOnWhatsapp": "Chat with us on WhatsApp",
+    "callUs": "Call us",
+    "emailUs": "Email us",
+    "openInMaps": "Open in Maps",
+    "followUs": "Follow us"
+  },
+  "cta": {
+    "headline": "Have a Project? Let's Start Here.",
+    "body": "Our team is ready to discuss your requirements and propose the right approach."
+  },
+  "projects": {
+    "title": "Projects",
+    "eyebrow": "Our Work",
+    "filters": "Filters",
+    "showFilters": "Show filters",
+    "hideFilters": "Hide filters",
+    "all": "All",
+    "governorate": "Governorate",
+    "sector": "Sector",
+    "year": "Year",
+    "status": "Status",
+    "collection": "Collection",
+    "searchPlaceholder": "Search projects…",
+    "clearFilters": "Clear filters",
+    "resultsCount": "{count, plural, =0 {No projects} one {# project} other {# projects}}",
+    "empty": "No projects match the current filters.",
+    "emptyHint": "Try broadening your search or clearing the filters.",
+    "location": "Location",
+    "client": "Client",
+    "scope": "Scope of Work",
+    "overview": "Overview",
+    "gallery": "Gallery",
+    "related": "Related Projects",
+    "partOfCollection": "Part of",
+    "imageCount": "{count} images",
+    "openGallery": "Open gallery",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "closeGallery": "Close gallery",
+    "imagePosition": "Image {current} of {total}",
+    "draftNotice": "Draft preview — this project is not published yet."
+  },
+  "projectStatus": {
+    "PLANNED": "Planned",
+    "ONGOING": "Ongoing",
+    "COMPLETED": "Completed"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "headline": "Have a Project? Let's Start Here.",
+    "headOffice": "Head Office",
+    "branch": "Branch",
+    "phone": "Phone",
+    "mobile": "Mobile",
+    "email": "Email",
+    "formTitle": "Send us a message",
+    "name": "Name",
+    "company": "Company",
+    "emailField": "Email",
+    "phoneField": "Phone number",
+    "projectType": "Project type",
+    "message": "Project details",
+    "consent": "I agree that my details may be used to respond to this enquiry.",
+    "submit": "Send message",
+    "sending": "Sending…",
+    "success": "Your message has been sent. We will be in touch shortly.",
+    "error": "The message could not be sent. Please try again.",
+    "optional": "optional",
+    "selectProjectType": "Select a project type",
+    "projectTypes": {
+      "roads": "Roads & Paving",
+      "asphalt": "Asphalt Works",
+      "infrastructure": "Infrastructure",
+      "concrete": "Concrete Works",
+      "contracting": "General Contracting",
+      "other": "Other"
+    },
+    "validation": {
+      "name": "Please enter your name.",
+      "email": "Please enter a valid email address.",
+      "message": "Please describe your project.",
+      "consent": "Please accept before sending."
+    }
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "services": "Services",
+    "contact": "Contact",
+    "headOffice": "Head Office",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for is unavailable or has been moved.",
+    "cta": "Back Home"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "This content could not be loaded. You can try again.",
+    "retry": "Try again"
+  },
+  "seo": {
+    "defaultTitle": "EL DAMARANY for Contracting & Road Paving",
+    "defaultDescription": "Accumulated experience since 1978 in roads, paving, infrastructure and concrete works across Egypt."
+  }
+}

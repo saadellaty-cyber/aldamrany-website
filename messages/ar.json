@@ -1,0 +1,150 @@
+{
+  "brand": {
+    "name": "الضمراني",
+    "latin": "EL DAMARANY",
+    "legalName": "شركة الضمراني للمقاولات ورصف الطرق",
+    "since": "منذ 1978"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "services": "مجالاتنا",
+    "projects": "المشروعات",
+    "capabilities": "قدراتنا",
+    "qualitySafety": "الجودة والسلامة",
+    "riskManagement": "إدارة المخاطر",
+    "sectors": "القطاعات",
+    "contact": "تواصل معنا",
+    "menu": "القائمة",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة",
+    "primaryNavigation": "القائمة الرئيسية"
+  },
+  "common": {
+    "exploreWork": "استكشف أعمالنا",
+    "discoverCompany": "تعرف علينا",
+    "discussProject": "ناقش مشروعك",
+    "contactUs": "تواصل معنا",
+    "moreAbout": "المزيد عن الشركة",
+    "viewProject": "عرض المشروع",
+    "viewAllProjects": "كل المشروعات",
+    "viewAllServices": "كل المجالات",
+    "readMore": "اقرأ المزيد",
+    "backHome": "العودة للرئيسية",
+    "scroll": "مرّر لأسفل",
+    "loading": "جارٍ التحميل…",
+    "search": "بحث",
+    "close": "إغلاق",
+    "previous": "السابق",
+    "next": "التالي",
+    "skipToContent": "تخطَّ إلى المحتوى",
+    "switchLanguage": "تغيير اللغة",
+    "whatsapp": "واتساب",
+    "chatOnWhatsapp": "تواصل معنا عبر واتساب",
+    "callUs": "اتصل بنا",
+    "emailUs": "راسلنا",
+    "openInMaps": "الموقع على الخريطة",
+    "followUs": "تابعنا"
+  },
+  "cta": {
+    "headline": "لديك مشروع؟ دعنا نبدأ من هنا.",
+    "body": "فريقنا جاهز لمناقشة متطلبات مشروعك وتقديم الحلول المناسبة."
+  },
+  "projects": {
+    "title": "المشروعات",
+    "eyebrow": "أعمالنا",
+    "filters": "تصفية",
+    "showFilters": "عرض التصفية",
+    "hideFilters": "إخفاء التصفية",
+    "all": "الكل",
+    "governorate": "المحافظة",
+    "sector": "القطاع",
+    "year": "السنة",
+    "status": "الحالة",
+    "collection": "المجموعة",
+    "searchPlaceholder": "ابحث في المشروعات…",
+    "clearFilters": "إعادة الضبط",
+    "resultsCount": "{count, plural, =0 {لا توجد مشروعات} one {مشروع واحد} two {مشروعان} few {# مشروعات} other {# مشروعًا}}",
+    "empty": "لا توجد مشروعات مطابقة لعوامل التصفية الحالية.",
+    "emptyHint": "جرّب توسيع نطاق البحث أو إعادة ضبط التصفية.",
+    "location": "الموقع",
+    "client": "جهة التعاقد",
+    "scope": "نطاق الأعمال",
+    "overview": "نبذة عن المشروع",
+    "gallery": "معرض الصور",
+    "related": "مشروعات ذات صلة",
+    "partOfCollection": "ضمن مجموعة",
+    "imageCount": "{count} صورة",
+    "openGallery": "فتح معرض الصور",
+    "previousImage": "الصورة السابقة",
+    "nextImage": "الصورة التالية",
+    "closeGallery": "إغلاق المعرض",
+    "imagePosition": "صورة {current} من {total}",
+    "draftNotice": "معاينة مسودة — هذا المشروع غير منشور بعد."
+  },
+  "projectStatus": {
+    "PLANNED": "قيد التخطيط",
+    "ONGOING": "قيد التنفيذ",
+    "COMPLETED": "مكتمل"
+  },
+  "contact": {
+    "eyebrow": "تواصل معنا",
+    "headline": "لديك مشروع؟ دعنا نبدأ من هنا.",
+    "headOffice": "المركز الرئيسي",
+    "branch": "الفرع",
+    "phone": "الهاتف",
+    "mobile": "المحمول",
+    "email": "البريد الإلكتروني",
+    "formTitle": "أرسل لنا رسالة",
+    "name": "الاسم",
+    "company": "الشركة",
+    "emailField": "البريد الإلكتروني",
+    "phoneField": "رقم الهاتف",
+    "projectType": "نوع المشروع",
+    "message": "تفاصيل المشروع",
+    "consent": "أوافق على استخدام بياناتي للرد على استفساري.",
+    "submit": "إرسال الرسالة",
+    "sending": "جارٍ الإرسال…",
+    "success": "تم إرسال رسالتك بنجاح. سنتواصل معك قريبًا.",
+    "error": "تعذر إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+    "optional": "اختياري",
+    "selectProjectType": "اختر نوع المشروع",
+    "projectTypes": {
+      "roads": "طرق ورصف",
+      "asphalt": "أعمال أسفلت",
+      "infrastructure": "بنية تحتية",
+      "concrete": "أعمال خرسانية",
+      "contracting": "مقاولات عامة",
+      "other": "أخرى"
+    },
+    "validation": {
+      "name": "يرجى إدخال الاسم.",
+      "email": "يرجى إدخال بريد إلكتروني صحيح.",
+      "message": "يرجى كتابة تفاصيل المشروع.",
+      "consent": "يرجى الموافقة قبل الإرسال."
+    }
+  },
+  "footer": {
+    "navigation": "روابط",
+    "services": "مجالاتنا",
+    "contact": "تواصل",
+    "headOffice": "المركز الرئيسي",
+    "rights": "جميع الحقوق محفوظة.",
+    "privacy": "سياسة الخصوصية",
+    "terms": "الشروط والأحكام"
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "description": "الرابط الذي تحاول الوصول إليه غير متاح أو تم نقله.",
+    "cta": "العودة للرئيسية"
+  },
+  "error": {
+    "title": "حدث خطأ غير متوقع",
+    "description": "تعذر تحميل هذا المحتوى. يمكنك المحاولة مرة أخرى.",
+    "retry": "إعادة المحاولة"
+  },
+  "seo": {
+    "defaultTitle": "شركة الضمراني للمقاولات ورصف الطرق",
+    "defaultDescription": "خبرة متراكمة منذ 1978 في تنفيذ مشروعات الطرق والرصف والبنية التحتية والأعمال الخرسانية داخل جمهورية مصر العربية."
+  }
+}

@@ -1,0 +1,23 @@
+# Normalise line endings so the repository stays consistent regardless of the
+# machine a contributor works on. Without this, files authored on Windows land
+# in the repository with CRLF and show up as whole-file changes on Linux hosts.
+* text=auto eol=lf
+
+# Keep shell scripts LF even on Windows checkouts — CRLF breaks them.
+*.sh text eol=lf
+
+# Binary assets must never be line-ending converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+
+# Generated / vendored files are excluded from language statistics and diffs.
+package-lock.json -diff linguist-generated
+src/generated/** linguist-generated

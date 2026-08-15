@@ -1,0 +1,656 @@
+// EL DAMARANY — corporate website + CMS
+//
+// Every piece of public content is stored here so the site can be operated
+// entirely from /admin. Bilingual fields are suffixed Ar / En; nullable text
+// means "not supplied yet" and the public site hides the block rather than
+// rendering a placeholder.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+// The connection URL lives in prisma.config.ts (Prisma 7 no longer accepts
+// `url` here); the runtime client connects through the pg driver adapter.
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+/// Draft / published workflow shared by every publishable entity.
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+}
+
+/// Execution state of a project. Nullable on Project — left unset when unknown.
+enum ProjectStatus {
+  PLANNED
+  ONGOING
+  COMPLETED
+}
+
+enum ContactStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum SocialPlatform {
+  FACEBOOK
+  INSTAGRAM
+  LINKEDIN
+  YOUTUBE
+  TIKTOK
+  X
+}
+
+enum NavLocation {
+  HEADER
+  FOOTER
+}
+
+/// Distinguishes the two themes on the Quality & Safety page.
+enum QualityCategory {
+  QUALITY
+  SAFETY
+}
+
+// ---------------------------------------------------------------------------
+// Authentication & audit
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         Role      @default(EDITOR)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sessions      Session[]
+  activityLogs  ActivityLog[]
+  uploadedMedia MediaAsset[]  @relation("MediaUploader")
+  createdProjects Project[]   @relation("ProjectAuthor")
+
+  @@index([email])
+}
+
+/// Server-side sessions. Only a hash of the cookie token is stored, so a
+/// database leak cannot be replayed as a login.
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userAgent String?
+  ipAddress String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  summary    String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([entityType, entityId])
+}
+
+// ---------------------------------------------------------------------------
+// Media
+// ---------------------------------------------------------------------------
+
+/// An uploaded file in object storage. Rows are reusable across the whole CMS;
+/// binary data never lives in the database, only the storage key and metadata.
+model MediaAsset {
+  id           String   @id @default(cuid())
+  storageKey   String   @unique
+  url          String
+  originalName String
+  mimeType     String
+  fileSize     Int
+  width        Int?
+  height       Int?
+  blurDataUrl  String?
+
+  altAr     String?
+  altEn     String?
+  captionAr String?
+  captionEn String?
+
+  /// Default focal point (percentages) used when this asset is rendered in a
+  /// crop. Individual usages may override it — see ProjectImage.
+  focalX       Float @default(50)
+  focalY       Float @default(50)
+  mobileFocalX Float @default(50)
+  mobileFocalY Float @default(50)
+
+  uploadedById String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  uploadedBy User? @relation("MediaUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+
+  // Usage back-references — used to warn before deleting an in-use asset.
+  projectImages      ProjectImage[]
+  projectOgImages    Project[]            @relation("ProjectOgImage")
+  collectionCovers   ProjectCollection[]  @relation("CollectionCover")
+  sectorImages       Sector[]             @relation("SectorImage")
+  serviceImages      Service[]            @relation("ServiceImage")
+  timelineImages     TimelineItem[]       @relation("TimelineImage")
+  capabilityImages   Capability[]         @relation("CapabilityImage")
+  qualityImages      QualitySection[]     @relation("QualityImage")
+  riskImages         RiskItem[]           @relation("RiskImage")
+  homepageImages     HomepageSection[]    @relation("HomepageImage")
+  pageHeroImages     Page[]               @relation("PageHeroImage")
+  pageOgImages       Page[]               @relation("PageOgImage")
+  contentBlockImages ContentBlock[]       @relation("ContentBlockImage")
+  settingsLogoPrimary SiteSetting[]       @relation("LogoPrimary")
+  settingsLogoDark    SiteSetting[]       @relation("LogoDark")
+  settingsLogoLight   SiteSetting[]       @relation("LogoLight")
+  settingsLogoMobile  SiteSetting[]       @relation("LogoMobile")
+  settingsFavicon     SiteSetting[]       @relation("Favicon")
+  settingsOgImage     SiteSetting[]       @relation("SettingsOgImage")
+
+  @@index([createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Projects
+// ---------------------------------------------------------------------------
+
+model Governorate {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  nameAr    String
+  nameEn    String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects Project[]
+}
+
+model Sector {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  nameAr        String
+  nameEn        String
+  descriptionAr String?
+  descriptionEn String?
+  imageId       String?
+  sortOrder     Int      @default(0)
+  status        PublishStatus @default(PUBLISHED)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  image    MediaAsset? @relation("SectorImage", fields: [imageId], references: [id], onDelete: SetNull)
+  projects Project[]
+}
+
+/// A grouping of projects, e.g. "Alexandria Governorate Projects", which acts
+/// as an umbrella for many individual project records.
+model ProjectCollection {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  nameAr        String
+  nameEn        String
+  descriptionAr String?
+  descriptionEn String?
+  coverImageId  String?
+  sortOrder     Int      @default(0)
+  status        PublishStatus @default(PUBLISHED)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  coverImage MediaAsset? @relation("CollectionCover", fields: [coverImageId], references: [id], onDelete: SetNull)
+  projects   Project[]
+}
+
+model Project {
+  id String @id @default(cuid())
+
+  titleAr String
+  titleEn String
+  slugAr  String @unique
+  slugEn  String @unique
+
+  shortDescriptionAr String?
+  shortDescriptionEn String?
+  descriptionAr      String?
+  descriptionEn      String?
+
+  locationAr String?
+  locationEn String?
+  clientAr   String?
+  clientEn   String?
+  scopeAr    String?
+  scopeEn    String?
+
+  year   Int?
+  status ProjectStatus?
+
+  governorateId String?
+  sectorId      String?
+  collectionId  String?
+
+  featured      Boolean @default(false)
+  featuredOrder Int?
+  sortOrder     Int     @default(0)
+
+  publishStatus PublishStatus @default(DRAFT)
+  publishedAt   DateTime?
+  /// Unguessable token that unlocks the draft preview route.
+  previewToken  String        @unique @default(cuid())
+
+  seoTitleAr       String?
+  seoTitleEn       String?
+  seoDescriptionAr String?
+  seoDescriptionEn String?
+  ogImageId        String?
+  canonicalUrl     String?
+  noIndex          Boolean @default(false)
+
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  governorate Governorate?       @relation(fields: [governorateId], references: [id], onDelete: SetNull)
+  sector      Sector?            @relation(fields: [sectorId], references: [id], onDelete: SetNull)
+  collection  ProjectCollection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  ogImage     MediaAsset?        @relation("ProjectOgImage", fields: [ogImageId], references: [id], onDelete: SetNull)
+  createdBy   User?              @relation("ProjectAuthor", fields: [createdById], references: [id], onDelete: SetNull)
+
+  images ProjectImage[]
+
+  relatedTo   ProjectRelation[] @relation("RelationSource")
+  relatedFrom ProjectRelation[] @relation("RelationTarget")
+
+  @@index([publishStatus, publishedAt])
+  @@index([featured, featuredOrder])
+  @@index([sectorId])
+  @@index([governorateId])
+  @@index([collectionId])
+  @@index([year])
+}
+
+/// Join row between a project and a media asset. Hero and cover are flags, not
+/// separate uploads, so one file is never stored twice.
+model ProjectImage {
+  id           String @id @default(cuid())
+  projectId    String
+  mediaAssetId String
+
+  sortOrder Int     @default(0)
+  isHero    Boolean @default(false)
+  isCover   Boolean @default(false)
+
+  /// Per-usage crop overrides. Null falls back to the media asset's defaults.
+  focalX       Float?
+  focalY       Float?
+  mobileFocalX Float?
+  mobileFocalY Float?
+
+  altTextAr String?
+  altTextEn String?
+  captionAr String?
+  captionEn String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  mediaAsset MediaAsset @relation(fields: [mediaAssetId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, mediaAssetId])
+  @@index([projectId, sortOrder])
+}
+
+/// Manually curated "related projects" override.
+model ProjectRelation {
+  id              String @id @default(cuid())
+  projectId       String
+  relatedProjectId String
+  sortOrder       Int    @default(0)
+
+  project        Project @relation("RelationSource", fields: [projectId], references: [id], onDelete: Cascade)
+  relatedProject Project @relation("RelationTarget", fields: [relatedProjectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, relatedProjectId])
+  @@index([projectId])
+}
+
+// ---------------------------------------------------------------------------
+// Editorial content
+// ---------------------------------------------------------------------------
+
+model Service {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  titleAr       String
+  titleEn       String
+  descriptionAr String?
+  descriptionEn String?
+  icon          String?
+  imageId       String?
+  sortOrder     Int      @default(0)
+  featured      Boolean  @default(true)
+  status        PublishStatus @default(PUBLISHED)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  image MediaAsset? @relation("ServiceImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([status, sortOrder])
+}
+
+model TimelineItem {
+  id            String   @id @default(cuid())
+  year          Int
+  titleAr       String?
+  titleEn       String?
+  descriptionAr String?
+  descriptionEn String?
+  imageId       String?
+  sortOrder     Int      @default(0)
+  status        PublishStatus @default(PUBLISHED)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  image MediaAsset? @relation("TimelineImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([status, sortOrder])
+}
+
+model Capability {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  titleAr       String
+  titleEn       String
+  descriptionAr String?
+  descriptionEn String?
+  icon          String?
+  imageId       String?
+  sortOrder     Int      @default(0)
+  status        PublishStatus @default(PUBLISHED)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  image MediaAsset? @relation("CapabilityImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([status, sortOrder])
+}
+
+model QualitySection {
+  id        String          @id @default(cuid())
+  slug      String          @unique
+  category  QualityCategory @default(QUALITY)
+  titleAr   String
+  titleEn   String
+  bodyAr    String?
+  bodyEn    String?
+  icon      String?
+  imageId   String?
+  sortOrder Int             @default(0)
+  status    PublishStatus   @default(PUBLISHED)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  image MediaAsset? @relation("QualityImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([category, sortOrder])
+}
+
+model RiskItem {
+  id            String   @id @default(cuid())
+  stepNumber    Int
+  titleAr       String
+  titleEn       String
+  descriptionAr String?
+  descriptionEn String?
+  imageId       String?
+  sortOrder     Int      @default(0)
+  status        PublishStatus @default(PUBLISHED)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  image MediaAsset? @relation("RiskImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([status, sortOrder])
+}
+
+/// A headline number. `value` is nullable on purpose: an empty statistic is
+/// hidden by the public site instead of showing a fabricated figure.
+model Statistic {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  labelAr   String
+  labelEn   String
+  value     String?
+  prefix    String?
+  suffix    String?
+  sortOrder Int      @default(0)
+  status    PublishStatus @default(PUBLISHED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+/// One editable band of the homepage, addressed by a stable `key`
+/// (HERO, ABOUT, SERVICES, PROJECTS, STATS, QUALITY, RISK, CTA).
+model HomepageSection {
+  id  String @id @default(cuid())
+  key String @unique
+
+  eyebrowAr String?
+  eyebrowEn String?
+  titleAr   String?
+  titleEn   String?
+  subtitleAr String?
+  subtitleEn String?
+  bodyAr    String?
+  bodyEn    String?
+
+  primaryCtaLabelAr String?
+  primaryCtaLabelEn String?
+  primaryCtaHref    String?
+  secondaryCtaLabelAr String?
+  secondaryCtaLabelEn String?
+  secondaryCtaHref    String?
+
+  imageId   String?
+  enabled   Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  image MediaAsset? @relation("HomepageImage", fields: [imageId], references: [id], onDelete: SetNull)
+}
+
+/// Hero copy plus per-page SEO for the fixed marketing pages
+/// (home, about, services, projects, capabilities, quality-safety,
+/// risk-management, sectors, contact).
+model Page {
+  id  String @id @default(cuid())
+  key String @unique
+
+  eyebrowAr String?
+  eyebrowEn String?
+  titleAr   String?
+  titleEn   String?
+  introAr   String?
+  introEn   String?
+
+  heroImageId String?
+
+  seoTitleAr       String?
+  seoTitleEn       String?
+  seoDescriptionAr String?
+  seoDescriptionEn String?
+  ogImageId        String?
+  canonicalUrl     String?
+  noIndex          Boolean @default(false)
+
+  status    PublishStatus @default(PUBLISHED)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  heroImage MediaAsset? @relation("PageHeroImage", fields: [heroImageId], references: [id], onDelete: SetNull)
+  ogImage   MediaAsset? @relation("PageOgImage", fields: [ogImageId], references: [id], onDelete: SetNull)
+
+  blocks ContentBlock[]
+}
+
+/// Free-form editable block attached to a page — vision, mission, values,
+/// geographic scope, and similar prose sections.
+model ContentBlock {
+  id      String @id @default(cuid())
+  pageKey String
+  key     String
+
+  titleAr String?
+  titleEn String?
+  bodyAr  String?
+  bodyEn  String?
+  icon    String?
+  imageId String?
+
+  sortOrder Int           @default(0)
+  status    PublishStatus @default(PUBLISHED)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  page  Page        @relation(fields: [pageKey], references: [key], onDelete: Cascade)
+  image MediaAsset? @relation("ContentBlockImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@unique([pageKey, key])
+  @@index([pageKey, sortOrder])
+}
+
+// ---------------------------------------------------------------------------
+// Site configuration
+// ---------------------------------------------------------------------------
+
+/// Singleton row (id = "default") holding global site configuration.
+model SiteSetting {
+  id String @id @default("default")
+
+  companyNameAr String?
+  companyNameEn String?
+  taglineAr     String?
+  taglineEn     String?
+
+  phone          String?
+  mobile         String?
+  email          String?
+  whatsappNumber String?
+  /// Controls the floating WhatsApp button on the public site.
+  whatsappFloatingEnabled Boolean @default(true)
+
+  headOfficeAr String?
+  headOfficeEn String?
+  branchAr     String?
+  branchEn     String?
+  googleMapsUrl String?
+
+  logoPrimaryId String?
+  logoDarkId    String?
+  logoLightId   String?
+  logoMobileId  String?
+  faviconId     String?
+
+  defaultSeoTitleAr       String?
+  defaultSeoTitleEn       String?
+  defaultSeoDescriptionAr String?
+  defaultSeoDescriptionEn String?
+  ogImageId               String?
+
+  analyticsId        String?
+  googleVerification String?
+  maintenanceMode    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  logoPrimary MediaAsset? @relation("LogoPrimary", fields: [logoPrimaryId], references: [id], onDelete: SetNull)
+  logoDark    MediaAsset? @relation("LogoDark", fields: [logoDarkId], references: [id], onDelete: SetNull)
+  logoLight   MediaAsset? @relation("LogoLight", fields: [logoLightId], references: [id], onDelete: SetNull)
+  logoMobile  MediaAsset? @relation("LogoMobile", fields: [logoMobileId], references: [id], onDelete: SetNull)
+  favicon     MediaAsset? @relation("Favicon", fields: [faviconId], references: [id], onDelete: SetNull)
+  ogImage     MediaAsset? @relation("SettingsOgImage", fields: [ogImageId], references: [id], onDelete: SetNull)
+}
+
+model SocialLink {
+  id        String         @id @default(cuid())
+  platform  SocialPlatform @unique
+  url       String?
+  sortOrder Int            @default(0)
+  enabled   Boolean        @default(true)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model NavigationItem {
+  id         String      @id @default(cuid())
+  location   NavLocation @default(HEADER)
+  labelAr    String
+  labelEn    String
+  href       String
+  isExternal Boolean     @default(false)
+  sortOrder  Int         @default(0)
+  enabled    Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([location, sortOrder])
+}
+
+// ---------------------------------------------------------------------------
+// Contact
+// ---------------------------------------------------------------------------
+
+model ContactSubmission {
+  id          String        @id @default(cuid())
+  name        String
+  company     String?
+  email       String
+  phone       String?
+  projectType String?
+  message     String
+  consent     Boolean       @default(false)
+  status      ContactStatus @default(NEW)
+  notes       String?
+  locale      String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
