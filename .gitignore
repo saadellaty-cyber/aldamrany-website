@@ -48,6 +48,7 @@ yarn-error.log*
 
 # generated sheet of production values for pasting into the host's dashboard
 /HOSTINGER-ENV.txt
+/HOSTINGER-IMPORT.env
 
 # vercel
 .vercel
