@@ -54,9 +54,31 @@ export async function GET() {
 
   // Which host the database URL points at, without user, password or database.
   let databaseHost: string | null = null;
+
+  /**
+   * A fingerprint of the credential — never the credential itself. Comparing
+   * this with the value computed locally shows whether the host stored the
+   * connection string intact, which percent-encoded characters can break.
+   */
+  let credentialFingerprint: Record<string, unknown> | null = null;
+
   try {
-    const url = new URL(process.env.DATABASE_URL ?? '');
+    const raw = process.env.DATABASE_URL ?? '';
+    const url = new URL(raw);
     databaseHost = `${url.hostname}:${url.port || '5432'}`;
+
+    const { createHash } = await import('node:crypto');
+    const decoded = decodeURIComponent(url.password);
+
+    credentialFingerprint = {
+      user: url.username,
+      rawUrlLength: raw.length,
+      passwordLength: decoded.length,
+      passwordSha256: createHash('sha256').update(decoded).digest('hex').slice(0, 12),
+      passwordWasPercentEncoded: url.password !== decoded,
+      passwordEndsWithBracket: decoded.endsWith(']'),
+      hasQueryString: raw.includes('?'),
+    };
   } catch {
     databaseHost = null;
   }
@@ -113,6 +135,7 @@ export async function GET() {
       healthy,
       node: process.version,
       databaseHost,
+      credentialFingerprint,
       configured,
       checks,
       totalMs: Date.now() - started,
