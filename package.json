@@ -34,6 +34,10 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "clsx": "^2.1.1",
     "framer-motion": "^13.1.0",
     "lucide-react": "^1.31.0",
@@ -46,21 +50,17 @@
     "server-only": "^0.0.1",
     "sharp": "^0.35.3",
     "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
     "@types/pg": "^8.21.0",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
     "embedded-postgres": "^18.4.0-beta.17",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "playwright": "^1.62.1",
-    "tailwindcss": "^4",
-    "tsx": "^4.23.12",
-    "typescript": "^5"
+    "tsx": "^4.23.12"
   },
   "allowScripts": {
     "prisma@7.9.1": true,
