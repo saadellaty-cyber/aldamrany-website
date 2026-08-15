@@ -126,6 +126,18 @@ export async function GET() {
     checks.translations = { ok: false, error: describe(error) };
   }
 
+  // --- Sitemap --------------------------------------------------------------
+  // Generated from the database; a failure here is invisible to visitors but
+  // breaks search-engine indexing, so it is worth surfacing.
+  const sitemapStarted = Date.now();
+  try {
+    const sitemap = (await import('@/app/sitemap')).default;
+    const entries = await sitemap();
+    checks.sitemap = { ok: true, ms: Date.now() - sitemapStarted, entries: entries.length };
+  } catch (error) {
+    checks.sitemap = { ok: false, ms: Date.now() - sitemapStarted, error: describe(error) };
+  }
+
   const healthy = Object.values(checks).every(
     (check) => (check as { ok: boolean }).ok === true,
   );
