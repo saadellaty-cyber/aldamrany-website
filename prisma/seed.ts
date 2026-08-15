@@ -11,6 +11,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import path from 'node:path';
 import { PrismaClient } from '../src/generated/prisma/client';
 import { hashPassword, validatePasswordStrength } from '../src/lib/auth/password';
+import { pgScriptConfig } from '../src/lib/pg-options';
 
 for (const file of ['.env.local', '.env']) {
   try {
@@ -21,7 +22,7 @@ for (const file of ['.env.local', '.env']) {
 }
 
 const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL ?? '' }),
+  adapter: new PrismaPg(pgScriptConfig(process.env.DATABASE_URL ?? '')),
 });
 
 const FOUNDED = 1978;
