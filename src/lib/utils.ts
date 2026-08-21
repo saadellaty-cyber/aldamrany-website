@@ -22,6 +22,7 @@ const CUSTOM_COLORS = [
   'gold',
   'gold-soft',
   'gold-dim',
+  'gold-deep',
   'danger',
   'success',
   'warning',

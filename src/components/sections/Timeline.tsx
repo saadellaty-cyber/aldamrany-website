@@ -22,7 +22,9 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
               </div>
 
               <div className="md:col-span-6">
-                {entry.title ? <h3 className="display-4 text-balance">{entry.title}</h3> : null}
+                {entry.title ? (
+                  <h3 className="heading-gold-deep display-4 text-balance">{entry.title}</h3>
+                ) : null}
                 {entry.description.length > 0 ? (
                   <div className="prose-editorial mt-4 max-w-xl text-ink-muted">
                     {entry.description.map((paragraph, paragraphIndex) => (

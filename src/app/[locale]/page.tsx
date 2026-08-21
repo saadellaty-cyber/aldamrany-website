@@ -108,7 +108,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
             <div className="lg:col-span-7">
               {about.title ? (
-                <h2 className="display-2 text-balance">
+                <h2 className="heading-gold-deep display-2 text-balance">
                   <RevealHeading>{about.title}</RevealHeading>
                 </h2>
               ) : null}

@@ -83,7 +83,12 @@ export async function ProjectCard({
           </p>
         ) : null}
 
-        <h3 className={cn('mt-3 text-balance transition-opacity duration-300 group-hover:opacity-70', titleClass)}>
+        <h3
+          className={cn(
+            'heading-gold-deep mt-3 text-balance transition-opacity duration-300 group-hover:opacity-70',
+            titleClass,
+          )}
+        >
           {project.title}
         </h3>
 

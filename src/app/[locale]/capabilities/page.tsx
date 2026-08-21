@@ -93,7 +93,7 @@ export default async function CapabilitiesPage({
                         </span>
                       </span>
 
-                      <h2 className="display-3 text-balance md:col-span-5">{capability.title}</h2>
+                      <h2 className="heading-gold-deep display-3 text-balance md:col-span-5">{capability.title}</h2>
 
                       <div className="md:col-span-4">
                         {capability.description.length > 0 ? (
