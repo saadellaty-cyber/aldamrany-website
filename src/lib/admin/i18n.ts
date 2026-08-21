@@ -518,8 +518,12 @@ const AR: Record<string, string> = {
     'تظهر بجانب الخدمة. ويمكن إخفاء الأيقونات من الموقع كله من إعدادات الموقع.',
   'The fields of work shown on the homepage and the Services page. Drag to change the order they appear in.':
     'مجالات العمل التي تظهر على الصفحة الرئيسية وصفحة الخدمات. اسحب لتغيير ترتيب ظهورها.',
-  'Technical and operational capabilities listed on the Capabilities page.':
-    'القدرات الفنية والتشغيلية المدرجة في صفحة القدرات.',
+  'Technical and operational capabilities, shown in three bands. Choose which band each one belongs to, then drag to order it within that band.':
+    'القدرات الفنية والتشغيلية، معروضة في ثلاثة نطاقات. اختر النطاق الذي ينتمي إليه كل عنصر، ثم اسحبه لترتيبه داخل نطاقه.',
+  Band: 'النطاق',
+  'Experience & delivery': 'الخبرة والتنفيذ',
+  Resources: 'الإمكانات',
+  'Fields of work': 'مجالات العمل',
   'The steps of the risk-management process, drawn as a numbered sequence.':
     'خطوات عملية إدارة المخاطر، معروضة كتسلسل مرقّم.',
   'Themes shown in the two columns of the Quality & Safety page. Choose which column each one belongs to.':

@@ -15,7 +15,9 @@
   --color-ink-muted: #777777;
 
   --color-paper: #f4f3ef;
-  --color-paper-soft: #e5e3dd;
+  /* The band behind alternating sections. Warm cream rather than the cool grey
+     it used to be — grey read as flat next to the dark hero. */
+  --color-paper-soft: #f0ebe0;
   --color-paper-dim: #d7d5cf;
 
   --color-line: #d7d5cf;
@@ -30,6 +32,11 @@
      turned down, so headings and eyebrows there sit at roughly 1.6:1. Keep the
      yellow to headings and short labels; body text stays ink. */
   --color-yellow: #ffd801;
+
+  /* The same yellow taken down to a calm gold, for the cream sections where the
+     bright value is too loud against a warm ground. Used for the capability
+     band headings, their icons and the hairlines between them. */
+  --color-gold-calm: #a8801a;
 
   --color-danger: #a33a2a;
   --color-success: #3f6b4a;
@@ -189,6 +196,11 @@
    would be unreadable and would cheapen the effect. */
 @utility heading-yellow {
   color: var(--color-yellow);
+}
+
+/* The calm gold, for the cream capability bands. */
+@utility heading-gold-calm {
+  color: var(--color-gold-calm);
 }
 
 /* Numerals stay Latin inside Arabic pages where the design calls for it. */

@@ -11,6 +11,9 @@ import type { MediaAsset } from '@/generated/prisma/client';
  * there is no dynamic model lookup or `any` in this file.
  */
 
+/** The three bands the Capabilities section is grouped into. */
+const CAPABILITY_GROUPS = ['EXPERIENCE', 'RESOURCES', 'FIELDS'] as const;
+
 export type ResourceImage = { id: string; url: string; name: string } | null;
 
 export type ResourceRow = {
@@ -239,7 +242,7 @@ export const RESOURCE_REPOS: Record<string, ResourceRepo> = {
     label: (formData) => text(formData, 'titleEn') || text(formData, 'titleAr'),
     async list() {
       const rows = await prisma.capability.findMany({
-        orderBy: { sortOrder: 'asc' },
+        orderBy: [{ group: 'asc' }, { sortOrder: 'asc' }],
         include: { image: true },
       });
       return rows.map((row) => ({
@@ -253,6 +256,7 @@ export const RESOURCE_REPOS: Record<string, ResourceRepo> = {
           titleEn: row.titleEn,
           descriptionAr: row.descriptionAr,
           descriptionEn: row.descriptionEn,
+          group: row.group,
           slug: row.slug,
           icon: row.icon,
         },
@@ -273,6 +277,7 @@ export const RESOURCE_REPOS: Record<string, ResourceRepo> = {
           slug: await ensureSlug(formData, title.en ?? title.ar ?? 'capability', async (slug) =>
             Boolean(await prisma.capability.findUnique({ where: { slug }, select: { id: true } })),
           ),
+          group: oneOf(formData, 'group', CAPABILITY_GROUPS, 'FIELDS'),
           icon: optionalText(formData, 'icon'),
           imageId: optionalText(formData, 'image'),
           status: status(formData),
@@ -300,6 +305,7 @@ export const RESOURCE_REPOS: Record<string, ResourceRepo> = {
               }),
             ),
           ),
+          group: oneOf(formData, 'group', CAPABILITY_GROUPS, 'FIELDS'),
           icon: optionalText(formData, 'icon'),
           imageId: optionalText(formData, 'image'),
           status: status(formData),

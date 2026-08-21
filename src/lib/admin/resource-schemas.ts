@@ -91,12 +91,23 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
     key: 'capabilities',
     title: 'Capabilities',
     singular: 'Capability',
-    description: 'Technical and operational capabilities listed on the Capabilities page.',
+    description:
+      'Technical and operational capabilities, shown in three bands. Choose which band each one belongs to, then drag to order it within that band.',
     hasStatus: true,
     hasOrder: true,
     fields: [
       { name: 'title', label: 'Capability', type: 'bilingualText', required: true },
       { name: 'description', label: 'Description', type: 'bilingualTextarea', rows: 3 },
+      {
+        name: 'group',
+        label: 'Band',
+        type: 'select',
+        options: [
+          { value: 'EXPERIENCE', label: 'Experience & delivery' },
+          { value: 'RESOURCES', label: 'Resources' },
+          { value: 'FIELDS', label: 'Fields of work' },
+        ],
+      },
       { name: 'slug', label: 'URL fragment', type: 'text' },
       { name: 'icon', label: 'Icon', type: 'icon' },
       { name: 'image', label: 'Image', type: 'image' },

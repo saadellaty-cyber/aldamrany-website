@@ -64,6 +64,15 @@ enum QualityCategory {
   SAFETY
 }
 
+/// Capabilities read as a flat list of nine unrelated things unless they are
+/// grouped: what the company knows how to do, what it has to do it with, and
+/// the fields it works in.
+enum CapabilityGroup {
+  EXPERIENCE
+  RESOURCES
+  FIELDS
+}
+
 // ---------------------------------------------------------------------------
 // Authentication & audit
 // ---------------------------------------------------------------------------
@@ -396,6 +405,8 @@ model Capability {
   descriptionEn String?
   icon          String?
   imageId       String?
+  /// Which of the three bands this capability is shown under.
+  group         CapabilityGroup @default(FIELDS)
   sortOrder     Int      @default(0)
   status        PublishStatus @default(PUBLISHED)
   createdAt     DateTime @default(now())
@@ -403,7 +414,7 @@ model Capability {
 
   image MediaAsset? @relation("CapabilityImage", fields: [imageId], references: [id], onDelete: SetNull)
 
-  @@index([status, sortOrder])
+  @@index([status, group, sortOrder])
 }
 
 model QualitySection {

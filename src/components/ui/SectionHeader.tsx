@@ -16,6 +16,7 @@ export function SectionHeader({
   titleClass = 'display-3',
   className,
   tone = 'dark-text',
+  accent = 'heading-yellow',
 }: {
   eyebrow?: string | null;
   title?: string | null;
@@ -25,6 +26,8 @@ export function SectionHeader({
   titleClass?: string;
   className?: string;
   tone?: 'dark-text' | 'light-text';
+  /** Accent for the eyebrow and title. The cream sections use the calm gold. */
+  accent?: 'heading-yellow' | 'heading-gold-calm';
 }) {
   if (!eyebrow && !title && !description && !action) return null;
 
@@ -41,7 +44,7 @@ export function SectionHeader({
       <div className={cn('max-w-3xl', align === 'center' && 'mx-auto')}>
         {eyebrow ? (
           <Reveal>
-            <p className="eyebrow heading-yellow mb-5 flex items-center gap-3">
+            <p className={cn('eyebrow mb-5 flex items-center gap-3', accent)}>
               <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
               {eyebrow}
             </p>
@@ -49,7 +52,7 @@ export function SectionHeader({
         ) : null}
 
         {title ? (
-          <h2 className={cn(titleClass, 'heading-yellow text-balance')}>
+          <h2 className={cn(titleClass, 'text-balance', accent)}>
             <RevealHeading>{title}</RevealHeading>
           </h2>
         ) : null}

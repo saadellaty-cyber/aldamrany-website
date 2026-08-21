@@ -22,11 +22,10 @@ import {
 } from '@/lib/content/collections';
 import { getFeaturedProjects } from '@/lib/content/projects';
 import { getSiteSettings } from '@/lib/content/site';
-import { Icon } from '@/components/ui/Icon';
-import { resolveIcon } from '@/lib/icons';
 import { getPage } from '@/lib/content/pages';
 import { buildMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/i18n/config';
+import { CapabilityBands } from '@/components/sections/CapabilityBands';
 
 export async function generateMetadata({
   params,
@@ -141,9 +140,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       {/* Capabilities */}
       {capabilities.length > 0 ? (
-        <section className="section-y">
+        <section className="section-y bg-paper-soft">
           <div className="container-page">
             <SectionHeader
+              accent="heading-gold-calm"
               eyebrow={locale === 'ar' ? 'قدراتنا' : 'Capabilities'}
               title={
                 locale === 'ar'
@@ -157,30 +157,21 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               }
             />
 
-            <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-5 border-t border-line pt-10">
-              {capabilities.map((capability, index) => (
-                <li key={capability.id}>
-                  <Reveal delay={index * 0.04}>
-                    <span className="display-4 flex items-center gap-2.5 text-ink/85 transition-colors duration-300 hover:text-ink">
-                      {settings.showIcons && resolveIcon(capability.icon, capability.slug) ? (
-                        <Icon
-                          name={resolveIcon(capability.icon, capability.slug)!}
-                          className="size-6 text-yellow"
-                        />
-                      ) : null}
-                      {capability.title}
-                    </span>
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-12">
+              <CapabilityBands
+                capabilities={capabilities}
+                locale={locale}
+                showIcons={settings.showIcons}
+              />
+            </div>
           </div>
         </section>
       ) : null}
 
-      {/* Services */}
+      {/* Services — plain paper, so the cream stats + capabilities block above
+          reads as one warm passage rather than three bands running together. */}
       {services.length > 0 ? (
-        <section className="section-y bg-paper-soft">
+        <section className="section-y">
           <div className="container-page">
             <SectionHeader
               eyebrow={servicesSection?.eyebrow}

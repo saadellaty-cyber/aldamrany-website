@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db';
 import { toImageRef, type ImageRef } from '@/lib/content/media';
 import { pick, type Locale } from '@/i18n/config';
 import { toParagraphs } from '@/lib/utils';
-import type { QualityCategory } from '@/generated/prisma/enums';
+import type { CapabilityGroup, QualityCategory } from '@/generated/prisma/enums';
 
 /** Editable homepage band, addressed by key (HERO, ABOUT, PROJECTS…). */
 export type HomeSection = {
@@ -149,6 +149,7 @@ export const getSectors = cache(async (locale: Locale): Promise<SectorItem[]> =>
 export type CapabilityItem = {
   id: string;
   slug: string;
+  group: CapabilityGroup;
   title: string;
   icon: string | null;
   description: string[];
@@ -159,7 +160,7 @@ export const getCapabilities = cache(async (locale: Locale): Promise<CapabilityI
   const rows = await prisma.capability.findMany({
     where: { status: 'PUBLISHED' },
     include: { image: true },
-    orderBy: { sortOrder: 'asc' },
+    orderBy: [{ group: 'asc' }, { sortOrder: 'asc' }],
   });
 
   return rows.map((row) => {
@@ -167,6 +168,7 @@ export const getCapabilities = cache(async (locale: Locale): Promise<CapabilityI
     return {
       id: row.id,
       slug: row.slug,
+      group: row.group,
       title,
       icon: row.icon,
       description: toParagraphs(pick(locale, row.descriptionAr, row.descriptionEn)),
@@ -174,6 +176,34 @@ export const getCapabilities = cache(async (locale: Locale): Promise<CapabilityI
     };
   });
 });
+
+/**
+ * The three bands, in reading order, with the label each one carries on the
+ * site. Bands with nothing published in them are dropped by the caller rather
+ * than rendered as an empty heading.
+ */
+export const CAPABILITY_GROUP_ORDER = ['EXPERIENCE', 'RESOURCES', 'FIELDS'] as const;
+
+export function capabilityGroupLabel(group: CapabilityGroup, locale: Locale): string {
+  const labels: Record<CapabilityGroup, { ar: string; en: string }> = {
+    EXPERIENCE: { ar: 'الخبرة والتنفيذ', en: 'Experience & Delivery' },
+    RESOURCES: { ar: 'الإمكانات', en: 'Resources' },
+    FIELDS: { ar: 'مجالات العمل', en: 'Fields of Work' },
+  };
+  return locale === 'ar' ? labels[group].ar : labels[group].en;
+}
+
+/** Groups published capabilities into the bands, skipping any that are empty. */
+export function groupCapabilities(
+  items: CapabilityItem[],
+  locale: Locale,
+): Array<{ group: CapabilityGroup; label: string; items: CapabilityItem[] }> {
+  return CAPABILITY_GROUP_ORDER.map((group) => ({
+    group,
+    label: capabilityGroupLabel(group, locale),
+    items: items.filter((item) => item.group === group),
+  })).filter((band) => band.items.length > 0);
+}
 
 export type QualityItem = {
   id: string;
