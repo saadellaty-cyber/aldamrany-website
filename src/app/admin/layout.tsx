@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
+import { getAdminLocale } from '@/lib/admin/locale';
+import { adminDirection } from '@/lib/admin/i18n';
+import { arabicFontClass } from '@/lib/fonts';
 import '@/app/globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-latin', display: 'swap' });
@@ -19,12 +22,29 @@ export const metadata: Metadata = {
 
 /**
  * Root layout for /admin. Deliberately a separate document shell from the
- * public site: a plain LTR working surface rather than the editorial theme.
+ * public site: a plain working surface rather than the editorial theme.
+ *
+ * Its language — and therefore its writing direction — follows the setting
+ * chosen in Site Settings, so an Arabic-speaking owner works right-to-left.
  */
-export default function AdminRootLayout({ children }: { children: ReactNode }) {
+export default async function AdminRootLayout({ children }: { children: ReactNode }) {
+  const locale = await getAdminLocale();
+  const dir = adminDirection(locale);
+
   return (
-    <html lang="en" dir="ltr" className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-dvh bg-[#f6f6f4] font-sans text-ink antialiased">{children}</body>
+    <html
+      lang={locale}
+      dir={dir}
+      className={`${inter.variable} ${arabicFontClass('cairo')}`}
+      suppressHydrationWarning
+    >
+      <body
+        className={`min-h-dvh bg-[#f6f6f4] text-ink antialiased ${
+          locale === 'ar' ? 'font-arabic' : 'font-sans'
+        }`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

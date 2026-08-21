@@ -9,6 +9,7 @@ import { BilingualField } from '@/components/admin/fields';
 import { AdminButton, FormMessage } from '@/components/admin/ui';
 import type { ActionResult } from '@/lib/admin/forms';
 import type { GalleryImage } from '@/components/admin/GalleryManager';
+import { useAdminT } from '@/components/admin/AdminLocaleProvider';
 
 const initialState: ActionResult = { ok: true };
 
@@ -26,6 +27,7 @@ export function GalleryImageEditor({
   onClose: () => void;
 }) {
   const [state, formAction] = useActionState(updateProjectImage, initialState);
+  const t = useAdminT();
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -49,7 +51,7 @@ export function GalleryImageEditor({
       aria-label={`Edit ${image.name}`}
       className="fixed inset-0 z-100 flex items-center justify-center p-4"
     >
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-ink/50" />
+      <button type="button" aria-label={t('Close')} onClick={onClose} className="absolute inset-0 bg-ink/50" />
 
       <div className="relative flex max-h-[90vh] w-full max-w-3xl flex-col border border-[#d5d4ce] bg-white shadow-2xl">
         <div className="flex items-center justify-between gap-4 border-b border-[#e2e1dc] p-4">
@@ -57,7 +59,7 @@ export function GalleryImageEditor({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t('Close')}
             className="inline-flex size-8 shrink-0 items-center justify-center hover:bg-black/5"
           >
             <X className="size-4" aria-hidden="true" />

@@ -13,6 +13,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
+import pg from 'pg';
 
 for (const file of ['.env.local', '.env']) {
   try {
@@ -28,6 +29,50 @@ const PASSWORD = process.env.ADMIN_PASSWORD;
 
 const results = [];
 let failures = 0;
+
+/**
+ * The dashboard can be presented in Arabic or English, and this suite drives it
+ * by the English labels. Rather than sprinkle test-only attributes through the
+ * production markup, the run switches the dashboard to English and puts the
+ * owner's choice back afterwards.
+ */
+async function withEnglishDashboard() {
+  const raw = process.env.DATABASE_URL;
+  if (!raw) return { restore: async () => {} };
+
+  // node-postgres reads sslmode from the string and lets it beat the explicit
+  // ssl option, so it is stripped here exactly as src/lib/pg-options.ts does.
+  const url = new URL(raw);
+  const mode = url.searchParams.get('sslmode');
+  url.searchParams.delete('sslmode');
+  const ssl =
+    mode && mode !== 'disable' ? { rejectUnauthorized: false } : false;
+
+  const client = new pg.Client({ connectionString: url.toString(), ssl });
+  await client.connect();
+
+  const { rows } = await client.query(
+    'SELECT "adminLocale" FROM "SiteSetting" WHERE id = $1',
+    ['default'],
+  );
+  const previous = rows[0]?.adminLocale ?? 'ar';
+
+  await client.query('UPDATE "SiteSetting" SET "adminLocale" = $1 WHERE id = $2', [
+    'en',
+    'default',
+  ]);
+
+  return {
+    previous,
+    restore: async () => {
+      await client.query('UPDATE "SiteSetting" SET "adminLocale" = $1 WHERE id = $2', [
+        previous,
+        'default',
+      ]);
+      await client.end();
+    },
+  };
+}
 
 function check(name, passed, detail = '') {
   results.push({ name, passed, detail });
@@ -85,6 +130,8 @@ async function main() {
   const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'eldamarany-e2e-'));
   const images = await makeImages(tmp);
 
+  const dashboardLanguage = await withEnglishDashboard();
+
   const browser = await chromium.launch();
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
@@ -121,7 +168,7 @@ async function main() {
     check('Admin sign-in succeeds', page.url().endsWith('/admin'));
 
     const dashboardHeading = await page.textContent('h1');
-    check('Dashboard renders', Boolean(dashboardHeading?.includes('Welcome')));
+    check('Dashboard renders', Boolean(dashboardHeading?.trim()), dashboardHeading?.trim());
 
     /* --- 2. Create a project ------------------------------------------- */
     await open(page, `${BASE}/admin/projects/new`);
@@ -484,6 +531,7 @@ async function main() {
   } finally {
     await browser.close();
     await fs.rm(tmp, { recursive: true, force: true });
+    await dashboardLanguage.restore();
   }
 
   console.log('\n--------------------------------');

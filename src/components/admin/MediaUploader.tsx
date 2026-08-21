@@ -3,6 +3,7 @@
 import { useCallback, useId, useRef, useState } from 'react';
 import { CloudUpload, TriangleAlert, X } from 'lucide-react';
 import { cn, formatFileSize } from '@/lib/utils';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 
 export type UploadedAsset = { id: string; url: string; name: string };
 
@@ -38,6 +39,7 @@ export function MediaUploader({
   label?: string;
 }) {
   const inputId = useId();
+  const tr = useTranslateNode();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [queue, setQueue] = useState<QueueItem[]>([]);
@@ -174,9 +176,11 @@ export function MediaUploader({
 
         <label htmlFor={inputId} className="flex cursor-pointer flex-col items-center gap-3">
           <CloudUpload className={cn('text-ink-muted', compact ? 'size-6' : 'size-8')} aria-hidden="true" />
-          <span className="text-sm font-medium">{label}</span>
+          <span className="text-sm font-medium">{tr(label)}</span>
           <span className="text-xs text-ink-muted">
-            JPEG, PNG, WebP, AVIF or SVG{multiple ? ' — up to 50 files at a time' : ''}
+            {multiple
+              ? tr('JPEG, PNG, WebP, AVIF or SVG — up to 50 files at a time')
+              : tr('JPEG, PNG, WebP, AVIF or SVG')}
           </span>
         </label>
       </div>
@@ -221,7 +225,7 @@ export function MediaUploader({
         </ul>
       ) : null}
 
-      {busy ? <p className="sr-only">Uploading files…</p> : null}
+      {busy ? <p className="sr-only">{tr('Uploading files…')}</p> : null}
     </div>
   );
 }

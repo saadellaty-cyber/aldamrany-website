@@ -15,6 +15,7 @@ import {
   Td,
   Th,
 } from '@/components/admin/ui';
+import { getAdminT } from '@/lib/admin/locale';
 import { formatDateTime } from '@/lib/utils';
 import type { Prisma } from '@/generated/prisma/client';
 
@@ -25,6 +26,7 @@ export default async function ProjectsListPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const { locale, t } = await getAdminT();
   const params = await searchParams;
   const statusFilter = typeof params.status === 'string' ? params.status : '';
   const featuredOnly = params.featured === '1';
@@ -61,14 +63,14 @@ export default async function ProjectsListPage({
   });
 
   const filters = [
-    { label: 'All', href: '/admin/projects', active: !statusFilter && !featuredOnly },
+    { label: t('All'), href: '/admin/projects', active: !statusFilter && !featuredOnly },
     {
-      label: 'Published',
+      label: t('Published'),
       href: '/admin/projects?status=PUBLISHED',
       active: statusFilter === 'PUBLISHED',
     },
-    { label: 'Drafts', href: '/admin/projects?status=DRAFT', active: statusFilter === 'DRAFT' },
-    { label: 'Featured', href: '/admin/projects?featured=1', active: featuredOnly },
+    { label: t('Drafts'), href: '/admin/projects?status=DRAFT', active: statusFilter === 'DRAFT' },
+    { label: t('Featured'), href: '/admin/projects?featured=1', active: featuredOnly },
   ];
 
   return (
@@ -80,7 +82,7 @@ export default async function ProjectsListPage({
       />
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <nav aria-label="Filter projects" className="flex flex-wrap gap-2">
+        <nav aria-label={t('Filter projects')} className="flex flex-wrap gap-2">
           {filters.map((filter) => (
             <Link
               key={filter.label}
@@ -100,21 +102,21 @@ export default async function ProjectsListPage({
         <form method="get" className="flex items-center gap-2">
           {statusFilter ? <input type="hidden" name="status" value={statusFilter} /> : null}
           <label className="sr-only" htmlFor="project-search">
-            Search projects
+            {t('Search projects')}
           </label>
           <input
             id="project-search"
             type="search"
             name="q"
             defaultValue={query}
-            placeholder="Search projects…"
+            placeholder={t('Search projects…')}
             className="h-9 w-56 max-w-full border border-[#d5d4ce] bg-white px-3 text-sm focus:border-ink focus:outline-none"
           />
           <button
             type="submit"
             className="h-9 border border-[#d5d4ce] px-3 text-sm transition-colors hover:border-ink/50"
           >
-            Search
+            {t('Search')}
           </button>
         </form>
       </div>
@@ -124,11 +126,11 @@ export default async function ProjectsListPage({
           <div className="p-4">
             <EmptyState
               icon={<FolderKanban className="size-7" aria-hidden="true" />}
-              title={query || statusFilter ? 'No matching projects' : 'No projects yet'}
+              title={query || statusFilter ? t('No matching projects') : t('No projects yet')}
               description={
                 query || statusFilter
-                  ? 'Try clearing the filters.'
-                  : 'Create your first project, add photographs and publish it to the website.'
+                  ? t('Try clearing the filters.')
+                  : t('Create your first project, add photographs and publish it to the website.')
               }
               action={<AdminLinkButton href="/admin/projects/new">New project</AdminLinkButton>}
             />
@@ -170,26 +172,34 @@ export default async function ProjectsListPage({
                       href={`/admin/projects/${project.id}`}
                       className="block font-medium hover:underline"
                     >
-                      {project.titleEn || project.titleAr}
+                      {(locale === 'ar' ? project.titleAr : project.titleEn) ||
+                        project.titleEn ||
+                        project.titleAr}
                     </Link>
                     <span className="mt-0.5 flex items-center gap-2 text-xs text-ink-muted">
-                      <span dir="rtl">{project.titleAr}</span>
+                      <span dir={locale === 'ar' ? 'ltr' : 'rtl'}>
+                        {locale === 'ar' ? project.titleEn : project.titleAr}
+                      </span>
                       {project.featured ? (
                         <Badge tone="accent">
                           <Star className="me-1 size-2.5" aria-hidden="true" />
-                          Featured
+                          {t('Featured')}
                         </Badge>
                       ) : null}
                     </span>
                   </Td>
-                  <Td className="text-ink-muted">{project.sector?.nameEn ?? '—'}</Td>
+                  <Td className="text-ink-muted">
+                    {(locale === 'ar' ? project.sector?.nameAr : project.sector?.nameEn) ??
+                      project.sector?.nameEn ??
+                      '—'}
+                  </Td>
                   <Td className="tabular-nums text-ink-muted">{project.year ?? '—'}</Td>
                   <Td className="tabular-nums text-ink-muted">{project._count.images}</Td>
                   <Td>
                     <StatusBadge status={project.publishStatus} />
                   </Td>
                   <Td className="text-xs text-ink-muted">
-                    {formatDateTime(project.updatedAt, 'en')}
+                    {formatDateTime(project.updatedAt, locale)}
                   </Td>
                 </tr>
               );

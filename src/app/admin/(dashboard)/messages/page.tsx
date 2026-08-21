@@ -15,6 +15,7 @@ import {
   PageHeading,
   Panel,
 } from '@/components/admin/ui';
+import { getAdminT } from '@/lib/admin/locale';
 import { formatDateTime, mailtoLink, telLink } from '@/lib/utils';
 import type { ContactStatus } from '@/generated/prisma/enums';
 import type { Prisma } from '@/generated/prisma/client';
@@ -32,6 +33,7 @@ export default async function MessagesPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const { locale, t } = await getAdminT();
   const params = await searchParams;
   const filter = typeof params.status === 'string' ? params.status : '';
 
@@ -50,15 +52,19 @@ export default async function MessagesPage({
     counts.find((entry) => entry.status === status)?._count._all ?? 0;
 
   const filters = [
-    { label: 'All', href: '/admin/messages', active: !filter },
-    { label: `New (${countFor('NEW')})`, href: '/admin/messages?status=NEW', active: filter === 'NEW' },
+    { label: t('All'), href: '/admin/messages', active: !filter },
     {
-      label: `Contacted (${countFor('CONTACTED')})`,
+      label: `${t('NEW')} (${countFor('NEW')})`,
+      href: '/admin/messages?status=NEW',
+      active: filter === 'NEW',
+    },
+    {
+      label: `${t('CONTACTED')} (${countFor('CONTACTED')})`,
       href: '/admin/messages?status=CONTACTED',
       active: filter === 'CONTACTED',
     },
     {
-      label: `Closed (${countFor('CLOSED')})`,
+      label: `${t('CLOSED')} (${countFor('CLOSED')})`,
       href: '/admin/messages?status=CLOSED',
       active: filter === 'CLOSED',
     },
@@ -72,7 +78,7 @@ export default async function MessagesPage({
         breadcrumbs={[{ label: 'Configuration' }, { label: 'Contact Messages' }]}
       />
 
-      <nav aria-label="Filter messages" className="mb-4 flex flex-wrap gap-2">
+      <nav aria-label={t('Filter messages')} className="mb-4 flex flex-wrap gap-2">
         {filters.map((entry) => (
           <Link
             key={entry.label}
@@ -108,10 +114,10 @@ export default async function MessagesPage({
                     <div className="min-w-0">
                       <p className="flex flex-wrap items-center gap-2 text-sm font-semibold">
                         {message.name}
-                        <Badge tone={STATUS_TONE[message.status]}>{message.status}</Badge>
+                        <Badge tone={STATUS_TONE[message.status]}>{t(message.status)}</Badge>
                       </p>
                       <p className="mt-1 text-xs text-ink-muted">
-                        {formatDateTime(message.createdAt, 'en')}
+                        {formatDateTime(message.createdAt, locale)}
                         {message.company ? ` · ${message.company}` : ''}
                         {message.projectType ? ` · ${message.projectType}` : ''}
                         {message.locale ? ` · ${message.locale.toUpperCase()}` : ''}
@@ -148,11 +154,11 @@ export default async function MessagesPage({
                   <form action={saveMessageNotes} className="flex flex-wrap items-end gap-3">
                     <input type="hidden" name="id" value={message.id} />
                     <label className="min-w-0 flex-1">
-                      <span className="mb-1.5 block text-xs font-medium">Internal note</span>
+                      <span className="mb-1.5 block text-xs font-medium">{t('Internal note')}</span>
                       <input
                         name="notes"
                         defaultValue={message.notes ?? ''}
-                        placeholder="Optional — not visible to the sender"
+                        placeholder={t('Optional — not visible to the sender')}
                         className="h-9 w-full border border-[#d5d4ce] bg-white px-3 text-sm focus:border-ink focus:outline-none"
                       />
                     </label>

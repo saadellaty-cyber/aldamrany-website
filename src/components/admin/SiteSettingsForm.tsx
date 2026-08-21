@@ -3,6 +3,8 @@
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { updateSiteSettings } from '@/app/admin/(dashboard)/settings/actions';
+import { useAdminT, useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+import { ArabicFontPicker } from '@/components/admin/ArabicFontPicker';
 import { BilingualField, CheckboxField, TextField } from '@/components/admin/fields';
 import { ImagePicker } from '@/components/admin/ImagePicker';
 import {
@@ -39,6 +41,8 @@ export type SiteSettingsValues = {
   googleVerification: string | null;
   maintenanceMode: boolean;
   showIcons: boolean;
+  arabicFont: string;
+  adminLocale: string;
   logoPrimary: SettingsImage;
   logoDark: SettingsImage;
   logoLight: SettingsImage;
@@ -58,6 +62,8 @@ export function SiteSettingsForm({
 }) {
   const [state, formAction] = useActionState(updateSiteSettings, initialState);
   const fieldError = (name: string) => state.errors?.[name];
+  const t = useAdminT();
+  const locale = useAdminLocale();
 
   return (
     <form action={formAction} className="space-y-6 pb-24">
@@ -219,6 +225,51 @@ export function SiteSettingsForm({
 
       <Panel className="space-y-5">
         <PanelHeader
+          title="Typography"
+          description="The Arabic typeface used across the whole website. Every option below is a professional face designed for long-form Arabic reading — pick the one that reads best to you."
+        />
+        <ArabicFontPicker name="arabicFont" initial={values.arabicFont} locale={locale} />
+      </Panel>
+
+      <Panel className="space-y-4">
+        <PanelHeader
+          title="Dashboard language"
+          description="Changes the language and reading direction of this dashboard only. The website itself always offers both Arabic and English."
+        />
+
+        <div className="grid gap-2.5 sm:max-w-md sm:grid-cols-2">
+          {(
+            [
+              { value: 'ar', label: 'العربية', note: 'من اليمين إلى اليسار' },
+              { value: 'en', label: 'English', note: 'Left to right' },
+            ] as const
+          ).map((option) => (
+            <label
+              key={option.value}
+              className="flex cursor-pointer items-start gap-3 border border-[#d5d4ce] bg-white p-3.5 transition-colors hover:border-ink/40 has-checked:border-ink has-checked:bg-[#faf9f7]"
+            >
+              <input
+                type="radio"
+                name="adminLocale"
+                value={option.value}
+                defaultChecked={values.adminLocale === option.value}
+                className="mt-0.5 size-4 shrink-0 accent-[var(--color-ink)]"
+              />
+              <span>
+                <span className="block text-sm font-medium">{option.label}</span>
+                <span className="mt-0.5 block text-xs text-ink-muted">{option.note}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+
+        <p className="text-xs leading-relaxed text-ink-muted">
+          {t('The dashboard reloads in the chosen language once the settings are saved.')}
+        </p>
+      </Panel>
+
+      <Panel className="space-y-5">
+        <PanelHeader
           title="Search engines & sharing"
           description="Defaults used by any page that has no title or description of its own."
         />
@@ -294,12 +345,13 @@ export function SiteSettingsForm({
 
 function SaveBar() {
   const { pending } = useFormStatus();
+  const t = useAdminT();
 
   return (
     <div className="sticky bottom-0 z-20 -mx-4 border-t border-[#e2e1dc] bg-white/95 px-4 py-3 backdrop-blur md:-mx-6 md:px-6">
       <div className="flex justify-end">
         <AdminButton type="submit" disabled={pending}>
-          {pending ? 'Saving…' : 'Save settings'}
+          {pending ? t('Saving…') : t('Save settings')}
         </AdminButton>
       </div>
     </div>

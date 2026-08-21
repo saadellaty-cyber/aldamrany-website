@@ -19,6 +19,7 @@ import {
 } from '@/components/admin/ui';
 import type { ActionResult } from '@/lib/admin/forms';
 import { formatDateTime } from '@/lib/utils';
+import { useAdminLocale, useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 
 export type UserRow = {
   id: string;
@@ -40,6 +41,7 @@ const ROLE_OPTIONS = [
 
 export function UsersManager({ users }: { users: UserRow[] }) {
   const [adding, setAdding] = useState(false);
+  const tr = useTranslateNode();
 
   return (
     <div className="space-y-6">
@@ -63,7 +65,7 @@ export function UsersManager({ users }: { users: UserRow[] }) {
       {adding ? (
         <Panel className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold">New user</h3>
+            <h3 className="text-sm font-semibold">{tr('New user')}</h3>
             <AdminButton variant="ghost" onClick={() => setAdding(false)}>
               Cancel
             </AdminButton>
@@ -73,7 +75,7 @@ export function UsersManager({ users }: { users: UserRow[] }) {
       ) : (
         <AdminButton onClick={() => setAdding(true)}>
           <Plus className="size-4" aria-hidden="true" />
-          Add user
+          {tr('Add user')}
         </AdminButton>
       )}
     </div>
@@ -82,6 +84,8 @@ export function UsersManager({ users }: { users: UserRow[] }) {
 
 function UserRowForm({ user }: { user: UserRow }) {
   const router = useRouter();
+  const tr = useTranslateNode();
+  const locale = useAdminLocale();
   const [state, formAction] = useActionState(updateUser, initialState);
   const [resetState, resetAction] = useActionState(resetUserPassword, initialState);
   const [resetting, setResetting] = useState(false);
@@ -97,13 +101,15 @@ function UserRowForm({ user }: { user: UserRow }) {
         <div className="min-w-0">
           <p className="flex flex-wrap items-center gap-2 text-sm font-medium">
             {user.name}
-            <Badge tone={user.role === 'ADMIN' ? 'accent' : 'neutral'}>{user.role}</Badge>
-            {!user.isActive ? <Badge tone="danger">Disabled</Badge> : null}
-            {user.isSelf ? <Badge tone="neutral">You</Badge> : null}
+            <Badge tone={user.role === 'ADMIN' ? 'accent' : 'neutral'}>
+              {tr(user.role === 'ADMIN' ? 'Administrator' : 'Editor')}
+            </Badge>
+            {!user.isActive ? <Badge tone="danger">{tr('Disabled')}</Badge> : null}
+            {user.isSelf ? <Badge tone="neutral">{tr('You')}</Badge> : null}
           </p>
           <p className="mt-1 text-xs text-ink-muted" dir="ltr">
-            {user.email} · Last sign-in{' '}
-            {user.lastLoginAt ? formatDateTime(user.lastLoginAt, 'en') : 'never'}
+            {user.email} · {tr('Last sign-in')}{' '}
+            {user.lastLoginAt ? formatDateTime(user.lastLoginAt, locale) : tr('never')}
           </p>
         </div>
       </div>
@@ -135,7 +141,7 @@ function UserRowForm({ user }: { user: UserRow }) {
         </form>
       ) : (
         <p className="text-xs text-ink-muted">
-          You cannot change your own role or disable your own account.
+          {tr('You cannot change your own role or disable your own account.')}
         </p>
       )}
 
@@ -149,7 +155,9 @@ function UserRowForm({ user }: { user: UserRow }) {
             autoComplete="new-password"
             required
             className="min-w-56 flex-1"
-            help={resetState.errors?.password ?? 'At least 12 characters, with a letter and a number.'}
+            help={
+              resetState.errors?.password ?? 'At least 12 characters, with a letter and a number.'
+            }
           />
           <SubmitButton label="Set password" />
           <AdminButton variant="ghost" onClick={() => setResetting(false)}>

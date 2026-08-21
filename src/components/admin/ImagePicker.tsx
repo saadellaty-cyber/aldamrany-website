@@ -5,6 +5,7 @@ import { ImageIcon, Trash2 } from 'lucide-react';
 import { MediaBrowserDialog } from '@/components/admin/MediaBrowserDialog';
 import { AdminButton } from '@/components/admin/ui';
 import { cn } from '@/lib/utils';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 
 export type PickedImage = { id: string; url: string; name: string };
 
@@ -30,12 +31,13 @@ export function ImagePicker({
 }) {
   const [selected, setSelected] = useState<PickedImage | null>(initial ?? null);
   const [open, setOpen] = useState(false);
+  const tr = useTranslateNode();
 
   return (
     <div>
-      <p className="mb-1.5 text-sm font-medium">{label}</p>
+      <p className="mb-1.5 text-sm font-medium">{tr(label)}</p>
       {description ? (
-        <p className="mb-2 text-xs leading-relaxed text-ink-muted">{description}</p>
+        <p className="mb-2 text-xs leading-relaxed text-ink-muted">{tr(description)}</p>
       ) : null}
 
       <input type="hidden" name={name} value={selected?.id ?? ''} />
@@ -59,7 +61,7 @@ export function ImagePicker({
           ) : (
             <span className="flex h-full w-full flex-col items-center justify-center gap-1.5 text-ink-muted">
               <ImageIcon className="size-5" aria-hidden="true" />
-              <span className="text-xs">Choose image</span>
+              <span className="text-xs">{tr('Choose image')}</span>
             </span>
           )}
         </button>

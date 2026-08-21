@@ -1,10 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import type { ComponentProps, ReactNode } from 'react';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 import { cn } from '@/lib/utils';
 
 /* -------------------------------------------------------------------------
    Presentational building blocks for the dashboard.
-   No hooks here, so these render in both server and client components.
+
+   These are client components purely so they can read the dashboard language
+   from context and translate the plain-string labels handed to them. Screens
+   keep writing readable English literals; the translation happens here, once,
+   instead of in every screen.
 ------------------------------------------------------------------------- */
 
 export function Panel({
@@ -40,12 +47,14 @@ export function PanelHeader({
   action?: ReactNode;
   className?: string;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <div className={cn('flex flex-wrap items-start justify-between gap-4', className)}>
       <div>
-        <h2 className="text-base font-semibold tracking-tight">{title}</h2>
+        <h2 className="text-base font-semibold tracking-tight">{tr(title)}</h2>
         {description ? (
-          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-ink-muted">{description}</p>
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-ink-muted">{tr(description)}</p>
         ) : null}
       </div>
       {action ? <div className="shrink-0">{action}</div> : null}
@@ -64,20 +73,22 @@ export function PageHeading({
   action?: ReactNode;
   breadcrumbs?: Array<{ label: string; href?: string }>;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <header className="mb-7">
       {breadcrumbs && breadcrumbs.length > 0 ? (
-        <nav aria-label="Breadcrumb" className="mb-3">
+        <nav aria-label={tr('Breadcrumb') as string} className="mb-3">
           <ol className="flex flex-wrap items-center gap-2 text-xs text-ink-muted">
             {breadcrumbs.map((crumb, index) => (
               <li key={`${crumb.label}-${index}`} className="flex items-center gap-2">
                 {index > 0 ? <span aria-hidden="true">/</span> : null}
                 {crumb.href ? (
                   <Link href={crumb.href} className="transition-colors hover:text-ink">
-                    {crumb.label}
+                    {tr(crumb.label)}
                   </Link>
                 ) : (
-                  <span>{crumb.label}</span>
+                  <span>{tr(crumb.label)}</span>
                 )}
               </li>
             ))}
@@ -87,9 +98,11 @@ export function PageHeading({
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{tr(title)}</h1>
           {description ? (
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-muted">{description}</p>
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-muted">
+              {tr(description)}
+            </p>
           ) : null}
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
@@ -117,14 +130,19 @@ export function AdminButton({
   variant = 'primary',
   className,
   type = 'button',
+  children,
   ...rest
 }: ComponentProps<'button'> & { variant?: AdminButtonVariant }) {
+  const tr = useTranslateNode();
+
   return (
     <button
       type={type}
       className={cn(buttonBase, BUTTON_VARIANTS[variant], className)}
       {...rest}
-    />
+    >
+      {tr(children)}
+    </button>
   );
 }
 
@@ -135,9 +153,11 @@ export function AdminLinkButton({
   children,
   ...rest
 }: ComponentProps<typeof Link> & { variant?: AdminButtonVariant }) {
+  const tr = useTranslateNode();
+
   return (
     <Link href={href} className={cn(buttonBase, BUTTON_VARIANTS[variant], className)} {...rest}>
-      {children}
+      {tr(children)}
     </Link>
   );
 }
@@ -146,6 +166,8 @@ export function AdminLinkButton({
 
 export function StatusBadge({ status }: { status: 'DRAFT' | 'PUBLISHED' }) {
   const published = status === 'PUBLISHED';
+  const tr = useTranslateNode();
+
   return (
     <span
       className={cn(
@@ -159,7 +181,7 @@ export function StatusBadge({ status }: { status: 'DRAFT' | 'PUBLISHED' }) {
         aria-hidden="true"
         className={cn('size-1.5 rounded-full', published ? 'bg-success' : 'bg-ink-muted')}
       />
-      {published ? 'Published' : 'Draft'}
+      {tr(published ? 'Published' : 'Draft')}
     </span>
   );
 }
@@ -171,6 +193,7 @@ export function Badge({
   children: ReactNode;
   tone?: 'neutral' | 'accent' | 'danger' | 'warning';
 }) {
+  const tr = useTranslateNode();
   const tones = {
     neutral: 'border-[#d5d4ce] bg-[#f2f1ee] text-ink-muted',
     accent: 'border-ink/20 bg-ink/5 text-ink',
@@ -185,7 +208,7 @@ export function Badge({
         tones[tone],
       )}
     >
-      {children}
+      {tr(children)}
     </span>
   );
 }
@@ -203,12 +226,14 @@ export function EmptyState({
   action?: ReactNode;
   icon?: ReactNode;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <div className="flex flex-col items-center justify-center border border-dashed border-[#d5d4ce] bg-white px-6 py-16 text-center">
       {icon ? <div className="mb-4 text-ink-muted">{icon}</div> : null}
-      <p className="text-base font-medium">{title}</p>
+      <p className="text-base font-medium">{tr(title)}</p>
       {description ? (
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-muted">{description}</p>
+        <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-muted">{tr(description)}</p>
       ) : null}
       {action ? <div className="mt-6">{action}</div> : null}
     </div>
@@ -249,6 +274,8 @@ export function TableWrap({ children }: { children: ReactNode }) {
 }
 
 export function Th({ children, className }: { children?: ReactNode; className?: string }) {
+  const tr = useTranslateNode();
+
   return (
     <th
       scope="col"
@@ -257,7 +284,7 @@ export function Th({ children, className }: { children?: ReactNode; className?: 
         className,
       )}
     >
-      {children}
+      {tr(children)}
     </th>
   );
 }

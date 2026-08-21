@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Inter, Cairo } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import { arabicFontClass } from '@/lib/fonts';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
@@ -25,16 +26,7 @@ const latin = Inter({
   display: 'swap',
 });
 
-/**
- * Cairo reads more comfortably than a technical UI face at the long line
- * lengths this site uses, and carries the weight range the display type needs.
- */
-const arabic = Cairo({
-  subsets: ['arabic', 'latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-arabic',
-  display: 'swap',
-});
+
 
 // Public pages read live CMS data — never serve a build-time snapshot, or
 // edits made in the dashboard would not appear on the site.
@@ -86,7 +78,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={dir}
-      className={`${latin.variable} ${arabic.variable}`}
+      className={`${latin.variable} ${arabicFontClass(settings.arabicFont)}`}
       suppressHydrationWarning
     >
       <head>

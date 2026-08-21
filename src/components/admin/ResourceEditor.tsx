@@ -45,6 +45,7 @@ import type { ResourceRow } from '@/lib/admin/resource-repos';
 import type { ResourceField, ResourceSchema } from '@/lib/admin/resource-schemas';
 import type { ActionResult } from '@/lib/admin/forms';
 import { cn } from '@/lib/utils';
+import { useAdminT } from '@/components/admin/AdminLocaleProvider';
 
 const initialState: ActionResult = { ok: true };
 
@@ -62,6 +63,7 @@ export function ResourceEditor({
   canDelete: boolean;
 }) {
   const router = useRouter();
+  const t = useAdminT();
   const [items, setItems] = useState(rows);
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
@@ -102,13 +104,17 @@ export function ResourceEditor({
 
   return (
     <div className="space-y-4">
-      {schema.note ? <FormMessage tone="info">{schema.note}</FormMessage> : null}
+      {schema.note ? <FormMessage tone="info">{t(schema.note)}</FormMessage> : null}
 
       {items.length === 0 && !adding ? (
         <EmptyState
-          title={`No ${schema.title.toLowerCase()} yet`}
+          title={`${t('Nothing here yet')} — ${t(schema.title)}`}
           description={schema.description}
-          action={<AdminButton onClick={() => setAdding(true)}>Add {schema.singular}</AdminButton>}
+          action={
+            <AdminButton onClick={() => setAdding(true)}>
+              {t('Add')} {t(schema.singular)}
+            </AdminButton>
+          }
         />
       ) : (
         <DndContext
@@ -142,7 +148,9 @@ export function ResourceEditor({
       {adding ? (
         <Panel>
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-sm font-semibold">New {schema.singular.toLowerCase()}</h3>
+            <h3 className="text-sm font-semibold">
+              {t('Add')} {t(schema.singular)}
+            </h3>
             <AdminButton variant="ghost" onClick={() => setAdding(false)}>
               Cancel
             </AdminButton>
@@ -159,7 +167,7 @@ export function ResourceEditor({
       ) : items.length > 0 ? (
         <AdminButton onClick={() => setAdding(true)}>
           <Plus className="size-4" aria-hidden="true" />
-          Add {schema.singular.toLowerCase()}
+          {t('Add')} {t(schema.singular)}
         </AdminButton>
       ) : null}
     </div>

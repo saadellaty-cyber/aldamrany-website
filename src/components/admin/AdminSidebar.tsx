@@ -24,6 +24,7 @@ import {
   Wrench,
   X,
 } from 'lucide-react';
+import { adminT, type AdminLocale } from '@/lib/admin/i18n';
 import { cn } from '@/lib/utils';
 
 type NavEntry = {
@@ -40,11 +41,14 @@ type NavGroup = { title: string; items: NavEntry[] };
 export function AdminSidebar({
   role,
   newMessages,
+  locale,
 }: {
   role: 'ADMIN' | 'EDITOR';
   newMessages: number;
+  locale: AdminLocale;
 }) {
   const pathname = usePathname();
+  const t = adminT(locale);
 
   // The drawer remembers which route it was opened on, so navigating anywhere
   // closes it without an effect that would trigger a second render pass.
@@ -53,50 +57,50 @@ export function AdminSidebar({
 
   const groups: NavGroup[] = [
     {
-      title: 'Overview',
-      items: [{ href: '/admin', label: 'Dashboard', icon: LayoutDashboard }],
+      title: t('Overview'),
+      items: [{ href: '/admin', label: t('Dashboard'), icon: LayoutDashboard }],
     },
     {
-      title: 'Work',
+      title: t('Work'),
       items: [
-        { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
-        { href: '/admin/content/collections', label: 'Collections', icon: Layers },
-        { href: '/admin/media', label: 'Media Library', icon: Images },
+        { href: '/admin/projects', label: t('Projects'), icon: FolderKanban },
+        { href: '/admin/content/collections', label: t('Collections'), icon: Layers },
+        { href: '/admin/media', label: t('Media Library'), icon: Images },
       ],
     },
     {
-      title: 'Pages',
+      title: t('Pages'),
       items: [
-        { href: '/admin/homepage', label: 'Homepage', icon: Gauge },
-        { href: '/admin/pages', label: 'Pages & SEO', icon: Building2 },
+        { href: '/admin/homepage', label: t('Homepage'), icon: Gauge },
+        { href: '/admin/pages', label: t('Pages & SEO'), icon: Building2 },
       ],
     },
     {
-      title: 'Content',
+      title: t('Content'),
       items: [
-        { href: '/admin/content/services', label: 'Services', icon: Wrench },
-        { href: '/admin/content/sectors', label: 'Sectors', icon: Layers },
-        { href: '/admin/content/capabilities', label: 'Capabilities', icon: Wrench },
-        { href: '/admin/content/quality', label: 'Quality & Safety', icon: ShieldCheck },
-        { href: '/admin/content/risk', label: 'Risk Management', icon: TriangleAlert },
-        { href: '/admin/content/timeline', label: 'Timeline', icon: Milestone },
-        { href: '/admin/content/statistics', label: 'Statistics', icon: ListOrdered },
+        { href: '/admin/content/services', label: t('Services'), icon: Wrench },
+        { href: '/admin/content/sectors', label: t('Sectors'), icon: Layers },
+        { href: '/admin/content/capabilities', label: t('Capabilities'), icon: Wrench },
+        { href: '/admin/content/quality', label: t('Quality & Safety'), icon: ShieldCheck },
+        { href: '/admin/content/risk', label: t('Risk Management'), icon: TriangleAlert },
+        { href: '/admin/content/timeline', label: t('Timeline'), icon: Milestone },
+        { href: '/admin/content/statistics', label: t('Statistics'), icon: ListOrdered },
       ],
     },
     {
-      title: 'Configuration',
+      title: t('Configuration'),
       items: [
-        { href: '/admin/messages', label: 'Contact Messages', icon: Inbox, badge: newMessages },
-        { href: '/admin/settings', label: 'Site Settings', icon: Settings },
-        { href: '/admin/social', label: 'Social Links', icon: Link2 },
-        { href: '/admin/content/navigation', label: 'Navigation', icon: Navigation },
+        { href: '/admin/messages', label: t('Contact Messages'), icon: Inbox, badge: newMessages },
+        { href: '/admin/settings', label: t('Site Settings'), icon: Settings },
+        { href: '/admin/social', label: t('Social Links'), icon: Link2 },
+        { href: '/admin/content/navigation', label: t('Navigation'), icon: Navigation },
       ],
     },
     {
-      title: 'System',
+      title: t('System'),
       items: [
-        { href: '/admin/users', label: 'Users', icon: Users, adminOnly: true },
-        { href: '/admin/activity', label: 'Activity Log', icon: Activity },
+        { href: '/admin/users', label: t('Users'), icon: Users, adminOnly: true },
+        { href: '/admin/activity', label: t('Activity Log'), icon: Activity },
       ],
     },
   ];
@@ -105,7 +109,7 @@ export function AdminSidebar({
     href === '/admin' ? pathname === '/admin' : pathname.startsWith(href);
 
   const nav = (
-    <nav aria-label="Dashboard sections" className="space-y-6 p-4">
+    <nav aria-label={t('Dashboard sections')} className="space-y-6 p-4">
       {groups.map((group) => {
         const items = group.items.filter((item) => !item.adminOnly || role === 'ADMIN');
         if (items.length === 0) return null;
@@ -159,7 +163,7 @@ export function AdminSidebar({
       <button
         type="button"
         onClick={() => setOpenedOn(pathname)}
-        aria-label="Open dashboard menu"
+        aria-label={t('Open dashboard menu')}
         aria-expanded={open}
         className="inline-flex size-9 items-center justify-center border border-[#d5d4ce] bg-white lg:hidden"
       >
@@ -186,7 +190,7 @@ export function AdminSidebar({
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             type="button"
-            aria-label="Close dashboard menu"
+            aria-label={t('Close dashboard menu')}
             onClick={() => setOpenedOn(null)}
             className="absolute inset-0 bg-ink/40"
           />
@@ -196,7 +200,7 @@ export function AdminSidebar({
               <button
                 type="button"
                 onClick={() => setOpenedOn(null)}
-                aria-label="Close dashboard menu"
+                aria-label={t('Close dashboard menu')}
                 className="inline-flex size-8 items-center justify-center"
               >
                 <X className="size-4" aria-hidden="true" />

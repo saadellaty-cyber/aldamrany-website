@@ -8,6 +8,7 @@ import {
   type HomepageSectionValues,
 } from '@/components/admin/HomepageEditor';
 import { FormMessage, PageHeading } from '@/components/admin/ui';
+import { getAdminT } from '@/lib/admin/locale';
 
 export const metadata: Metadata = { title: 'Homepage' };
 
@@ -78,6 +79,7 @@ const SECTION_META: Array<{
 ];
 
 export default async function HomepageEditorPage() {
+  const { t } = await getAdminT();
   const [rows, projects] = await Promise.all([
     prisma.homepageSection.findMany({ include: { image: true } }),
     prisma.project.findMany({
@@ -131,7 +133,8 @@ export default async function HomepageEditorPage() {
   const candidates: FeaturedCandidate[] = projects.map((project) => ({
     id: project.id,
     title: project.titleEn || project.titleAr,
-    subtitle: project.publishStatus === 'PUBLISHED' ? 'Published' : 'Draft — will not appear',
+    subtitle:
+      project.publishStatus === 'PUBLISHED' ? t('Published') : t('Draft — will not appear'),
     featured: project.featured,
   }));
 
@@ -145,9 +148,9 @@ export default async function HomepageEditorPage() {
 
       <div className="mb-6">
         <FormMessage tone="info">
-          Only published projects appear on the homepage. Set the page title and social image under{' '}
+          {t('Only published projects appear on the homepage. Set the page title and social image under')}{' '}
           <Link href="/admin/pages" className="underline">
-            Pages &amp; SEO
+            {t('Pages & SEO')}
           </Link>
           .
         </FormMessage>

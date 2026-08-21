@@ -1,4 +1,7 @@
+'use client';
+
 import type { ComponentProps, ReactNode } from 'react';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 import { cn } from '@/lib/utils';
 
 /* -------------------------------------------------------------------------
@@ -6,6 +9,9 @@ import { cn } from '@/lib/utils';
 
    Everything is driven by `name` + `defaultValue` and submitted through a
    server action, so no client-side state machinery is needed for plain forms.
+
+   Labels, hints and help text are translated here rather than at each call
+   site, so screens keep writing plain English literals.
 ------------------------------------------------------------------------- */
 
 const controlClass =
@@ -23,20 +29,23 @@ function Label({
   hint?: string;
   required?: boolean;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <label htmlFor={htmlFor} className="mb-1.5 flex flex-wrap items-baseline gap-2">
       <span className="text-sm font-medium">
-        {children}
+        {tr(children)}
         {required ? <span className="ms-0.5 text-danger">*</span> : null}
       </span>
-      {hint ? <span className="text-xs font-normal text-ink-muted">{hint}</span> : null}
+      {hint ? <span className="text-xs font-normal text-ink-muted">{tr(hint)}</span> : null}
     </label>
   );
 }
 
 function Help({ children }: { children?: ReactNode }) {
+  const tr = useTranslateNode();
   if (!children) return null;
-  return <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">{children}</p>;
+  return <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">{tr(children)}</p>;
 }
 
 export function TextField({
@@ -47,6 +56,7 @@ export function TextField({
   required,
   className,
   dir,
+  placeholder,
   ...rest
 }: Omit<ComponentProps<'input'>, 'className'> & {
   label: string;
@@ -55,6 +65,8 @@ export function TextField({
   hint?: string;
   className?: string;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <div className={className}>
       <Label htmlFor={name} hint={hint} required={required}>
@@ -65,6 +77,7 @@ export function TextField({
         name={name}
         dir={dir}
         required={required}
+        placeholder={placeholder === undefined ? undefined : (tr(placeholder) as string)}
         className={cn(controlClass, dir === 'rtl' && 'text-start')}
         {...rest}
       />
@@ -82,6 +95,7 @@ export function TextAreaField({
   rows = 4,
   className,
   dir,
+  placeholder,
   ...rest
 }: Omit<ComponentProps<'textarea'>, 'className'> & {
   label: string;
@@ -90,6 +104,8 @@ export function TextAreaField({
   hint?: string;
   className?: string;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <div className={className}>
       <Label htmlFor={name} hint={hint} required={required}>
@@ -101,6 +117,7 @@ export function TextAreaField({
         rows={rows}
         dir={dir}
         required={required}
+        placeholder={placeholder === undefined ? undefined : (tr(placeholder) as string)}
         className={cn(controlClass, 'leading-relaxed')}
         {...rest}
       />
@@ -128,6 +145,8 @@ export function SelectField({
   hint?: string;
   className?: string;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <div className={className}>
       <Label htmlFor={name} hint={hint} required={required}>
@@ -140,10 +159,10 @@ export function SelectField({
         className={cn(controlClass, 'cursor-pointer')}
         {...rest}
       >
-        {placeholder !== undefined ? <option value="">{placeholder}</option> : null}
+        {placeholder !== undefined ? <option value="">{tr(placeholder)}</option> : null}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
-            {option.label}
+            {tr(option.label)}
           </option>
         ))}
       </select>
@@ -164,6 +183,8 @@ export function CheckboxField({
   help?: ReactNode;
   className?: string;
 }) {
+  const tr = useTranslateNode();
+
   return (
     <div className={className}>
       <label className="flex items-start gap-3">
@@ -176,7 +197,7 @@ export function CheckboxField({
           {...rest}
         />
         <span className="text-sm leading-snug">
-          {label}
+          {tr(label)}
           <Help>{help}</Help>
         </span>
       </label>
@@ -214,10 +235,11 @@ export function BilingualField({
   placeholderEn?: string;
 }) {
   const Component = multiline ? TextAreaField : TextField;
+  const tr = useTranslateNode();
 
   return (
     <fieldset className="space-y-3">
-      <legend className="mb-2 text-sm font-semibold">{label}</legend>
+      <legend className="mb-2 text-sm font-semibold">{tr(label)}</legend>
       <div className="grid gap-4 md:grid-cols-2">
         <Component
           label="العربية — Arabic"

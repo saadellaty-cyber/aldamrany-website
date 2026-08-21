@@ -6,6 +6,7 @@ import { listMediaAssets } from '@/lib/admin/media';
 import { MediaUploadPanel } from '@/components/admin/MediaUploadPanel';
 import { AdminLinkButton, Badge, EmptyState, PageHeading, Panel, PanelHeader } from '@/components/admin/ui';
 import { formatFileSize } from '@/lib/utils';
+import { getAdminT } from '@/lib/admin/locale';
 
 export const metadata: Metadata = { title: 'Media Library' };
 
@@ -19,6 +20,7 @@ export default async function MediaLibraryPage({
   const page = Number(typeof params.page === 'string' ? params.page : '1') || 1;
 
   const { items, total, pageCount } = await listMediaAssets({ query, page });
+  const { t } = await getAdminT();
 
   return (
     <>
@@ -40,26 +42,26 @@ export default async function MediaLibraryPage({
       <Panel padded={false}>
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e2e1dc] p-4">
           <p className="text-sm text-ink-muted">
-            {total} file{total === 1 ? '' : 's'}
+            {total} {t(total === 1 ? 'file' : 'files')}
           </p>
 
           <form method="get" className="flex items-center gap-2">
             <label className="sr-only" htmlFor="media-search">
-              Search media
+              {t('Search media')}
             </label>
             <input
               id="media-search"
               type="search"
               name="q"
               defaultValue={query}
-              placeholder="Search by name, alt text or caption…"
+              placeholder={t('Search by name, alt text or caption…')}
               className="h-9 w-64 max-w-full border border-[#d5d4ce] bg-white px-3 text-sm focus:border-ink focus:outline-none"
             />
             <button
               type="submit"
               className="h-9 border border-[#d5d4ce] px-3 text-sm transition-colors hover:border-ink/50"
             >
-              Search
+              {t('Search')}
             </button>
           </form>
         </div>
@@ -68,11 +70,11 @@ export default async function MediaLibraryPage({
           <div className="p-4">
             <EmptyState
               icon={<Images className="size-7" aria-hidden="true" />}
-              title={query ? 'No matching files' : 'No media uploaded yet'}
+              title={query ? t('No matching files') : t('No media uploaded yet')}
               description={
                 query
-                  ? 'Try a different search term.'
-                  : 'Upload photographs of your projects to use them across the website.'
+                  ? t('Try a different search term.')
+                  : t('Upload photographs of your projects to use them across the website.')
               }
             />
           </div>
@@ -112,11 +114,11 @@ export default async function MediaLibraryPage({
 
         {pageCount > 1 ? (
           <nav
-            aria-label="Media pages"
+            aria-label={t('Media pages')}
             className="flex items-center justify-between gap-3 border-t border-[#e2e1dc] p-4 text-sm"
           >
             <span className="text-ink-muted">
-              Page {page} of {pageCount}
+              {t('Page')} {page} {t('of')} {pageCount}
             </span>
             <span className="flex gap-2">
               {page > 1 ? (

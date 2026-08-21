@@ -5,6 +5,7 @@ import { Check, Search, X } from 'lucide-react';
 import { MediaUploader, type UploadedAsset } from '@/components/admin/MediaUploader';
 import { AdminButton } from '@/components/admin/ui';
 import { cn } from '@/lib/utils';
+import { useAdminT } from '@/components/admin/AdminLocaleProvider';
 
 export type BrowserAsset = {
   id: string;
@@ -31,6 +32,7 @@ export function MediaBrowserDialog({
   multiple?: boolean;
   title?: string;
 }) {
+  const t = useAdminT();
   const [items, setItems] = useState<BrowserAsset[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [query, setQuery] = useState('');
@@ -110,7 +112,7 @@ export function MediaBrowserDialog({
       aria-label={title}
       className="fixed inset-0 z-100 flex items-center justify-center p-4"
     >
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute inset-0 bg-ink/50" />
+      <button type="button" aria-label={t('Close')} onClick={onClose} className="absolute inset-0 bg-ink/50" />
 
       <div className="relative flex max-h-[88vh] w-full max-w-4xl flex-col border border-[#d5d4ce] bg-white shadow-2xl">
         <div className="flex items-center justify-between gap-4 border-b border-[#e2e1dc] p-4">
@@ -118,7 +120,7 @@ export function MediaBrowserDialog({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t('Close')}
             className="inline-flex size-8 items-center justify-center hover:bg-black/5"
           >
             <X className="size-4" aria-hidden="true" />
@@ -136,7 +138,7 @@ export function MediaBrowserDialog({
 
         <div className="border-b border-[#e2e1dc] p-3">
           <label className="relative block">
-            <span className="sr-only">Search media</span>
+            <span className="sr-only">{t('Search media')}</span>
             <Search
               aria-hidden="true"
               className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-ink-muted"
@@ -145,7 +147,7 @@ export function MediaBrowserDialog({
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search the library…"
+              placeholder={t('Search the library…')}
               className="h-9 w-full border border-[#d5d4ce] bg-white ps-9 pe-3 text-sm focus:border-ink focus:outline-none"
             />
           </label>
@@ -153,7 +155,7 @@ export function MediaBrowserDialog({
 
         <div className="scrollbar-thin flex-1 overflow-y-auto p-3">
           {loading ? (
-            <p className="p-6 text-center text-sm text-ink-muted">Loading…</p>
+            <p className="p-6 text-center text-sm text-ink-muted">{t('Loading…')}</p>
           ) : error ? (
             <div className="p-6 text-center">
               <p className="text-sm text-danger">{error}</p>

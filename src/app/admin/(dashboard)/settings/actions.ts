@@ -8,10 +8,13 @@ import {
   fail,
   logActivity,
   ok,
+  oneOf,
   optionalText,
   text,
   type ActionResult,
 } from '@/lib/admin/forms';
+import { ADMIN_LOCALES } from '@/lib/admin/i18n';
+import { ARABIC_FONT_KEYS, DEFAULT_ARABIC_FONT } from '@/lib/fonts-catalog';
 import { normalizePhone } from '@/lib/utils';
 import type { SocialPlatform } from '@/generated/prisma/enums';
 
@@ -76,6 +79,8 @@ export async function updateSiteSettings(
     ogImageId: optionalText(formData, 'ogImage'),
 
     showIcons: checkbox(formData, 'showIcons'),
+    arabicFont: oneOf(formData, 'arabicFont', ARABIC_FONT_KEYS, DEFAULT_ARABIC_FONT),
+    adminLocale: oneOf(formData, 'adminLocale', ADMIN_LOCALES, 'ar'),
 
     analyticsId: optionalText(formData, 'analyticsId'),
     googleVerification: optionalText(formData, 'googleVerification'),

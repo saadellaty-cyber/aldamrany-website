@@ -11,6 +11,7 @@ import {
   Td,
   Th,
 } from '@/components/admin/ui';
+import { getAdminT } from '@/lib/admin/locale';
 import { formatDateTime } from '@/lib/utils';
 
 export const metadata: Metadata = { title: 'Activity Log' };
@@ -22,6 +23,7 @@ export default async function ActivityPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const { locale, t } = await getAdminT();
   const params = await searchParams;
   const page = Math.max(1, Number(typeof params.page === 'string' ? params.page : '1') || 1);
 
@@ -66,10 +68,10 @@ export default async function ActivityPage({
               {entries.map((entry) => (
                 <tr key={entry.id}>
                   <Td className="whitespace-nowrap text-xs text-ink-muted">
-                    {formatDateTime(entry.createdAt, 'en')}
+                    {formatDateTime(entry.createdAt, locale)}
                   </Td>
                   <Td className="text-xs">
-                    {entry.user?.name ?? <span className="text-ink-muted">System</span>}
+                    {entry.user?.name ?? <span className="text-ink-muted">{t('System')}</span>}
                   </Td>
                   <Td>
                     <Badge tone={entry.action === 'DELETE' ? 'danger' : 'neutral'}>
@@ -84,11 +86,11 @@ export default async function ActivityPage({
 
           {pageCount > 1 ? (
             <nav
-              aria-label="Activity pages"
+              aria-label={t('Activity pages')}
               className="mt-4 flex items-center justify-between gap-3 text-sm"
             >
               <span className="text-ink-muted">
-                Page {page} of {pageCount} · {total} entries
+                {t('Page')} {page} {t('of')} {pageCount} · {total} {t('entries')}
               </span>
               <span className="flex gap-2">
                 {page > 1 ? (
@@ -108,11 +110,11 @@ export default async function ActivityPage({
       )}
 
       <p className="mt-6 text-xs text-ink-muted">
-        Looking for a specific change?{' '}
+        {t('Looking for a specific change?')}{' '}
         <Link href="/admin/projects" className="underline">
-          Open the project list
+          {t('Open the project list')}
         </Link>{' '}
-        to see when each project was last updated.
+        {t('to see when each project was last updated.')}
       </p>
     </>
   );

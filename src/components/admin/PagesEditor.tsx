@@ -20,6 +20,7 @@ import {
 } from '@/components/admin/ui';
 import type { ActionResult } from '@/lib/admin/forms';
 import { cn } from '@/lib/utils';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 
 export type PageBlockValues = {
   id: string;
@@ -113,6 +114,7 @@ export function PagesEditor({ pages }: { pages: PageValues[] }) {
 
 function PageForm({ page }: { page: PageValues }) {
   const router = useRouter();
+  const tr = useTranslateNode();
   const [state, formAction] = useActionState(updatePage, initialState);
 
   useEffect(() => {
@@ -162,7 +164,7 @@ function PageForm({ page }: { page: PageValues }) {
       />
 
       <div className="border-t border-[#e2e1dc] pt-5">
-        <p className="mb-4 text-sm font-semibold">Search engines &amp; sharing</p>
+        <p className="mb-4 text-sm font-semibold">{tr('Search engines & sharing')}</p>
 
         <div className="space-y-5">
           <BilingualField
@@ -218,13 +220,13 @@ function PageForm({ page }: { page: PageValues }) {
 
 function BlocksEditor({ page }: { page: PageValues }) {
   const [adding, setAdding] = useState(false);
+  const tr = useTranslateNode();
 
   return (
     <div className="border-t border-[#e2e1dc] pt-5">
-      <p className="mb-1 text-sm font-semibold">Content blocks</p>
+      <p className="mb-1 text-sm font-semibold">{tr('Content blocks')}</p>
       <p className="mb-4 text-xs text-ink-muted">
-        Additional prose sections on this page — vision, mission, values and similar. Blocks without
-        text are hidden on the website.
+        {tr('Additional prose sections on this page — vision, mission, values and similar. Blocks without text are hidden on the website.')}
       </p>
 
       <ul className="space-y-3">
@@ -238,7 +240,7 @@ function BlocksEditor({ page }: { page: PageValues }) {
       {adding ? (
         <div className="mt-3 border border-[#e2e1dc] bg-white p-4">
           <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm font-semibold">New block</p>
+            <p className="text-sm font-semibold">{tr('New block')}</p>
             <AdminButton variant="ghost" onClick={() => setAdding(false)}>
               Cancel
             </AdminButton>

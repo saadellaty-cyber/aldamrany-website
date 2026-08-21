@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ProjectEditor, type ProjectFormValues } from '@/components/admin/ProjectEditor';
 import { loadProjectOptions } from '@/app/admin/(dashboard)/projects/options';
 import { FormMessage, PageHeading } from '@/components/admin/ui';
+import { getAdminT } from '@/lib/admin/locale';
 
 export const metadata: Metadata = { title: 'New project' };
 
@@ -39,7 +40,7 @@ const EMPTY: ProjectFormValues = {
 };
 
 export default async function NewProjectPage() {
-  const options = await loadProjectOptions();
+  const [options, { t }] = await Promise.all([loadProjectOptions(), getAdminT()]);
 
   return (
     <>
@@ -51,8 +52,9 @@ export default async function NewProjectPage() {
 
       <div className="mb-6">
         <FormMessage tone="info">
-          Save the project first — the photo gallery, hero selection and image cropping become
-          available once it exists.
+          {t(
+            'Save the project first — the photo gallery, hero selection and image cropping become available once it exists.',
+          )}
         </FormMessage>
       </div>
 

@@ -30,6 +30,7 @@ import {
   setProjectImageRole,
 } from '@/app/admin/(dashboard)/projects/actions';
 import { cn } from '@/lib/utils';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 
 export type GalleryImage = {
   id: string;
@@ -63,6 +64,7 @@ export function GalleryManager({
   images: GalleryImage[];
 }) {
   const router = useRouter();
+  const tr = useTranslateNode();
   const [items, setItems] = useState(images);
   const [browsing, setBrowsing] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
@@ -171,7 +173,7 @@ export function GalleryManager({
           icon={<ImageIcon className="size-7" aria-hidden="true" />}
           title="No photographs yet"
           description="Add images from the library or upload new ones. The first image added becomes the hero automatically."
-          action={<AdminButton onClick={() => setBrowsing(true)}>Add images</AdminButton>}
+          action={<AdminButton onClick={() => setBrowsing(true)}>{tr('Add images')}</AdminButton>}
         />
       ) : (
         <DndContext

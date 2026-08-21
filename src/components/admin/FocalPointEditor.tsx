@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 import { Monitor, RotateCcw, Smartphone } from 'lucide-react';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 import { cn } from '@/lib/utils';
 
 export type FocalValues = {
@@ -47,6 +48,7 @@ export function FocalPointEditor({
   const [target, setTarget] = useState<'desktop' | 'mobile'>('desktop');
   const stageRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
+  const tr = useTranslateNode();
 
   const field = (name: string) => (namePrefix ? `${namePrefix}${name[0].toUpperCase()}${name.slice(1)}` : name);
 
@@ -90,7 +92,7 @@ export function FocalPointEditor({
         <div
           className="inline-flex border border-[#d5d4ce]"
           role="group"
-          aria-label="Focal point being edited"
+          aria-label={tr('Focal point being edited') as string}
         >
           {(['desktop', 'mobile'] as const).map((option) => {
             const Icon = option === 'desktop' ? Monitor : Smartphone;
@@ -106,7 +108,7 @@ export function FocalPointEditor({
                 )}
               >
                 <Icon className="size-3.5" aria-hidden="true" />
-                {option === 'desktop' ? 'Desktop' : 'Mobile'}
+                {tr(option === 'desktop' ? 'Desktop view' : 'Mobile view')}
               </button>
             );
           })}
@@ -118,7 +120,7 @@ export function FocalPointEditor({
           className="inline-flex items-center gap-1.5 text-xs text-ink-muted transition-colors hover:text-ink"
         >
           <RotateCcw className="size-3.5" aria-hidden="true" />
-          Reset to centre
+          {tr('Reset to centre')}
         </button>
       </div>
 
@@ -126,7 +128,11 @@ export function FocalPointEditor({
       <div
         ref={stageRef}
         role="application"
-        aria-label={`Drag to set the ${target} focal point`}
+        aria-label={
+          target === 'desktop'
+            ? (tr('Drag to set the desktop focal point') as string)
+            : (tr('Drag to set the mobile focal point') as string)
+        }
         onPointerDown={(event) => {
           dragging.current = true;
           event.currentTarget.setPointerCapture(event.pointerId);
@@ -164,14 +170,14 @@ export function FocalPointEditor({
       {/* Numeric control */}
       <div className="grid gap-4 sm:grid-cols-2">
         <RangeControl
-          label={`${target === 'desktop' ? 'Desktop' : 'Mobile'} horizontal`}
+          label={tr(target === 'desktop' ? 'Horizontal (desktop)' : 'Horizontal (mobile)') as string}
           value={activeX}
           onChange={(value) =>
             update(target === 'desktop' ? { focalX: value } : { mobileFocalX: value })
           }
         />
         <RangeControl
-          label={`${target === 'desktop' ? 'Desktop' : 'Mobile'} vertical`}
+          label={tr(target === 'desktop' ? 'Vertical (desktop)' : 'Vertical (mobile)') as string}
           value={activeY}
           onChange={(value) =>
             update(target === 'desktop' ? { focalY: value } : { mobileFocalY: value })
@@ -182,11 +188,11 @@ export function FocalPointEditor({
       {/* Live crop previews */}
       <div>
         <p className="mb-2 text-xs font-medium text-ink-muted">
-          How the image will be cropped on the site
+          {tr('How the image will be cropped on the site')}
         </p>
         <div className="grid gap-3 sm:grid-cols-[2fr_1fr]">
           <CropPreview
-            title="Desktop — wide banner"
+            title={tr('Desktop — wide banner') as string}
             imageUrl={imageUrl}
             alt={alt}
             position={`${values.focalX}% ${values.focalY}%`}
@@ -194,7 +200,7 @@ export function FocalPointEditor({
             active={target === 'desktop'}
           />
           <CropPreview
-            title="Mobile — tall crop"
+            title={tr('Mobile — tall crop') as string}
             imageUrl={imageUrl}
             alt={alt}
             position={`${values.mobileFocalX}% ${values.mobileFocalY}%`}

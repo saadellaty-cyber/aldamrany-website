@@ -36,6 +36,7 @@ import {
 } from '@/components/admin/ui';
 import type { ActionResult } from '@/lib/admin/forms';
 import { cn } from '@/lib/utils';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 
 export type HomepageSectionValues = {
   key: string;
@@ -77,6 +78,7 @@ export function HomepageEditor({
   sections: HomepageSectionValues[];
   projects: FeaturedCandidate[];
 }) {
+  const tr = useTranslateNode();
   const [openKey, setOpenKey] = useState<string | null>(sections[0]?.key ?? null);
 
   return (
@@ -99,13 +101,13 @@ export function HomepageEditor({
                 className="flex w-full items-center gap-3 p-4 text-start transition-colors hover:bg-[#faf9f7]"
               >
                 <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-medium">{section.label}</span>
-                  <span className="mt-0.5 block text-xs text-ink-muted">{section.hint}</span>
+                  <span className="block text-sm font-medium">{tr(section.label)}</span>
+                  <span className="mt-0.5 block text-xs text-ink-muted">{tr(section.hint)}</span>
                 </span>
 
                 {!section.enabled ? (
                   <span className="shrink-0 border border-[#d5d4ce] bg-[#f2f1ee] px-2 py-0.5 text-[0.6875rem] text-ink-muted">
-                    Hidden
+                    {tr('Hidden')}
                   </span>
                 ) : null}
 
@@ -243,6 +245,7 @@ function SectionForm({ section }: { section: HomepageSectionValues }) {
 
 function FeaturedProjectsPanel({ projects }: { projects: FeaturedCandidate[] }) {
   const router = useRouter();
+  const tr = useTranslateNode();
   const [state, formAction] = useActionState(updateFeaturedProjects, initialState);
   const [selected, setSelected] = useState<string[]>(
     projects.filter((project) => project.featured).map((project) => project.id),
@@ -325,7 +328,7 @@ function FeaturedProjectsPanel({ projects }: { projects: FeaturedCandidate[] }) 
         {available.length > 0 ? (
           <FieldGrid className="md:grid-cols-1">
             <div>
-              <p className="mb-2 text-sm font-medium">Add a project</p>
+              <p className="mb-2 text-sm font-medium">{tr('Add a project')}</p>
               <ul className="scrollbar-thin max-h-56 space-y-1 overflow-y-auto border border-[#e2e1dc] p-2">
                 {available.map((project) => (
                   <li key={project.id}>

@@ -40,6 +40,8 @@ export default async function SettingsPage() {
     googleVerification: settings.googleVerification,
     maintenanceMode: settings.maintenanceMode,
     showIcons: settings.showIcons,
+    arabicFont: settings.arabicFont,
+    adminLocale: settings.adminLocale,
     logoPrimary: toImage(settings.logoPrimary),
     logoDark: toImage(settings.logoDark),
     logoLight: toImage(settings.logoLight),

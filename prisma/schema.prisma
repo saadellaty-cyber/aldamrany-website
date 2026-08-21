@@ -596,6 +596,13 @@ model SiteSetting {
   /// capabilities and quality themes on the public site.
   showIcons          Boolean @default(true)
 
+  /// Key of the Arabic typeface used across the public site — see
+  /// src/lib/fonts.ts for the available set.
+  arabicFont         String  @default("cairo")
+
+  /// Language the dashboard interface is presented in ("ar" or "en").
+  adminLocale        String  @default("ar")
+
   analyticsId        String?
   googleVerification String?
   maintenanceMode    Boolean @default(false)
