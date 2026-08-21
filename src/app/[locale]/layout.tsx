@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Inter, IBM_Plex_Sans_Arabic } from 'next/font/google';
+import { Inter, Cairo } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
@@ -25,7 +25,11 @@ const latin = Inter({
   display: 'swap',
 });
 
-const arabic = IBM_Plex_Sans_Arabic({
+/**
+ * Cairo reads more comfortably than a technical UI face at the long line
+ * lengths this site uses, and carries the weight range the display type needs.
+ */
+const arabic = Cairo({
   subsets: ['arabic', 'latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-arabic',

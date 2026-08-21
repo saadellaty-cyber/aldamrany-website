@@ -16,6 +16,7 @@ export type ResourceFieldType =
   | 'select'
   | 'checkbox'
   | 'image'
+  | 'icon'
   | 'bilingualText'
   | 'bilingualTextarea';
 
@@ -62,6 +63,7 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
       { name: 'title', label: 'Service name', type: 'bilingualText', required: true },
       { name: 'description', label: 'Description', type: 'bilingualTextarea', rows: 4 },
       { name: 'slug', label: 'URL fragment', type: 'text', help: 'Used for links such as /services#roads-paving.' },
+      { name: 'icon', label: 'Icon', type: 'icon', help: 'Shown beside the service. Icons can be hidden site-wide in Site Settings.' },
       { name: 'image', label: 'Image', type: 'image' },
       { name: 'featured', label: 'Show on the homepage', type: 'checkbox' },
     ],
@@ -80,6 +82,7 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
       { name: 'name', label: 'Sector name', type: 'bilingualText', required: true },
       { name: 'description', label: 'Description', type: 'bilingualTextarea', rows: 3 },
       { name: 'slug', label: 'URL fragment', type: 'text' },
+      { name: 'icon', label: 'Icon', type: 'icon' },
       { name: 'image', label: 'Image', type: 'image' },
     ],
   },
@@ -95,6 +98,7 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
       { name: 'title', label: 'Capability', type: 'bilingualText', required: true },
       { name: 'description', label: 'Description', type: 'bilingualTextarea', rows: 3 },
       { name: 'slug', label: 'URL fragment', type: 'text' },
+      { name: 'icon', label: 'Icon', type: 'icon' },
       { name: 'image', label: 'Image', type: 'image' },
     ],
   },
@@ -120,6 +124,7 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
         ],
       },
       { name: 'slug', label: 'URL fragment', type: 'text' },
+      { name: 'icon', label: 'Icon', type: 'icon' },
       { name: 'image', label: 'Image', type: 'image' },
     ],
   },

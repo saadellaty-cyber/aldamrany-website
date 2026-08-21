@@ -116,6 +116,7 @@ export type SectorItem = {
   id: string;
   slug: string;
   name: string;
+  icon: string | null;
   description: string[];
   image: ImageRef | null;
   projectCount: number;
@@ -137,6 +138,7 @@ export const getSectors = cache(async (locale: Locale): Promise<SectorItem[]> =>
       id: row.id,
       slug: row.slug,
       name,
+      icon: row.icon,
       description: toParagraphs(pick(locale, row.descriptionAr, row.descriptionEn)),
       image: toImageRef(row.image, locale, {}, name),
       projectCount: row._count.projects,
@@ -148,6 +150,7 @@ export type CapabilityItem = {
   id: string;
   slug: string;
   title: string;
+  icon: string | null;
   description: string[];
   image: ImageRef | null;
 };
@@ -165,6 +168,7 @@ export const getCapabilities = cache(async (locale: Locale): Promise<CapabilityI
       id: row.id,
       slug: row.slug,
       title,
+      icon: row.icon,
       description: toParagraphs(pick(locale, row.descriptionAr, row.descriptionEn)),
       image: toImageRef(row.image, locale, {}, title),
     };
@@ -176,6 +180,7 @@ export type QualityItem = {
   slug: string;
   category: QualityCategory;
   title: string;
+  icon: string | null;
   body: string[];
   image: ImageRef | null;
 };
@@ -194,6 +199,7 @@ export const getQualitySections = cache(async (locale: Locale): Promise<QualityI
       slug: row.slug,
       category: row.category,
       title,
+      icon: row.icon,
       body: toParagraphs(pick(locale, row.bodyAr, row.bodyEn)),
       image: toImageRef(row.image, locale, {}, title),
     };

@@ -57,7 +57,7 @@ export function PageHero({
         ) : null}
 
         {title ? (
-          <h1 className="display-2 mt-6 max-w-[20ch] text-balance">
+          <h1 className="heading-gold display-2 mt-6 max-w-[20ch] text-balance">
             <RevealHeading>{title}</RevealHeading>
           </h1>
         ) : null}

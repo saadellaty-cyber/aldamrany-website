@@ -15,7 +15,7 @@ export default async function LocaleNotFound() {
         404
       </p>
 
-      <h1 className="display-3 mt-6 max-w-xl text-balance">{t('notFound.title')}</h1>
+      <h1 className="heading-gold display-3 mt-6 max-w-xl text-balance">{t('notFound.title')}</h1>
       <p className="lead mt-5 max-w-md text-paper/60">{t('notFound.description')}</p>
 
       <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

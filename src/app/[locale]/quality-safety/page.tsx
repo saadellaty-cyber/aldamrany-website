@@ -6,6 +6,7 @@ import { QualityThemes } from '@/components/sections/QualityThemes';
 import { ContactCTA } from '@/components/sections/ContactCTA';
 import { getPage } from '@/lib/content/pages';
 import { getQualitySections } from '@/lib/content/collections';
+import { getSiteSettings } from '@/lib/content/site';
 import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from '@/lib/seo';
 import { isLocale, type Locale } from '@/i18n/config';
 
@@ -40,10 +41,11 @@ export default async function QualitySafetyPage({
   const locale: Locale = rawLocale;
   setRequestLocale(locale);
 
-  const [t, page, items] = await Promise.all([
+  const [t, page, items, settings] = await Promise.all([
     getTranslations(),
     getPage('quality-safety', locale),
     getQualitySections(locale),
+    getSiteSettings(),
   ]);
 
   const breadcrumbs = breadcrumbJsonLd(
@@ -72,6 +74,7 @@ export default async function QualitySafetyPage({
         <section className="section-y">
           <div className="container-page">
             <QualityThemes
+              showIcons={settings.showIcons}
               items={items}
               labels={{
                 quality: locale === 'ar' ? 'الجودة' : 'Quality',

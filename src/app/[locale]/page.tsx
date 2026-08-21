@@ -21,6 +21,9 @@ import {
   getTimeline,
 } from '@/lib/content/collections';
 import { getFeaturedProjects } from '@/lib/content/projects';
+import { getSiteSettings } from '@/lib/content/site';
+import { Icon } from '@/components/ui/Icon';
+import { resolveIcon } from '@/lib/icons';
 import { getPage } from '@/lib/content/pages';
 import { buildMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/i18n/config';
@@ -52,7 +55,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const locale: Locale = rawLocale;
   setRequestLocale(locale);
 
-  const [t, sections, stats, services, projects, capabilities, quality, risks, timeline] =
+  const [t, sections, stats, services, projects, capabilities, quality, risks, timeline, settings] =
     await Promise.all([
       getTranslations(),
       getHomeSections(locale),
@@ -63,6 +66,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       getQualitySections(locale),
       getRiskItems(locale),
       getTimeline(locale),
+      getSiteSettings(),
     ]);
 
   const hero = sections.HERO;
@@ -157,7 +161,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               {capabilities.map((capability, index) => (
                 <li key={capability.id}>
                   <Reveal delay={index * 0.04}>
-                    <span className="display-4 text-ink/85 transition-colors duration-300 hover:text-ink">
+                    <span className="display-4 flex items-center gap-2.5 text-ink/85 transition-colors duration-300 hover:text-ink">
+                      {settings.showIcons && resolveIcon(capability.icon, capability.slug) ? (
+                        <Icon
+                          name={resolveIcon(capability.icon, capability.slug)!}
+                          className="size-6 text-gold-dim"
+                        />
+                      ) : null}
                       {capability.title}
                     </span>
                   </Reveal>
@@ -183,7 +193,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 ) : null
               }
             />
-            <ServiceList services={services} />
+            <ServiceList services={services} showIcons={settings.showIcons} />
           </div>
         </section>
       ) : null}
@@ -230,6 +240,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               }
             />
             <QualityThemes
+              showIcons={settings.showIcons}
               items={quality.slice(0, 10)}
               tone="dark"
               labels={{

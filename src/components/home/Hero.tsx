@@ -84,7 +84,7 @@ export function Hero({ eyebrow, title, body, image, primaryCta, secondaryCta }: 
         </motion.div>
 
         {title ? (
-          <h1 className="display-1 mt-7 max-w-[18ch] text-balance">
+          <h1 className="heading-gold display-1 mt-7 max-w-[18ch] text-balance">
             <span className="block overflow-hidden">
               <motion.span
                 className="block"

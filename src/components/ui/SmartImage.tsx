@@ -2,6 +2,7 @@ import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import type { ImageRef } from '@/lib/content/media';
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder';
+import { TopicPattern, patternForSlug, type TopicPatternName } from '@/components/ui/TopicPattern';
 import { cn } from '@/lib/utils';
 
 /**
@@ -21,8 +22,15 @@ type SmartImageProps = {
   /** Fallback text shown inside the placeholder when no image exists. */
   placeholderLabel?: string | null;
   placeholderTone?: 'light' | 'dark';
-  /** Texture only — for full-bleed heroes where a mark would clash with copy. */
+  /** Texture only, no wordmark — for full-bleed heroes with copy on top. */
   placeholderBare?: boolean;
+  /**
+   * Subject of the block. When no photograph has been uploaded, topical
+   * artwork is drawn instead of the neutral placeholder — pass either the
+   * pattern name directly or the content slug to derive it from.
+   */
+  topic?: TopicPatternName;
+  topicSlug?: string | null;
 };
 
 export function SmartImage({
@@ -34,15 +42,23 @@ export function SmartImage({
   placeholderLabel,
   placeholderTone = 'light',
   placeholderBare = false,
+  topic,
+  topicSlug,
 }: SmartImageProps) {
   if (!image) {
+    const pattern = topic ?? (topicSlug ? patternForSlug(topicSlug) : null);
+
     return (
       <div className={cn('relative overflow-hidden', className)}>
-        <ImagePlaceholder
-          label={placeholderLabel}
-          tone={placeholderTone}
-          showMark={!placeholderBare}
-        />
+        {pattern ? (
+          <TopicPattern name={pattern} label={placeholderBare ? null : placeholderLabel} />
+        ) : (
+          <ImagePlaceholder
+            label={placeholderLabel}
+            tone={placeholderTone}
+            showMark={!placeholderBare}
+          />
+        )}
       </div>
     );
   }

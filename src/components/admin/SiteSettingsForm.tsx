@@ -38,6 +38,7 @@ export type SiteSettingsValues = {
   analyticsId: string | null;
   googleVerification: string | null;
   maintenanceMode: boolean;
+  showIcons: boolean;
   logoPrimary: SettingsImage;
   logoDark: SettingsImage;
   logoLight: SettingsImage;
@@ -201,6 +202,19 @@ export function SiteSettingsForm({
             aspect="aspect-square"
           />
         </div>
+      </Panel>
+
+      <Panel className="space-y-4">
+        <PanelHeader
+          title="Icons"
+          description="Small icons appear beside services, sectors, capabilities and the quality themes. Each item's icon is chosen in its own editor; this switch turns them all on or off at once."
+        />
+        <CheckboxField
+          label="Show icons on the website"
+          name="showIcons"
+          defaultChecked={values.showIcons}
+          help="Turn this off for a purely typographic look. The icons you have chosen are kept, just hidden."
+        />
       </Panel>
 
       <Panel className="space-y-5">

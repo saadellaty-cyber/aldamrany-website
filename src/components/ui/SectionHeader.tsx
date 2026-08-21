@@ -30,6 +30,9 @@ export function SectionHeader({
 
   const muted = tone === 'light-text' ? 'text-paper/55' : 'text-ink-muted';
 
+  // Section headings go gold on dark bands, matching the page titles; on the
+  // light ground they stay ink so the page is not overwhelmingly gold.
+
   return (
     <div
       className={cn(
@@ -49,7 +52,7 @@ export function SectionHeader({
         ) : null}
 
         {title ? (
-          <h2 className={cn(titleClass, 'text-balance')}>
+          <h2 className={cn(titleClass, 'text-balance', tone === 'light-text' && 'heading-gold')}>
             <RevealHeading>{title}</RevealHeading>
           </h2>
         ) : null}

@@ -107,23 +107,21 @@ export function ProjectGallery({ images }: { images: ImageRef[] }) {
         ))}
       </ul>
 
-      {/* Desktop: editorial grid */}
-      <ul className="hidden grid-cols-6 gap-4 md:grid lg:gap-6">
-        {images.map((image, index) => {
-          const wide = index % 3 === 0;
-          return (
-            <li key={image.id + index} className={wide ? 'col-span-6' : 'col-span-3'}>
-              <GalleryThumb
-                image={image}
-                index={index}
-                onOpen={open}
-                  label={t('projects.openGallery')}
-                sizes={wide ? '(min-width: 768px) 100vw, 100vw' : '(min-width: 768px) 50vw, 100vw'}
-                className={wide ? 'aspect-[16/9]' : 'aspect-[4/3]'}
-              />
-            </li>
-          );
-        })}
+      {/* Desktop: a regular grid — every thumbnail the same size, whatever
+          shape the underlying photograph is. */}
+      <ul className="hidden gap-4 md:grid md:grid-cols-3 lg:gap-6">
+        {images.map((image, index) => (
+          <li key={image.id + index}>
+            <GalleryThumb
+              image={image}
+              index={index}
+              onOpen={open}
+              label={t('projects.openGallery')}
+              sizes="(min-width: 768px) 33vw, 100vw"
+              className="aspect-[4/3]"
+            />
+          </li>
+        ))}
       </ul>
 
       <AnimatePresence>

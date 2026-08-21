@@ -110,9 +110,10 @@ export default async function ProjectsPage({
             <div className="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-20">
               {projects.map((project, index) => (
                 <Reveal key={project.id} delay={(index % 3) * 0.08} distance={34}>
+                  {/* One ratio for every card — the archive reads as a catalogue. */}
                   <ProjectCard
                     project={project}
-                    ratio={index % 5 === 0 ? 'portrait' : 'landscape'}
+                    ratio="landscape"
                     priority={index < 3}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />

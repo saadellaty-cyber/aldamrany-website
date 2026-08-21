@@ -39,6 +39,7 @@ export default async function SettingsPage() {
     analyticsId: settings.analyticsId,
     googleVerification: settings.googleVerification,
     maintenanceMode: settings.maintenanceMode,
+    showIcons: settings.showIcons,
     logoPrimary: toImage(settings.logoPrimary),
     logoDark: toImage(settings.logoDark),
     logoLight: toImage(settings.logoLight),

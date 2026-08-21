@@ -75,6 +75,8 @@ export async function updateSiteSettings(
     defaultSeoDescriptionEn: optionalText(formData, 'defaultSeoDescriptionEn'),
     ogImageId: optionalText(formData, 'ogImage'),
 
+    showIcons: checkbox(formData, 'showIcons'),
+
     analyticsId: optionalText(formData, 'analyticsId'),
     googleVerification: optionalText(formData, 'googleVerification'),
     maintenanceMode: checkbox(formData, 'maintenanceMode'),

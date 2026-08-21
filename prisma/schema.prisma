@@ -202,6 +202,7 @@ model Sector {
   nameEn        String
   descriptionAr String?
   descriptionEn String?
+  icon          String?
   imageId       String?
   sortOrder     Int      @default(0)
   status        PublishStatus @default(PUBLISHED)
@@ -590,6 +591,10 @@ model SiteSetting {
   defaultSeoDescriptionAr String?
   defaultSeoDescriptionEn String?
   ogImageId               String?
+
+  /// Master switch for the decorative icons shown beside services,
+  /// capabilities and quality themes on the public site.
+  showIcons          Boolean @default(true)
 
   analyticsId        String?
   googleVerification String?

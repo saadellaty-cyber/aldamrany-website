@@ -1,4 +1,6 @@
 import { Reveal } from '@/components/motion/Reveal';
+import { Icon } from '@/components/ui/Icon';
+import { resolveIcon } from '@/lib/icons';
 import type { QualityItem } from '@/lib/content/collections';
 import { cn } from '@/lib/utils';
 
@@ -10,10 +12,12 @@ export function QualityThemes({
   items,
   labels,
   tone = 'light',
+  showIcons = true,
 }: {
   items: QualityItem[];
   labels: { quality: string; safety: string };
   tone?: 'light' | 'dark';
+  showIcons?: boolean;
 }) {
   const quality = items.filter((item) => item.category === 'QUALITY');
   const safety = items.filter((item) => item.category === 'SAFETY');
@@ -39,7 +43,15 @@ export function QualityThemes({
             <li key={item.id} className="border-b border-current/15">
               <Reveal delay={index * 0.05}>
                 <div className="py-5">
-                  <h4 className="text-lg font-medium tracking-tight">{item.title}</h4>
+                  <h4 className="flex items-center gap-3 text-lg font-medium tracking-tight">
+                    {showIcons && resolveIcon(item.icon, item.slug) ? (
+                      <Icon
+                        name={resolveIcon(item.icon, item.slug)!}
+                        className="size-5 text-gold"
+                      />
+                    ) : null}
+                    {item.title}
+                  </h4>
                   {item.body.length > 0 ? (
                     <div className={cn('prose-editorial mt-3 text-sm', muted)}>
                       {item.body.map((paragraph, paragraphIndex) => (

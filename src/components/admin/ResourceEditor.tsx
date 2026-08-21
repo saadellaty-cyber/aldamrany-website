@@ -33,6 +33,7 @@ import {
   TextField,
 } from '@/components/admin/fields';
 import { ImagePicker } from '@/components/admin/ImagePicker';
+import { IconPicker } from '@/components/admin/IconPicker';
 import {
   AdminButton,
   EmptyState,
@@ -393,6 +394,16 @@ function FieldRenderer({
           label={field.label}
           description={field.help}
           initial={image}
+        />
+      );
+
+    case 'icon':
+      return (
+        <IconPicker
+          name={field.name}
+          label={field.label}
+          description={field.help}
+          initial={stringValue(field.name)}
         />
       );
 

@@ -1,4 +1,6 @@
 import { Reveal, RevealHeading } from '@/components/motion/Reveal';
+import { Icon } from '@/components/ui/Icon';
+import { resolveIcon } from '@/lib/icons';
 import { SmartImage } from '@/components/ui/SmartImage';
 import type { ServiceItem } from '@/lib/content/collections';
 import { cn } from '@/lib/utils';
@@ -7,7 +9,13 @@ import { cn } from '@/lib/utils';
  * Services rendered as full-width editorial bands — a large index, a
  * photograph and the copy — rather than a grid of identical cards.
  */
-export function ServiceBlocks({ services }: { services: ServiceItem[] }) {
+export function ServiceBlocks({
+  services,
+  showIcons = true,
+}: {
+  services: ServiceItem[];
+  showIcons?: boolean;
+}) {
   if (services.length === 0) return null;
 
   return (
@@ -32,6 +40,7 @@ export function ServiceBlocks({ services }: { services: ServiceItem[] }) {
               <SmartImage
                 image={service.image}
                 sizes="(min-width: 1024px) 50vw, 100vw"
+                topicSlug={service.slug}
                 placeholderLabel={service.title}
                 className="aspect-[4/3] w-full"
                 imageClassName="transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
@@ -40,8 +49,16 @@ export function ServiceBlocks({ services }: { services: ServiceItem[] }) {
 
             <div className={cn('lg:col-span-6', reversed && 'lg:order-1')}>
               <Reveal>
-                <span className="latin-nums block text-sm font-medium tracking-[0.2em] text-ink-muted">
-                  {String(index + 1).padStart(2, '0')}
+                <span className="flex items-center gap-3 text-ink-muted">
+                  {showIcons && resolveIcon(service.icon, service.slug) ? (
+                    <Icon
+                      name={resolveIcon(service.icon, service.slug)!}
+                      className="size-7 text-gold-dim"
+                    />
+                  ) : null}
+                  <span className="latin-nums text-sm font-medium tracking-[0.2em]">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
                 </span>
               </Reveal>
 
@@ -70,7 +87,13 @@ export function ServiceBlocks({ services }: { services: ServiceItem[] }) {
  * Condensed variant for the homepage: a numbered list of services with a
  * single shared image, keeping the page from becoming a stack of photos.
  */
-export function ServiceList({ services }: { services: ServiceItem[] }) {
+export function ServiceList({
+  services,
+  showIcons = true,
+}: {
+  services: ServiceItem[];
+  showIcons?: boolean;
+}) {
   if (services.length === 0) return null;
 
   return (
@@ -79,8 +102,16 @@ export function ServiceList({ services }: { services: ServiceItem[] }) {
         <li key={service.id} className="border-b border-line">
           <Reveal delay={index * 0.05}>
             <div className="grid items-baseline gap-3 py-7 md:grid-cols-12 md:gap-8 md:py-9">
-              <span className="latin-nums text-sm font-medium tracking-[0.2em] text-ink-muted md:col-span-1">
-                {String(index + 1).padStart(2, '0')}
+              <span className="flex items-center gap-2.5 text-ink-muted md:col-span-1">
+                {showIcons && resolveIcon(service.icon, service.slug) ? (
+                  <Icon
+                    name={resolveIcon(service.icon, service.slug)!}
+                    className="size-5 text-gold-dim"
+                  />
+                ) : null}
+                <span className="latin-nums text-sm font-medium tracking-[0.2em]">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
               </span>
 
               <h3 className="display-4 text-balance md:col-span-5">{service.title}</h3>

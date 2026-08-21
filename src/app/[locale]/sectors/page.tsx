@@ -10,6 +10,9 @@ import { SmartImage } from '@/components/ui/SmartImage';
 import { Reveal } from '@/components/motion/Reveal';
 import { getPage } from '@/lib/content/pages';
 import { getProjectCollections, getSectors } from '@/lib/content/collections';
+import { getSiteSettings } from '@/lib/content/site';
+import { Icon } from '@/components/ui/Icon';
+import { resolveIcon } from '@/lib/icons';
 import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from '@/lib/seo';
 import { isLocale, type Locale } from '@/i18n/config';
 
@@ -40,11 +43,12 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
   const locale: Locale = rawLocale;
   setRequestLocale(locale);
 
-  const [t, page, sectors, collections] = await Promise.all([
+  const [t, page, sectors, collections, settings] = await Promise.all([
     getTranslations(),
     getPage('sectors', locale),
     getSectors(locale),
     getProjectCollections(locale),
+    getSiteSettings(),
   ]);
 
   // A sector is only worth linking to if published projects sit behind it.
@@ -86,12 +90,19 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
                     <SmartImage
                       image={sector.image}
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      topicSlug={sector.slug}
                       placeholderLabel={sector.name}
                       className="aspect-[4/3] w-full"
                       imageClassName="transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
                     />
                     <div className="mt-5 flex items-baseline justify-between gap-4">
-                      <h2 className="display-4 transition-opacity duration-300 group-hover:opacity-70">
+                      <h2 className="display-4 flex items-center gap-2.5 transition-opacity duration-300 group-hover:opacity-70">
+                        {settings.showIcons && resolveIcon(sector.icon, sector.slug) ? (
+                          <Icon
+                            name={resolveIcon(sector.icon, sector.slug)!}
+                            className="size-5 text-gold-dim"
+                          />
+                        ) : null}
                         {sector.name}
                       </h2>
                       <span className="latin-nums text-sm text-ink-muted">
@@ -123,7 +134,15 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
               {withoutProjects.map((sector, index) => (
                 <li key={sector.id}>
                   <Reveal delay={index * 0.04}>
-                    <span className="display-4 text-ink/70">{sector.name}</span>
+                    <span className="display-4 flex items-center gap-2.5 text-ink/70">
+                      {settings.showIcons && resolveIcon(sector.icon, sector.slug) ? (
+                        <Icon
+                          name={resolveIcon(sector.icon, sector.slug)!}
+                          className="size-5 text-gold-dim"
+                        />
+                      ) : null}
+                      {sector.name}
+                    </span>
                   </Reveal>
                 </li>
               ))}

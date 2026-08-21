@@ -24,12 +24,18 @@
   --color-brass: #b08d57;
   --color-brass-dim: #8c6f44;
 
+  /* Page headings on dark surfaces. The soft tone is used at display sizes,
+     where full-strength gold vibrates against near-black. */
+  --color-gold: #d4af37;
+  --color-gold-soft: #e0c063;
+  --color-gold-dim: #a8862a;
+
   --color-danger: #a33a2a;
   --color-success: #3f6b4a;
   --color-warning: #8a6a1f;
 
   --font-sans: var(--font-latin), 'Inter', system-ui, -apple-system, sans-serif;
-  --font-arabic: var(--font-arabic), 'IBM Plex Sans Arabic', 'Noto Sans Arabic', system-ui, sans-serif;
+  --font-arabic: var(--font-arabic), 'Cairo', 'Tajawal', 'Noto Sans Arabic', system-ui, sans-serif;
 
   --spacing-section: 7.5rem;
 
@@ -70,9 +76,16 @@ body {
   font-family: var(--font-arabic);
 }
 
-/* Arabic needs a little more vertical room to breathe. */
+/* Arabic needs more vertical room than Latin, and Cairo's tall ascenders and
+   deep descenders need more again before the lines stop colliding. */
 [dir='rtl'] {
-  --arabic-leading: 1.9;
+  --arabic-leading: 2;
+}
+
+/* Cairo's default tracking is tight for continuous reading at body sizes. */
+[dir='rtl'] body {
+  letter-spacing: 0.01em;
+  font-weight: 400;
 }
 
 [dir='rtl'] p,
@@ -134,11 +147,12 @@ body {
 [dir='rtl'] .display-3,
 [dir='rtl'] .display-4 {
   letter-spacing: 0;
-  line-height: 1.28;
+  line-height: 1.35;
+  font-weight: 600;
 }
 
 [dir='rtl'] .display-1 {
-  line-height: 1.18;
+  line-height: 1.25;
 }
 
 @utility eyebrow {
@@ -162,6 +176,18 @@ body {
 
 [dir='rtl'] .lead {
   line-height: 1.95;
+}
+
+/* Page and section headings on dark surfaces.
+   Kept to headings only — gold body text would be hard to read and would
+   cheapen the effect. */
+@utility heading-gold {
+  color: var(--color-gold-soft);
+}
+
+/* Below display sizes the softer tone starts to look washed out. */
+@utility heading-gold-strong {
+  color: var(--color-gold);
 }
 
 /* Numerals stay Latin inside Arabic pages where the design calls for it. */

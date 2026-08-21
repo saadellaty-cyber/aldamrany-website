@@ -6,6 +6,7 @@ import { ServiceBlocks } from '@/components/sections/ServiceSection';
 import { ContactCTA } from '@/components/sections/ContactCTA';
 import { getPage } from '@/lib/content/pages';
 import { getServices } from '@/lib/content/collections';
+import { getSiteSettings } from '@/lib/content/site';
 import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from '@/lib/seo';
 import { isLocale, type Locale } from '@/i18n/config';
 
@@ -36,10 +37,11 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const locale: Locale = rawLocale;
   setRequestLocale(locale);
 
-  const [t, page, services] = await Promise.all([
+  const [t, page, services, settings] = await Promise.all([
     getTranslations(),
     getPage('services', locale),
     getServices(locale),
+    getSiteSettings(),
   ]);
 
   const breadcrumbs = breadcrumbJsonLd(
@@ -67,7 +69,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       {services.length > 0 ? (
         <section className="section-y">
           <div className="container-page">
-            <ServiceBlocks services={services} />
+            <ServiceBlocks services={services} showIcons={settings.showIcons} />
           </div>
         </section>
       ) : null}
