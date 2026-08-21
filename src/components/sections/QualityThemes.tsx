@@ -32,7 +32,7 @@ export function QualityThemes({
     return (
       <div>
         <Reveal>
-          <h3 className={cn('eyebrow flex items-center gap-3 pb-6', muted)}>
+          <h3 className="eyebrow heading-yellow flex items-center gap-3 pb-6">
             <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
             {title}
           </h3>
@@ -47,7 +47,7 @@ export function QualityThemes({
                     {showIcons && resolveIcon(item.icon, item.slug) ? (
                       <Icon
                         name={resolveIcon(item.icon, item.slug)!}
-                        className="size-5 text-gold"
+                        className="size-5 heading-yellow"
                       />
                     ) : null}
                     {item.title}

@@ -28,7 +28,7 @@ export async function ContactCTA({
       <div className="container-page py-20 md:py-28 lg:py-32">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
           <div className="lg:col-span-7">
-            <h2 className="heading-gold display-2 max-w-[16ch] text-balance">
+            <h2 className="heading-yellow display-2 max-w-[16ch] text-balance">
               <RevealHeading>{title}</RevealHeading>
             </h2>
             {body?.trim() ? (

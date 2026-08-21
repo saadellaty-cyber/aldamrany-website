@@ -85,7 +85,7 @@ export default async function CapabilitiesPage({
                         {settings.showIcons && resolveIcon(capability.icon, capability.slug) ? (
                           <Icon
                             name={resolveIcon(capability.icon, capability.slug)!}
-                            className="size-5 text-gold-dim"
+                            className="size-5 text-yellow"
                           />
                         ) : null}
                         <span className="latin-nums text-sm font-medium tracking-[0.2em]">
@@ -93,7 +93,7 @@ export default async function CapabilitiesPage({
                         </span>
                       </span>
 
-                      <h2 className="heading-gold-deep display-3 text-balance md:col-span-5">{capability.title}</h2>
+                      <h2 className="heading-yellow display-3 text-balance md:col-span-5">{capability.title}</h2>
 
                       <div className="md:col-span-4">
                         {capability.description.length > 0 ? (

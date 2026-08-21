@@ -71,7 +71,7 @@ export async function ProjectCard({
 
       <div className="mt-5">
         {meta.length > 0 ? (
-          <p className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-muted">
+          <p className="eyebrow heading-yellow flex flex-wrap items-center gap-x-3 gap-y-1">
             {meta.map((item, index) => (
               <span key={`${item}-${index}`} className="flex items-center gap-3">
                 {index > 0 ? (
@@ -85,7 +85,7 @@ export async function ProjectCard({
 
         <h3
           className={cn(
-            'heading-gold-deep mt-3 text-balance transition-opacity duration-300 group-hover:opacity-70',
+            'heading-yellow mt-3 text-balance transition-opacity duration-300 group-hover:opacity-70',
             titleClass,
           )}
         >

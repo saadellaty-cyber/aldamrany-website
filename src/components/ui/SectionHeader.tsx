@@ -30,9 +30,6 @@ export function SectionHeader({
 
   const muted = tone === 'light-text' ? 'text-paper/55' : 'text-ink-muted';
 
-  // Section headings are gold on both grounds — a light gold on the dark
-  // bands, a deep antique gold on the paper ground.
-
   return (
     <div
       className={cn(
@@ -44,7 +41,7 @@ export function SectionHeader({
       <div className={cn('max-w-3xl', align === 'center' && 'mx-auto')}>
         {eyebrow ? (
           <Reveal>
-            <p className={cn('eyebrow mb-5 flex items-center gap-3', muted)}>
+            <p className="eyebrow heading-yellow mb-5 flex items-center gap-3">
               <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
               {eyebrow}
             </p>
@@ -52,13 +49,7 @@ export function SectionHeader({
         ) : null}
 
         {title ? (
-          <h2
-            className={cn(
-              titleClass,
-              'text-balance',
-              tone === 'light-text' ? 'heading-gold' : 'heading-gold-deep',
-            )}
-          >
+          <h2 className={cn(titleClass, 'heading-yellow text-balance')}>
             <RevealHeading>{title}</RevealHeading>
           </h2>
         ) : null}

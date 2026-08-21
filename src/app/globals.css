@@ -24,13 +24,12 @@
   --color-brass: #b08d57;
   --color-brass-dim: #8c6f44;
 
-  /* Gold has to be a different value on each ground to stay readable.
-     On near-black a soft, light gold; on the paper ground a deep antique
-     gold — bright gold on off-white measures barely 2:1 and is unreadable. */
-  --color-gold: #d4af37;
-  --color-gold-soft: #e0c063;
-  --color-gold-dim: #a8862a;
-  --color-gold-deep: #8a6d18;
+  /* The road yellow — the colour of highway markings and site plant, and the
+     accent the whole site is built around. One value on every ground, by the
+     owner's decision: a darker variant for the paper sections was offered and
+     turned down, so headings and eyebrows there sit at roughly 1.6:1. Keep the
+     yellow to headings and short labels; body text stays ink. */
+  --color-yellow: #ffd801;
 
   --color-danger: #a33a2a;
   --color-success: #3f6b4a;
@@ -185,23 +184,11 @@
   line-height: 1.95;
 }
 
-/* Headings on dark surfaces.
-   Kept to headings only — gold body text would be hard to read and would
-   cheapen the effect. */
-@utility heading-gold {
-  color: var(--color-gold-soft);
-}
-
-/* Below display sizes the softer tone starts to look washed out. */
-@utility heading-gold-strong {
-  color: var(--color-gold);
-}
-
-/* Headings on the paper ground: project names, section titles, service names.
-   Measures about 4.5:1 against the page background, so it stays legible at
-   body sizes as well as display ones. */
-@utility heading-gold-deep {
-  color: var(--color-gold-deep);
+/* The road yellow on display headings and the small tracked eyebrows above
+   them, on every ground. Kept to headings and short labels — yellow body text
+   would be unreadable and would cheapen the effect. */
+@utility heading-yellow {
+  color: var(--color-yellow);
 }
 
 /* Numerals stay Latin inside Arabic pages where the design calls for it. */

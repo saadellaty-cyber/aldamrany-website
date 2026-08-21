@@ -92,7 +92,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {vision ? (
               <div>
                 <Reveal>
-                  <p className="eyebrow flex items-center gap-3 text-ink-muted">
+                  <p className="eyebrow heading-yellow flex items-center gap-3">
                     <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
                     {locale === 'ar' ? 'رؤيتنا' : 'Our Vision'}
                   </p>
@@ -117,7 +117,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {mission ? (
               <div>
                 <Reveal>
-                  <p className="eyebrow flex items-center gap-3 text-ink-muted">
+                  <p className="eyebrow heading-yellow flex items-center gap-3">
                     <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
                     {mission.title ?? (locale === 'ar' ? 'رسالتنا' : 'Our Mission')}
                   </p>
@@ -203,7 +203,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {scope ? (
               <div className="lg:col-span-6">
                 <Reveal>
-                  <p className="eyebrow flex items-center gap-3 text-ink-muted">
+                  <p className="eyebrow heading-yellow flex items-center gap-3">
                     <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
                     {scope.title}
                   </p>

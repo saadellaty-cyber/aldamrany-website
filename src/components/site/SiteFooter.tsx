@@ -72,7 +72,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
           {/* Navigation */}
           {nav.length > 0 ? (
             <nav className="lg:col-span-2" aria-label={t('footer.navigation')}>
-              <h2 className="eyebrow text-paper/40">{t('footer.navigation')}</h2>
+              <h2 className="eyebrow heading-yellow">{t('footer.navigation')}</h2>
               <ul className="mt-6 space-y-3">
                 {nav.map((item) => (
                   <li key={item.id}>
@@ -91,7 +91,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
           {/* Services */}
           {services.length > 0 ? (
             <div className="lg:col-span-3">
-              <h2 className="eyebrow text-paper/40">{t('footer.services')}</h2>
+              <h2 className="eyebrow heading-yellow">{t('footer.services')}</h2>
               <ul className="mt-6 space-y-3">
                 {services.map((service) => (
                   <li key={service.id}>
@@ -109,7 +109,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
 
           {/* Contact */}
           <div className="lg:col-span-3">
-            <h2 className="eyebrow text-paper/40">{t('footer.contact')}</h2>
+            <h2 className="eyebrow heading-yellow">{t('footer.contact')}</h2>
             <ul className="mt-6 space-y-4 text-sm text-paper/75">
               {contact.headOffice ? (
                 <li className="flex gap-3">

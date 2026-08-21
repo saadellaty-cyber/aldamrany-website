@@ -98,7 +98,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <div className="lg:col-span-5">
               {about.eyebrow ? (
                 <Reveal>
-                  <p className="eyebrow flex items-center gap-3 text-ink-muted">
+                  <p className="eyebrow heading-yellow flex items-center gap-3">
                     <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
                     {about.eyebrow}
                   </p>
@@ -108,7 +108,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
             <div className="lg:col-span-7">
               {about.title ? (
-                <h2 className="heading-gold-deep display-2 text-balance">
+                <h2 className="heading-yellow display-2 text-balance">
                   <RevealHeading>{about.title}</RevealHeading>
                 </h2>
               ) : null}
@@ -165,7 +165,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                       {settings.showIcons && resolveIcon(capability.icon, capability.slug) ? (
                         <Icon
                           name={resolveIcon(capability.icon, capability.slug)!}
-                          className="size-6 text-gold-dim"
+                          className="size-6 text-yellow"
                         />
                       ) : null}
                       {capability.title}
@@ -279,7 +279,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="container-page grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <Reveal>
-                <p className="eyebrow flex items-center gap-3 text-ink-muted">
+                <p className="eyebrow heading-yellow flex items-center gap-3">
                   <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
                   {locale === 'ar' ? 'مسيرتنا' : 'Our Story'}
                 </p>

@@ -53,7 +53,7 @@ export function ServiceBlocks({
                   {showIcons && resolveIcon(service.icon, service.slug) ? (
                     <Icon
                       name={resolveIcon(service.icon, service.slug)!}
-                      className="size-7 text-gold-dim"
+                      className="size-7 text-yellow"
                     />
                   ) : null}
                   <span className="latin-nums text-sm font-medium tracking-[0.2em]">
@@ -62,7 +62,7 @@ export function ServiceBlocks({
                 </span>
               </Reveal>
 
-              <h3 className="heading-gold-deep display-3 mt-5 text-balance">
+              <h3 className="heading-yellow display-3 mt-5 text-balance">
                 <RevealHeading>{service.title}</RevealHeading>
               </h3>
 
@@ -106,7 +106,7 @@ export function ServiceList({
                 {showIcons && resolveIcon(service.icon, service.slug) ? (
                   <Icon
                     name={resolveIcon(service.icon, service.slug)!}
-                    className="size-5 text-gold-dim"
+                    className="size-5 text-yellow"
                   />
                 ) : null}
                 <span className="latin-nums text-sm font-medium tracking-[0.2em]">
@@ -114,7 +114,7 @@ export function ServiceList({
                 </span>
               </span>
 
-              <h3 className="heading-gold-deep display-4 text-balance md:col-span-5">{service.title}</h3>
+              <h3 className="heading-yellow display-4 text-balance md:col-span-5">{service.title}</h3>
 
               {service.description.length > 0 ? (
                 <p className="max-w-prose text-sm leading-relaxed text-ink-muted md:col-span-6">

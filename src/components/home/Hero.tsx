@@ -79,12 +79,12 @@ export function Hero({ eyebrow, title, body, image, primaryCta, secondaryCta }: 
           <span className="h-px w-10 bg-paper/50" aria-hidden="true" />
           <span className="text-sm font-semibold tracking-[0.24em]">EL DAMARANY</span>
           {eyebrow ? (
-            <span className="eyebrow text-paper/60">{eyebrow}</span>
+            <span className="eyebrow heading-yellow">{eyebrow}</span>
           ) : null}
         </motion.div>
 
         {title ? (
-          <h1 className="heading-gold display-1 mt-7 max-w-[18ch] text-balance">
+          <h1 className="heading-yellow display-1 mt-7 max-w-[18ch] text-balance">
             <span className="block overflow-hidden">
               <motion.span
                 className="block"

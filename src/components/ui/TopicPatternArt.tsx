@@ -10,7 +10,7 @@ import type { TopicPatternName } from '@/components/ui/TopicPattern';
  */
 const LINE = 'rgba(244,243,239,0.16)';
 const LINE_STRONG = 'rgba(244,243,239,0.3)';
-const GOLD = 'rgba(212,175,55,0.34)';
+const YELLOW = 'rgba(255,216,1,0.34)';
 
 export function TopicPatternArt({ name }: { name: TopicPatternName }) {
   switch (name) {
@@ -24,7 +24,7 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
           </g>
           <path
             d="M 50 100 L 50 24"
-            stroke={GOLD}
+            stroke={YELLOW}
             strokeWidth="2"
             strokeDasharray="7 9"
             strokeLinecap="round"
@@ -41,7 +41,7 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
             <path d="M 0 72 L 100 68" />
           </g>
           <path d="M 0 72 L 100 68 L 100 100 L 0 100 Z" fill="rgba(0,0,0,0.2)" />
-          <path d="M 0 84 L 100 80" stroke={GOLD} strokeWidth="1.5" />
+          <path d="M 0 84 L 100 80" stroke={YELLOW} strokeWidth="1.5" />
         </>
       );
 
@@ -58,7 +58,7 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
             <path d="M 50 46 L 50 82" />
             <path d="M 74 46 L 74 82" />
           </g>
-          <path d="M 0 82 L 100 82" stroke={GOLD} strokeWidth="1.5" />
+          <path d="M 0 82 L 100 82" stroke={YELLOW} strokeWidth="1.5" />
         </>
       );
 
@@ -71,7 +71,7 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
             <path d="M 18 50 L 82 50" />
             <path d="M 50 26 L 50 74" />
           </g>
-          <path d="M 18 74 L 82 74" stroke={GOLD} strokeWidth="1.6" />
+          <path d="M 18 74 L 82 74" stroke={YELLOW} strokeWidth="1.6" />
         </>
       );
 
@@ -85,7 +85,7 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
           </g>
           <path
             d="M 42 37 L 50 37 L 50 61 L 56 61"
-            stroke={GOLD}
+            stroke={YELLOW}
             strokeWidth="1.6"
             fill="none"
             strokeLinecap="round"
@@ -107,7 +107,7 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
           </g>
           <path
             d="M 42 38 L 48 45 L 60 31"
-            stroke={GOLD}
+            stroke={YELLOW}
             strokeWidth="2.4"
             fill="none"
             strokeLinecap="round"
@@ -122,13 +122,13 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
           {/* A shield, as used on site signage. */}
           <path
             d="M 50 22 L 68 31 L 68 55 Q 68 71 50 80 Q 32 71 32 55 L 32 31 Z"
-            stroke={GOLD}
+            stroke={YELLOW}
             strokeWidth="1.6"
             fill="rgba(212,175,55,0.07)"
           />
           <path
             d="M 43 51 L 48 57 L 58 44"
-            stroke={GOLD}
+            stroke={YELLOW}
             strokeWidth="2"
             fill="none"
             strokeLinecap="round"
@@ -149,7 +149,7 @@ export function TopicPatternArt({ name }: { name: TopicPatternName }) {
               cy="50"
               r="5"
               fill={index === 3 ? 'rgba(212,175,55,0.25)' : 'rgba(244,243,239,0.08)'}
-              stroke={index === 3 ? GOLD : LINE_STRONG}
+              stroke={index === 3 ? YELLOW : LINE_STRONG}
               strokeWidth="1.2"
             />
           ))}

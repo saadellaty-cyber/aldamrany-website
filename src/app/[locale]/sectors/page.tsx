@@ -96,11 +96,11 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
                       imageClassName="transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
                     />
                     <div className="mt-5 flex items-baseline justify-between gap-4">
-                      <h2 className="heading-gold-deep display-4 flex items-center gap-2.5 transition-opacity duration-300 group-hover:opacity-70">
+                      <h2 className="heading-yellow display-4 flex items-center gap-2.5 transition-opacity duration-300 group-hover:opacity-70">
                         {settings.showIcons && resolveIcon(sector.icon, sector.slug) ? (
                           <Icon
                             name={resolveIcon(sector.icon, sector.slug)!}
-                            className="size-5 text-gold-dim"
+                            className="size-5 text-yellow"
                           />
                         ) : null}
                         {sector.name}
@@ -138,7 +138,7 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
                       {settings.showIcons && resolveIcon(sector.icon, sector.slug) ? (
                         <Icon
                           name={resolveIcon(sector.icon, sector.slug)!}
-                          className="size-5 text-gold-dim"
+                          className="size-5 text-yellow"
                         />
                       ) : null}
                       {sector.name}
