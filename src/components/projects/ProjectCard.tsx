@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { MapPin } from 'lucide-react';
 import { SmartImage } from '@/components/ui/SmartImage';
 import type { ProjectCard as ProjectCardData } from '@/lib/content/projects';
 import { cn } from '@/lib/utils';
@@ -17,84 +16,60 @@ const RATIOS = {
 export type ProjectCardRatio = keyof typeof RATIOS;
 
 /**
- * Editorial project tile: image, then a meta line and title beneath it.
- * The whole card is one link, with the image scaling gently on hover.
+ * A project tile: the photograph carries the card, with the name and place
+ * laid over its foot.
+ *
+ * Caption under the image would push the titles onto different lines whenever
+ * a name runs long, so a row of tiles never lines up. Laying the text over the
+ * image keeps every card the same height, and the gradient behind it is dark
+ * enough that the name stays legible over any photograph.
  */
-export async function ProjectCard({
+export function ProjectCard({
   project,
   ratio = 'landscape',
   sizes,
-  titleClass = 'display-4',
   priority = false,
   className,
 }: {
   project: ProjectCardData;
   ratio?: ProjectCardRatio;
   sizes: string;
-  titleClass?: string;
   priority?: boolean;
   className?: string;
 }) {
-  const t = await getTranslations();
-
-  const meta = [
-    project.location,
-    project.sector,
-    project.year ? String(project.year) : null,
-    project.status ? t(`projectStatus.${project.status}`) : null,
-  ].filter(Boolean) as string[];
-
   return (
-    <Link href={project.href} className={cn('group block', className)}>
-      <div className={cn('relative overflow-hidden bg-paper-soft', RATIOS[ratio])}>
-        <SmartImage
-          image={project.image}
-          sizes={sizes}
-          priority={priority}
-          placeholderLabel={project.title}
-          className="h-full w-full"
-          imageClassName="transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-        />
+    <Link
+      href={project.href}
+      className={cn(
+        'group relative block overflow-hidden rounded-[var(--radius-card)] border border-night-line bg-night-raised',
+        RATIOS[ratio],
+        className,
+      )}
+    >
+      <SmartImage
+        image={project.image}
+        sizes={sizes}
+        priority={priority}
+        placeholderLabel={project.title}
+        placeholderTone="dark"
+        className="h-full w-full"
+        imageClassName="transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+      />
 
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-ink/0 transition-colors duration-700 group-hover:bg-ink/15"
-        />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-t from-night via-night/45 to-transparent"
+      />
 
-        <span
-          aria-hidden="true"
-          className="absolute bottom-0 end-0 flex size-12 translate-y-full items-center justify-center bg-paper text-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
-        >
-          <ArrowRight className="size-4 rtl:-scale-x-100" />
-        </span>
-      </div>
-
-      <div className="mt-5">
-        {meta.length > 0 ? (
-          <p className="eyebrow frame-yellow-sm flex-wrap gap-x-3 gap-y-1">
-            {meta.map((item, index) => (
-              <span key={`${item}-${index}`} className="flex items-center gap-3">
-                {index > 0 ? (
-                  <span aria-hidden="true" className="inline-block size-1 bg-current opacity-40" />
-                ) : null}
-                {item}
-              </span>
-            ))}
-          </p>
-        ) : null}
-
-        <h3
-          className={cn(
-            'frame-yellow mt-3 text-balance transition-opacity duration-300 group-hover:opacity-70',
-            titleClass,
-          )}
-        >
+      <div className="absolute inset-x-0 bottom-0 p-5">
+        <h3 className="text-balance text-base font-semibold leading-snug text-paper">
           {project.title}
         </h3>
 
-        {project.summary ? (
-          <p className="mt-3 max-w-prose text-sm leading-relaxed text-ink-muted">
-            {project.summary}
+        {project.location ? (
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-paper/70">
+            <MapPin className="size-3.5 shrink-0 text-gold" aria-hidden="true" />
+            {project.location}
           </p>
         ) : null}
       </div>

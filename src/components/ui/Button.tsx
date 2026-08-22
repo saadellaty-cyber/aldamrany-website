@@ -4,13 +4,22 @@ import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
- * Squared, high-contrast buttons — no gradients or heavy rounding, in keeping
- * with the industrial design language.
+ * Softly rounded buttons. gold is the house call to action; the outline pair
+ * are for the secondary choice beside it, one for each ground.
  */
-export type ButtonVariant = 'solid' | 'inverse' | 'outline' | 'outlineLight' | 'ghost';
+export type ButtonVariant =
+  | 'gold'
+  | 'outlineGold'
+  | 'solid'
+  | 'inverse'
+  | 'outline'
+  | 'outlineLight'
+  | 'ghost';
 export type ButtonSize = 'md' | 'lg';
 
 const VARIANTS: Record<ButtonVariant, string> = {
+  gold: 'bg-gold text-night hover:bg-gold-soft',
+  outlineGold: 'border border-gold/50 text-gold hover:border-gold hover:bg-gold hover:text-night',
   solid: 'bg-ink text-paper hover:bg-ink-raised',
   inverse: 'bg-paper text-ink hover:bg-white',
   outline: 'border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-paper',
@@ -25,7 +34,7 @@ const SIZES: Record<ButtonSize, string> = {
 
 function buttonClasses(variant: ButtonVariant, size: ButtonSize, className?: string) {
   return cn(
-    'group inline-flex select-none items-center justify-center gap-2.5 rounded-none',
+    'group inline-flex select-none items-center justify-center gap-2.5 rounded-[var(--radius-control)]',
     'font-medium tracking-tight transition-colors duration-300',
     'disabled:pointer-events-none disabled:opacity-50',
     VARIANTS[variant],

@@ -49,7 +49,7 @@ export function PageHero({
       <div className="container-page relative z-10 pb-14 pt-32 md:pb-20 md:pt-40">
         {eyebrow ? (
           <Reveal>
-            <p className="eyebrow heading-yellow flex items-center gap-3">
+            <p className="eyebrow text-gold flex items-center gap-3">
               <span className="inline-block h-px w-8 bg-current opacity-60" aria-hidden="true" />
               {eyebrow}
             </p>
@@ -57,7 +57,7 @@ export function PageHero({
         ) : null}
 
         {title ? (
-          <h1 className="heading-yellow display-2 mt-6 max-w-[20ch] text-balance">
+          <h1 className="mt-6 max-w-[20ch] text-balance text-3xl font-semibold leading-[1.3] text-paper md:text-4xl">
             <RevealHeading>{title}</RevealHeading>
           </h1>
         ) : null}

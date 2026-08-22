@@ -27,11 +27,11 @@ export function RiskProcess({ steps }: { steps: RiskStep[] }) {
       {/* Track */}
       <span
         aria-hidden="true"
-        className="absolute inset-y-0 start-[1.4375rem] w-px bg-current opacity-15 md:start-[2.4375rem]"
+        className="absolute inset-y-0 start-[1.4375rem] w-px bg-paper/12 md:start-[1.9375rem]"
       />
       <motion.span
         aria-hidden="true"
-        className="absolute inset-y-0 start-[1.4375rem] w-px origin-top bg-current md:start-[2.4375rem]"
+        className="absolute inset-y-0 start-[1.4375rem] w-px origin-top bg-gold md:start-[1.9375rem]"
         style={reduceMotion ? { scaleY: 1 } : { scaleY }}
       />
 
@@ -45,14 +45,16 @@ export function RiskProcess({ steps }: { steps: RiskStep[] }) {
           viewport={{ once: true, margin: '-12% 0px' }}
           transition={{ duration: 0.7, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="relative z-10 flex size-12 shrink-0 items-center justify-center border border-current/25 bg-[var(--step-bg,var(--color-paper))] md:size-20">
-            <span className="latin-nums text-sm font-medium md:text-lg">{step.step}</span>
+          <span className="relative z-10 flex size-12 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-night-raised text-gold md:size-16">
+            <span className="latin-nums text-sm font-semibold md:text-base">{step.step}</span>
           </span>
 
-          <div className="pt-3 md:pt-6">
-            <h3 className="display-4 text-balance">{step.title}</h3>
+          <div className="pt-2 md:pt-4">
+            <h3 className="text-balance text-lg font-semibold tracking-tight text-paper md:text-xl">
+              {step.title}
+            </h3>
             {step.description.length > 0 ? (
-              <div className="prose-editorial mt-4 max-w-xl text-sm opacity-70">
+              <div className="prose-editorial mt-3 max-w-xl text-sm leading-[2] text-paper/60">
                 {step.description.map((paragraph, paragraphIndex) => (
                   <p key={paragraphIndex}>{paragraph}</p>
                 ))}

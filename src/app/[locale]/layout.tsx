@@ -8,6 +8,7 @@ import type { ReactNode } from 'react';
 import { SiteHeader } from '@/components/site/SiteHeader';
 import { SiteFooter } from '@/components/site/SiteFooter';
 import { WhatsAppButton } from '@/components/site/WhatsAppButton';
+import { BackToTop } from '@/components/site/BackToTop';
 import { MaintenanceScreen } from '@/components/site/MaintenanceScreen';
 import {
   brandAssets,
@@ -90,7 +91,7 @@ export default async function LocaleLayout({
           <meta name="google-site-verification" content={settings.googleVerification} />
         ) : null}
       </head>
-      <body className="min-h-dvh bg-paper text-ink antialiased">
+      <body className="min-h-dvh bg-night text-paper antialiased">
         <NextIntlClientProvider messages={messages} locale={locale}>
           {maintenance ? (
             <MaintenanceScreen locale={locale} />
@@ -118,6 +119,8 @@ export default async function LocaleLayout({
               {contact.whatsappFloating && contact.whatsappHref ? (
                 <WhatsAppButton href={contact.whatsappHref} />
               ) : null}
+
+              <BackToTop />
             </>
           )}
         </NextIntlClientProvider>

@@ -92,7 +92,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {vision ? (
               <div>
                 <Reveal>
-                  <p className="eyebrow frame-yellow-sm">
+                  <p className="eyebrow text-gold">
                     {locale === 'ar' ? 'رؤيتنا' : 'Our Vision'}
                   </p>
                 </Reveal>
@@ -116,7 +116,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {mission ? (
               <div>
                 <Reveal>
-                  <p className="eyebrow frame-yellow-sm">
+                  <p className="eyebrow text-gold">
                     {mission.title ?? (locale === 'ar' ? 'رسالتنا' : 'Our Mission')}
                   </p>
                 </Reveal>
@@ -137,10 +137,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       {/* Values */}
       {values && values.lines.length > 0 ? (
-        <section className="surface-dark section-y">
+        <section className="section-y">
           <div className="container-page">
-            <SectionHeader tone="light-text" eyebrow={values.title} />
-            <ul className="mt-12 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            <SectionHeader eyebrow={values.title} />
+            <ul className="mt-12 grid gap-px bg-night-line sm:grid-cols-2 lg:grid-cols-4">
               {values.lines.map((value, index) => (
                 <li key={value} className="bg-ink p-8">
                   <Reveal delay={index * 0.07}>
@@ -171,7 +171,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       {/* Capabilities */}
       {capabilities.length > 0 ? (
-        <section className="section-y bg-paper-soft">
+        <section className="section-y">
           <div className="container-page">
             <SectionHeader
               eyebrow={locale === 'ar' ? 'قدراتنا' : 'Capabilities'}
@@ -201,7 +201,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             {scope ? (
               <div className="lg:col-span-6">
                 <Reveal>
-                  <p className="eyebrow frame-yellow-sm">
+                  <p className="eyebrow text-gold">
                     {scope.title}
                   </p>
                 </Reveal>

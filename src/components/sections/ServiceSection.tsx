@@ -28,7 +28,7 @@ export function ServiceBlocks({
             key={service.id}
             id={service.slug}
             className={cn(
-              'group grid scroll-mt-24 items-center gap-8 border-t border-line py-12 lg:grid-cols-12 lg:gap-14 lg:py-16',
+              'group grid scroll-mt-24 items-center gap-8 border-t border-night-line py-12 lg:grid-cols-12 lg:gap-14 lg:py-16',
               index === 0 && 'border-t-0 pt-0',
             )}
           >
@@ -49,11 +49,11 @@ export function ServiceBlocks({
 
             <div className={cn('lg:col-span-6', reversed && 'lg:order-1')}>
               <Reveal>
-                <span className="flex items-center gap-3 text-ink-muted">
+                <span className="flex items-center gap-3 text-paper/55">
                   {showIcons && resolveIcon(service.icon, service.slug) ? (
                     <Icon
                       name={resolveIcon(service.icon, service.slug)!}
-                      className="size-7 text-yellow"
+                      className="size-7 text-gold"
                     />
                   ) : null}
                   <span className="latin-nums text-sm font-medium tracking-[0.2em]">
@@ -62,13 +62,13 @@ export function ServiceBlocks({
                 </span>
               </Reveal>
 
-              <h3 className="frame-yellow display-3 mt-5 text-balance">
+              <h3 className="mt-5 text-balance text-2xl font-semibold tracking-tight text-paper">
                 <RevealHeading>{service.title}</RevealHeading>
               </h3>
 
               {service.description.length > 0 ? (
                 <Reveal delay={0.1}>
-                  <div className="prose-editorial mt-6 max-w-xl text-ink-muted">
+                  <div className="prose-editorial mt-6 max-w-xl text-paper/55">
                     {service.description.map((paragraph, paragraphIndex) => (
                       <p key={paragraphIndex}>{paragraph}</p>
                     ))}
@@ -97,16 +97,16 @@ export function ServiceList({
   if (services.length === 0) return null;
 
   return (
-    <ul className="mt-14 border-t border-line">
+    <ul className="mt-14 border-t border-night-line">
       {services.map((service, index) => (
-        <li key={service.id} className="border-b border-line">
+        <li key={service.id} className="border-b border-night-line">
           <Reveal delay={index * 0.05}>
             <div className="grid items-baseline gap-3 py-7 md:grid-cols-12 md:gap-8 md:py-9">
-              <span className="flex items-center gap-2.5 text-ink-muted md:col-span-1">
+              <span className="flex items-center gap-2.5 text-paper/55 md:col-span-1">
                 {showIcons && resolveIcon(service.icon, service.slug) ? (
                   <Icon
                     name={resolveIcon(service.icon, service.slug)!}
-                    className="size-5 text-yellow"
+                    className="size-5 text-gold"
                   />
                 ) : null}
                 <span className="latin-nums text-sm font-medium tracking-[0.2em]">
@@ -115,11 +115,11 @@ export function ServiceList({
               </span>
 
               <h3 className="display-4 text-balance md:col-span-5">
-                        <span className="frame-yellow">{service.title}</span>
+                        <span className="text-paper">{service.title}</span>
                       </h3>
 
               {service.description.length > 0 ? (
-                <p className="max-w-prose text-sm leading-relaxed text-ink-muted md:col-span-6">
+                <p className="max-w-prose text-sm leading-relaxed text-paper/55 md:col-span-6">
                   {service.description[0]}
                 </p>
               ) : null}

@@ -120,7 +120,7 @@ export default async function ProjectDetailPage({ params, searchParams }: PagePr
                   {facts.map((fact) => (
                     <Reveal key={fact.label}>
                       <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-line py-4">
-                        <dt className="eyebrow frame-yellow-sm">{fact.label}</dt>
+                        <dt className="eyebrow text-gold">{fact.label}</dt>
                         <dd className="text-sm font-medium">{fact.value}</dd>
                       </div>
                     </Reveal>
@@ -147,7 +147,7 @@ export default async function ProjectDetailPage({ params, searchParams }: PagePr
               {project.description.length > 0 ? (
                 <>
                   <Reveal>
-                    <h2 className="eyebrow frame-yellow-sm">{t('projects.overview')}</h2>
+                    <h2 className="eyebrow text-gold">{t('projects.overview')}</h2>
                   </Reveal>
                   <Reveal delay={0.08}>
                     <div className="prose-editorial lead mt-6 max-w-2xl">
@@ -166,7 +166,7 @@ export default async function ProjectDetailPage({ params, searchParams }: PagePr
               {project.scope.length > 0 ? (
                 <div className="mt-14">
                   <Reveal>
-                    <h2 className="eyebrow frame-yellow-sm">{t('projects.scope')}</h2>
+                    <h2 className="eyebrow text-gold">{t('projects.scope')}</h2>
                   </Reveal>
                   <Reveal delay={0.08}>
                     <div className="prose-editorial mt-6 max-w-2xl text-ink-muted">
@@ -184,7 +184,7 @@ export default async function ProjectDetailPage({ params, searchParams }: PagePr
 
       {/* Gallery */}
       {project.gallery.length > 0 ? (
-        <section className="section-y bg-paper-soft pt-0 md:pt-0 xl:pt-0">
+        <section className="section-y pt-0 md:pt-0 xl:pt-0">
           <div className="container-page pt-16 md:pt-20">
             <SectionHeader eyebrow={t('projects.gallery')} />
             <div className="mt-10">

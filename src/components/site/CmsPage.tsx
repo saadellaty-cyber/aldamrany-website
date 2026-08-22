@@ -45,7 +45,7 @@ export async function CmsPage({ pageKey, locale }: { pageKey: string; locale: Lo
                 ) : null}
                 {block.body.length > 0 ? (
                   <Reveal delay={0.05}>
-                    <div className="prose-editorial mt-4 text-ink-muted">
+                    <div className="prose-editorial mt-4 text-paper/55">
                       {block.body.map((paragraph, index) => (
                         <p key={index}>{paragraph}</p>
                       ))}

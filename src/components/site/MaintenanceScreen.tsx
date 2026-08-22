@@ -22,7 +22,7 @@ export async function MaintenanceScreen({ locale }: { locale: Locale }) {
       <span className="text-lg font-semibold tracking-[0.18em]">EL DAMARANY</span>
       <span className="mt-2 text-[0.5625rem] tracking-[0.3em] text-paper/50">SINCE 1978</span>
 
-      <h1 className="heading-yellow display-3 mt-10 max-w-2xl text-balance">{heading}</h1>
+      <h1 className="mt-10 max-w-2xl text-balance text-2xl font-semibold text-paper md:text-3xl">{heading}</h1>
       <p className="lead mt-5 max-w-md text-paper/60">{body}</p>
 
       {contact.emailHref && contact.email ? (

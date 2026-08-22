@@ -3,9 +3,14 @@ import { Reveal, RevealHeading } from '@/components/motion/Reveal';
 import { cn } from '@/lib/utils';
 
 /**
- * Section heading: a small tracked eyebrow above a large display title.
- * Every part is optional — nothing is rendered for content the CMS has not
- * been given.
+ * A left-aligned section heading: a gold eyebrow above a large title, with an
+ * optional action pinned to the far end.
+ *
+ * Used where a section needs a heading and a link on the same line. Sections
+ * that want their heading centred use `SectionTitle` instead.
+ *
+ * The site sits on a near-black ground, so `dark` here means the ground, and
+ * `light` is for the cream panels lifted out of it.
  */
 export function SectionHeader({
   eyebrow,
@@ -13,9 +18,9 @@ export function SectionHeader({
   description,
   action,
   align = 'start',
-  titleClass = 'display-3',
+  titleClass = 'text-2xl font-semibold tracking-tight md:text-3xl',
   className,
-  tone = 'dark-text',
+  tone = 'dark',
 }: {
   eyebrow?: string | null;
   title?: string | null;
@@ -24,16 +29,13 @@ export function SectionHeader({
   align?: 'start' | 'center';
   titleClass?: string;
   className?: string;
-  tone?: 'dark-text' | 'light-text';
+  /** The ground it sits on. */
+  tone?: 'dark' | 'light';
 }) {
   if (!eyebrow && !title && !description && !action) return null;
 
-  const muted = tone === 'light-text' ? 'text-paper/55' : 'text-ink-muted';
-
-  // On the dark bands the yellow carries itself. On the pale grounds it does
-  // not, so the accent moves to a hollow frame around charcoal text — and the
-  // leading rule is dropped, since a frame already separates the label.
-  const onDark = tone === 'light-text';
+  const onDark = tone === 'dark';
+  const muted = onDark ? 'text-paper/60' : 'text-ink/65';
 
   return (
     <div
@@ -45,27 +47,27 @@ export function SectionHeader({
     >
       <div className={cn('max-w-3xl', align === 'center' && 'mx-auto')}>
         {eyebrow ? (
-          <Reveal className="mb-5">
-            {onDark ? (
-              <p className="eyebrow heading-yellow flex items-center gap-3">
-                <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
+          <Reveal className="mb-4">
+            <p className="flex items-center gap-3">
+              <span className="gold-rule" aria-hidden="true" />
+              <span className={cn('eyebrow', onDark ? 'text-gold' : 'text-gold-calm')}>
                 {eyebrow}
-              </p>
-            ) : (
-              <p className="eyebrow frame-yellow-sm">{eyebrow}</p>
-            )}
+              </span>
+            </p>
           </Reveal>
         ) : null}
 
         {title ? (
-          <h2 className={cn(titleClass, 'text-balance', onDark ? 'heading-yellow' : 'frame-yellow')}>
+          <h2 className={cn(titleClass, 'text-balance', onDark ? 'text-paper' : 'text-ink')}>
             <RevealHeading>{title}</RevealHeading>
           </h2>
         ) : null}
 
         {description ? (
           <Reveal delay={0.1}>
-            <div className={cn('lead mt-6 max-w-2xl', muted)}>{description}</div>
+            <div className={cn('mt-5 max-w-2xl text-sm leading-[2] md:text-base', muted)}>
+              {description}
+            </div>
           </Reveal>
         ) : null}
       </div>

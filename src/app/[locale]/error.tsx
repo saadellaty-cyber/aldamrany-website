@@ -23,7 +23,7 @@ export default function LocaleError({
 
   return (
     <section className="surface-dark flex min-h-dvh flex-col items-center justify-center px-6 text-center">
-      <h1 className="heading-yellow display-3 max-w-xl text-balance">{t('error.title')}</h1>
+      <h1 className="max-w-xl text-balance text-2xl font-semibold text-paper md:text-3xl">{t('error.title')}</h1>
       <p className="lead mt-5 max-w-md text-paper/60">{t('error.description')}</p>
 
       <div className="mt-10">

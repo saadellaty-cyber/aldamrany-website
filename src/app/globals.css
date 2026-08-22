@@ -3,9 +3,12 @@
 /* ---------------------------------------------------------------------------
    EL DAMARANY design system
 
-   An industrial palette: asphalt blacks, concrete greys and a paper-white
-   ground, with a single restrained brass accent reserved for rules, indices
-   and small marks. No gradients, no glass, minimal rounding.
+   A dark house: asphalt-black grounds carrying rounded panels, with light
+   cream panels lifted out of them for the passages that want air. A single
+   warm gold runs through rules, icons, buttons and small labels.
+
+   The dark tokens below drive the public site. The dashboard keeps the older
+   ink/paper pair, which is why both sets live here.
 --------------------------------------------------------------------------- */
 
 @theme {
@@ -26,17 +29,33 @@
   --color-brass: #b08d57;
   --color-brass-dim: #8c6f44;
 
-  /* The road yellow — the colour of highway markings and site plant, and the
-     accent the whole site is built around. One value on every ground, by the
-     owner's decision: a darker variant for the paper sections was offered and
-     turned down, so headings and eyebrows there sit at roughly 1.6:1. Keep the
-     yellow to headings and short labels; body text stays ink. */
+  /* --- The dark house -----------------------------------------------------
+     Three steps of near-black: the page ground, the panels that sit on it, and
+     the insets inside those panels. Kept close together so the separation
+     comes from the gold hairlines rather than from heavy contrast. */
+  --color-night: #0d0f13;
+  --color-night-soft: #14171d;
+  --color-night-raised: #1b1f27;
+  --color-night-line: #262b34;
+
+  /* The gold. Warm and slightly muted — it has to sit on near-black without
+     glaring and on cream without disappearing, which a brighter yellow cannot
+     do. Reserved for rules, icons, buttons and short labels. */
+  --color-gold: #c8974a;
+  --color-gold-soft: #ddb066;
+  --color-gold-dim: #9a7033;
+
+  /* The road yellow, kept for the places that want the literal colour of
+     highway paint rather than the house gold. */
   --color-yellow: #ffd801;
 
   /* The same yellow taken down to a calm gold, for the cream sections where the
-     bright value is too loud against a warm ground. Used for the capability
-     band headings, their icons and the hairlines between them. */
+     bright value is too loud against a warm ground. */
   --color-gold-calm: #a8801a;
+
+  --radius-panel: 1.25rem;
+  --radius-card: 0.875rem;
+  --radius-control: 0.5rem;
 
   --color-danger: #a33a2a;
   --color-success: #3f6b4a;
@@ -231,6 +250,41 @@
   padding: 0.5em 0.9em;
 }
 
+/* --- Panels --------------------------------------------------------------
+   The site is built from rounded panels lifted off a near-black ground: dark
+   ones that recede, and cream ones for the passages that want air. */
+
+@utility panel-dark {
+  background-color: var(--color-night-soft);
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-panel);
+  color: var(--color-paper);
+}
+
+@utility panel-light {
+  background-color: #fdfcfa;
+  border-radius: var(--radius-panel);
+  color: var(--color-ink);
+}
+
+/* A card inside a panel: one step lighter than the panel it sits on. */
+@utility card-dark {
+  background-color: var(--color-night-raised);
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-card);
+  color: var(--color-paper);
+}
+
+/* The rule that flanks a centred section title, and the short one that leads
+   an eyebrow. Drawn with a pseudo-element so the markup stays a plain word. */
+@utility gold-rule {
+  display: inline-block;
+  height: 1px;
+  width: 2.5rem;
+  background-color: var(--color-gold);
+  opacity: 0.85;
+}
+
 /* Numerals stay Latin inside Arabic pages where the design calls for it. */
 @utility latin-nums {
   font-family: var(--font-sans);
@@ -277,9 +331,9 @@
 /* --- Surfaces ------------------------------------------------------------ */
 
 @utility surface-dark {
-  background-color: var(--color-ink);
+  background-color: var(--color-night);
   color: var(--color-paper);
-  border-color: var(--color-line-dark);
+  border-color: var(--color-night-line);
 }
 
 @utility hairline {
@@ -331,6 +385,15 @@
 }
 
 /* --- Scrollbars (admin tables and galleries) ----------------------------- */
+
+/* Carousels scroll natively but have their own arrows, so the bar is noise. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
 @utility scrollbar-thin {
   scrollbar-width: thin;

@@ -72,7 +72,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
           {/* Navigation */}
           {nav.length > 0 ? (
             <nav className="lg:col-span-2" aria-label={t('footer.navigation')}>
-              <h2 className="eyebrow heading-yellow">{t('footer.navigation')}</h2>
+              <h2 className="eyebrow text-gold">{t('footer.navigation')}</h2>
               <ul className="mt-6 space-y-3">
                 {nav.map((item) => (
                   <li key={item.id}>
@@ -91,7 +91,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
           {/* Services */}
           {services.length > 0 ? (
             <div className="lg:col-span-3">
-              <h2 className="eyebrow heading-yellow">{t('footer.services')}</h2>
+              <h2 className="eyebrow text-gold">{t('footer.services')}</h2>
               <ul className="mt-6 space-y-3">
                 {services.map((service) => (
                   <li key={service.id}>
@@ -109,11 +109,11 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
 
           {/* Contact */}
           <div className="lg:col-span-3">
-            <h2 className="eyebrow heading-yellow">{t('footer.contact')}</h2>
+            <h2 className="eyebrow text-gold">{t('footer.contact')}</h2>
             <ul className="mt-6 space-y-4 text-sm text-paper/75">
               {contact.headOffice ? (
                 <li className="flex gap-3">
-                  <MapPin className="mt-0.5 size-4 shrink-0 text-paper/40" aria-hidden="true" />
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-gold/70" aria-hidden="true" />
                   <span className="leading-relaxed">
                     <span className="block text-paper/40">{t('footer.headOffice')}</span>
                     {contact.headOffice}
@@ -123,7 +123,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
 
               {contact.phoneHref && contact.phone ? (
                 <li className="flex gap-3">
-                  <Phone className="mt-0.5 size-4 shrink-0 text-paper/40" aria-hidden="true" />
+                  <Phone className="mt-0.5 size-4 shrink-0 text-gold/70" aria-hidden="true" />
                   <a
                     href={contact.phoneHref}
                     dir="ltr"
@@ -136,7 +136,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
 
               {contact.emailHref && contact.email ? (
                 <li className="flex gap-3">
-                  <Mail className="mt-0.5 size-4 shrink-0 text-paper/40" aria-hidden="true" />
+                  <Mail className="mt-0.5 size-4 shrink-0 text-gold/70" aria-hidden="true" />
                   <a
                     href={contact.emailHref}
                     className="break-all transition-colors duration-200 hover:text-paper"
@@ -148,7 +148,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
 
               {contact.whatsappHref ? (
                 <li className="flex gap-3">
-                  <WhatsAppInlineIcon className="mt-0.5 size-4 shrink-0 text-paper/40" />
+                  <WhatsAppInlineIcon className="mt-0.5 size-4 shrink-0 text-gold/70" />
                   <a
                     href={contact.whatsappHref}
                     target="_blank"

@@ -1,84 +1,94 @@
+import { Check } from 'lucide-react';
 import { Reveal } from '@/components/motion/Reveal';
 import { Icon } from '@/components/ui/Icon';
+import { SmartImage } from '@/components/ui/SmartImage';
 import { resolveIcon } from '@/lib/icons';
 import type { QualityItem } from '@/lib/content/collections';
-import { cn } from '@/lib/utils';
+import type { ImageRef } from '@/lib/content/media';
 
 /**
- * Quality and safety themes shown as two hairline-separated columns.
- * Themes without body copy still read as intentional — the title carries them.
+ * Quality and safety, as a matched pair of panels.
+ *
+ * The two are separate commitments and are read as a comparison, so they get
+ * one shape each rather than two columns of a shared list. Each panel carries
+ * its own photograph behind a heavy scrim — the site work is the evidence for
+ * the claim, and putting it behind the text says so without a caption.
  */
 export function QualityThemes({
   items,
   labels,
-  tone = 'light',
   showIcons = true,
+  images,
 }: {
   items: QualityItem[];
   labels: { quality: string; safety: string };
-  tone?: 'light' | 'dark';
   showIcons?: boolean;
+  /** Optional backdrop per panel. */
+  images?: { quality?: ImageRef | null; safety?: ImageRef | null };
 }) {
   const quality = items.filter((item) => item.category === 'QUALITY');
   const safety = items.filter((item) => item.category === 'SAFETY');
 
   if (quality.length === 0 && safety.length === 0) return null;
 
-  const muted = tone === 'dark' ? 'text-paper/50' : 'text-ink-muted';
-  // Yellow reads on the dark band; on the paper ground the accent moves to a
-  // hollow frame around charcoal text instead.
-  const onDark = tone === 'dark';
-
-  const column = (title: string, entries: QualityItem[]) => {
+  const panel = (title: string, entries: QualityItem[], image: ImageRef | null | undefined) => {
     if (entries.length === 0) return null;
 
-    return (
-      <div>
-        <Reveal className="pb-6">
-          {onDark ? (
-            <h3 className="eyebrow heading-yellow flex items-center gap-3">
-              <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
-              {title}
-            </h3>
-          ) : (
-            <h3 className="eyebrow frame-yellow-sm">{title}</h3>
-          )}
-        </Reveal>
+    // The lead theme's prose introduces the panel; the rest become the list.
+    const [lead, ...rest] = entries;
+    const listed = rest.length > 0 ? rest : entries;
 
-        <ul className="border-t border-current/15">
-          {entries.map((item, index) => (
-            <li key={item.id} className="border-b border-current/15">
-              <Reveal delay={index * 0.05}>
-                <div className="py-5">
-                  <h4 className="flex items-center gap-3 text-lg font-medium tracking-tight">
-                    {showIcons && resolveIcon(item.icon, item.slug) ? (
-                      <Icon
-                        name={resolveIcon(item.icon, item.slug)!}
-                        className={cn('size-5', onDark ? 'heading-yellow' : 'heading-gold-calm')}
-                      />
-                    ) : null}
-                    {item.title}
-                  </h4>
-                  {item.body.length > 0 ? (
-                    <div className={cn('prose-editorial mt-3 text-sm', muted)}>
-                      {item.body.map((paragraph, paragraphIndex) => (
-                        <p key={paragraphIndex}>{paragraph}</p>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-      </div>
+    return (
+      <Reveal className="h-full">
+        <article className="panel-dark relative h-full overflow-hidden">
+          {image ? (
+            <>
+              <div aria-hidden="true" className="absolute inset-0">
+                <SmartImage
+                  image={image}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="h-full w-full"
+                  placeholderTone="dark"
+                  placeholderBare
+                />
+              </div>
+              <div aria-hidden="true" className="absolute inset-0 bg-night/88" />
+            </>
+          ) : null}
+
+          <div className="relative p-6 md:p-8">
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-lg font-semibold tracking-tight text-gold">{title}</h3>
+              {showIcons && resolveIcon(lead.icon, lead.slug) ? (
+                <Icon
+                  name={resolveIcon(lead.icon, lead.slug)!}
+                  className="size-8 shrink-0 text-gold/70"
+                />
+              ) : null}
+            </div>
+
+            {lead.body.length > 0 ? (
+              <p className="mt-4 text-sm leading-[2] text-paper/65">{lead.body[0]}</p>
+            ) : null}
+
+            <ul className="mt-6 space-y-3">
+              {listed.map((item) => (
+                <li key={item.id} className="flex items-start gap-3 text-sm text-paper/80">
+                  <Check className="mt-1 size-3.5 shrink-0 text-gold" aria-hidden="true" />
+                  <span>{item.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      </Reveal>
     );
   };
 
   return (
-    <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16">
-      {column(labels.quality, quality)}
-      {column(labels.safety, safety)}
+    <div className="grid gap-5 lg:grid-cols-2">
+      {panel(labels.safety, safety, images?.safety)}
+      {panel(labels.quality, quality, images?.quality)}
     </div>
   );
 }

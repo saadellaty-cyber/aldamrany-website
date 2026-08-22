@@ -71,8 +71,8 @@ export default async function CapabilitiesPage({
       />
 
       {capabilities.length > 0 ? (
-        <section className="section-y bg-paper-soft">
-          <div className="container-page">
+        <section className="bg-night px-5 py-10 md:px-10 md:py-14 xl:px-16">
+          <div className="panel-light mx-auto max-w-[96rem] px-6 py-10 md:px-10 md:py-12">
             <CapabilityBands
               capabilities={capabilities}
               locale={locale}

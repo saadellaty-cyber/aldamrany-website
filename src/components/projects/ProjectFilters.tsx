@@ -96,7 +96,7 @@ export function ProjectFilters({
 
   return (
     <div className={cn('transition-opacity duration-200', isPending && 'opacity-60')}>
-      <div className="flex flex-col gap-5 border-y border-line py-5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-5 border-y border-night-line py-5 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap items-center gap-3">
           {selects.map((select) => (
             <label key={select.key} className="relative">
@@ -107,7 +107,7 @@ export function ProjectFilters({
                 className={cn(
                   'h-10 cursor-pointer appearance-none border bg-transparent ps-3 pe-9 text-sm transition-colors',
                   'focus:outline-none focus-visible:border-ink',
-                  current(select.key) ? 'border-ink' : 'border-line hover:border-ink/40',
+                  current(select.key) ? 'border-gold text-gold' : 'border-night-line hover:border-gold/50',
                 )}
               >
                 <option value="">
@@ -132,7 +132,7 @@ export function ProjectFilters({
             <button
               type="button"
               onClick={() => startTransition(() => router.replace(pathname, { scroll: false }))}
-              className="inline-flex h-10 items-center gap-1.5 px-2 text-sm text-ink-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
+              className="inline-flex h-10 items-center gap-1.5 px-2 text-sm text-paper/55 underline-offset-4 transition-colors hover:text-gold hover:underline"
             >
               <X className="size-3.5" aria-hidden="true" />
               {t('projects.clearFilters')}
@@ -141,7 +141,7 @@ export function ProjectFilters({
         </div>
 
         <div className="flex items-center gap-4">
-          <p className="hidden text-sm text-ink-muted lg:block" aria-live="polite">
+          <p className="hidden text-sm text-paper/55 lg:block" aria-live="polite">
             {t('projects.resultsCount', { count: resultCount })}
           </p>
 
@@ -156,13 +156,13 @@ export function ProjectFilters({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t('projects.searchPlaceholder')}
-              className="h-10 w-full border border-line bg-transparent ps-9 pe-3 text-sm transition-colors placeholder:text-ink-muted/70 focus:border-ink focus:outline-none"
+              className="h-10 w-full border border-night-line bg-transparent ps-9 pe-3 text-sm transition-colors placeholder:text-paper/40 focus:border-gold focus:outline-none"
             />
           </label>
         </div>
       </div>
 
-      <p className="pt-4 text-sm text-ink-muted lg:hidden" aria-live="polite">
+      <p className="pt-4 text-sm text-paper/55 lg:hidden" aria-live="polite">
         {t('projects.resultsCount', { count: resultCount })}
       </p>
     </div>
