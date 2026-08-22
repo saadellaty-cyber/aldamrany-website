@@ -20,14 +20,18 @@ export function FeaturedProjects({
   if (projects.length === 0) return null;
 
   return (
-    <Carousel label={label} className="mt-12" itemClass="w-[16rem] shrink-0 snap-start md:w-[19rem]">
+    <Carousel
+      label={label}
+      className="mt-12"
+      itemClass="w-[13.5rem] shrink-0 snap-start md:w-[15.5rem]"
+    >
       {projects.map((project, index) => (
         <ProjectCard
           key={project.id}
           project={project}
           ratio="portrait"
           priority={index < 3}
-          sizes="(min-width: 768px) 19rem, 16rem"
+          sizes="(min-width: 768px) 15.5rem, 13.5rem"
         />
       ))}
     </Carousel>

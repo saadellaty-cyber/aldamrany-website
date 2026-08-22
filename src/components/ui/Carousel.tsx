@@ -20,7 +20,7 @@ export function Carousel({
   children,
   label,
   className,
-  itemClass = 'w-[17rem] shrink-0 snap-start md:w-[19rem]',
+  itemClass = 'w-[14.5rem] shrink-0 snap-start md:w-[16rem]',
 }: {
   children: ReactNode[];
   /** Names the row for screen readers, e.g. "Services". */

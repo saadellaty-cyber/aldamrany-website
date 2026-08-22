@@ -9,12 +9,12 @@ import { WhyUs } from '@/components/sections/WhyUs';
 import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
 import { QualityThemes } from '@/components/sections/QualityThemes';
 import { RiskProcess } from '@/components/sections/RiskProcess';
-import { CapabilityBands } from '@/components/sections/CapabilityBands';
 import { NewsList } from '@/components/sections/NewsList';
 import { PartnerStrip } from '@/components/sections/PartnerStrip';
 import { NewsletterForm } from '@/components/sections/NewsletterForm';
 import { ContactCTA } from '@/components/sections/ContactCTA';
 import { SectionTitle } from '@/components/ui/SectionTitle';
+import { IconGrid } from '@/components/ui/IconGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import {
   getCapabilities,
@@ -178,14 +178,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               tone="light"
               title={locale === 'ar' ? 'قدراتنا ومعداتنا' : 'Capabilities & Equipment'}
             />
-            <div className="mt-12">
-              <CapabilityBands
-                capabilities={capabilities}
-                locale={locale}
-                showIcons={settings.showIcons}
-                only={['RESOURCES', 'FIELDS']}
-              />
-            </div>
+            <IconGrid
+              items={capabilities.filter(
+                (item) => item.group === 'RESOURCES' || item.group === 'FIELDS',
+              )}
+              showIcons={settings.showIcons}
+              className="mt-12"
+            />
             {/* Filled rather than outlined: a gold rule on cream is too faint
                 to read as a control. */}
             <div className="mt-10 flex justify-center">
