@@ -17,6 +17,7 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { IconGrid } from '@/components/ui/IconGrid';
 import { ButtonLink } from '@/components/ui/Button';
 import {
+  getAdvantages,
   getCapabilities,
   getHomeSections,
   getQualitySections,
@@ -58,7 +59,20 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const locale: Locale = rawLocale;
   setRequestLocale(locale);
 
-  const [t, sections, stats, services, projects, capabilities, quality, risks, news, partners, settings] =
+  const [
+    t,
+    sections,
+    stats,
+    services,
+    projects,
+    capabilities,
+    advantages,
+    quality,
+    risks,
+    news,
+    partners,
+    settings,
+  ] =
     await Promise.all([
       getTranslations(),
       getHomeSections(locale),
@@ -66,6 +80,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       getServices(locale, { featuredOnly: true }),
       getFeaturedProjects(locale, 8),
       getCapabilities(locale),
+      getAdvantages(locale),
       getQualitySections(locale),
       getRiskItems(locale),
       getNews(locale, 4),
@@ -168,9 +183,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </section>
       ) : null}
 
-      {/* Capabilities & equipment — the resources and fields bands. The
-          experience band is held back for "why us" further down, so the two
-          sections never list the same thing twice. */}
+      {/* Capabilities & equipment — every capability in one grid. "Why us"
+          below has content of its own, so nothing has to be held back here. */}
       {capabilities.length > 0 ? (
         <section className="bg-night px-5 py-10 md:px-10 md:py-14 xl:px-16">
           <div className="panel-light mx-auto max-w-[96rem] px-6 py-12 md:px-10 md:py-14">
@@ -178,13 +192,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               tone="light"
               title={locale === 'ar' ? 'قدراتنا ومعداتنا' : 'Capabilities & Equipment'}
             />
-            <IconGrid
-              items={capabilities.filter(
-                (item) => item.group === 'RESOURCES' || item.group === 'FIELDS',
-              )}
-              showIcons={settings.showIcons}
-              className="mt-12"
-            />
+            <IconGrid items={capabilities} showIcons={settings.showIcons} className="mt-12" />
             {/* Filled rather than outlined: a gold rule on cream is too faint
                 to read as a control. */}
             <div className="mt-10 flex justify-center">
@@ -226,7 +234,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* Why us — the experience band, kept back from the capabilities section
           above so the page builds to the case rather than opening with it. */}
       <WhyUs
-        capabilities={capabilities}
+        reasons={advantages}
         showIcons={settings.showIcons}
         title={locale === 'ar' ? 'لماذا الضمراني؟' : 'Why EL DAMARANY?'}
       />

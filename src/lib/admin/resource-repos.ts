@@ -86,6 +86,85 @@ function dateInputValue(value: Date): string {
 }
 
 export const RESOURCE_REPOS: Record<string, ResourceRepo> = {
+  /* --- Why us ------------------------------------------------------------ */
+  advantages: {
+    label: (formData) => text(formData, 'titleEn') || text(formData, 'titleAr'),
+    async list() {
+      const rows = await prisma.advantage.findMany({ orderBy: { sortOrder: 'asc' } });
+      return rows.map((row) => ({
+        id: row.id,
+        title: row.titleEn || row.titleAr,
+        subtitle: row.titleAr,
+        status: row.status,
+        sortOrder: row.sortOrder,
+        values: {
+          titleAr: row.titleAr,
+          titleEn: row.titleEn,
+          descriptionAr: row.descriptionAr,
+          descriptionEn: row.descriptionEn,
+          slug: row.slug,
+          icon: row.icon,
+        },
+        images: {},
+      }));
+    },
+    async create(formData) {
+      const title = pair(formData, 'title');
+      const description = pair(formData, 'description');
+      const count = await prisma.advantage.count();
+
+      const created = await prisma.advantage.create({
+        data: {
+          titleAr: title.ar ?? '',
+          titleEn: title.en ?? '',
+          descriptionAr: description.ar,
+          descriptionEn: description.en,
+          slug: await ensureSlug(formData, title.en ?? title.ar ?? 'reason', async (slug) =>
+            Boolean(await prisma.advantage.findUnique({ where: { slug }, select: { id: true } })),
+          ),
+          icon: optionalText(formData, 'icon'),
+          status: status(formData),
+          sortOrder: count,
+        },
+      });
+      return created.id;
+    },
+    async update(id, formData) {
+      const title = pair(formData, 'title');
+      const description = pair(formData, 'description');
+
+      await prisma.advantage.update({
+        where: { id },
+        data: {
+          titleAr: title.ar ?? '',
+          titleEn: title.en ?? '',
+          descriptionAr: description.ar,
+          descriptionEn: description.en,
+          slug: await ensureSlug(formData, title.en ?? title.ar ?? 'reason', async (slug) =>
+            Boolean(
+              await prisma.advantage.findFirst({
+                where: { slug, NOT: { id } },
+                select: { id: true },
+              }),
+            ),
+          ),
+          icon: optionalText(formData, 'icon'),
+          status: status(formData),
+        },
+      });
+    },
+    async remove(id) {
+      await prisma.advantage.delete({ where: { id } });
+    },
+    async reorder(ids) {
+      await prisma.$transaction(
+        ids.map((id, index) =>
+          prisma.advantage.update({ where: { id }, data: { sortOrder: index } }),
+        ),
+      );
+    },
+  },
+
   /* --- News -------------------------------------------------------------- */
   news: {
     label: (formData) => text(formData, 'titleEn') || text(formData, 'titleAr'),

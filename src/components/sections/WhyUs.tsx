@@ -1,32 +1,27 @@
 import { IconGrid } from '@/components/ui/IconGrid';
 import { SectionTitle } from '@/components/ui/SectionTitle';
-import type { CapabilityItem } from '@/lib/content/collections';
-import type { CapabilityGroup } from '@/generated/prisma/enums';
+import type { AdvantageItem } from '@/lib/content/collections';
 
 /**
  * "Why us" — the case for the company, on a cream panel.
  *
- * The content is the experience band of the capabilities, not a separate list
- * of claims: what the company brings *is* the answer, and keeping it there
- * means the owner maintains it once. The resources and fields bands belong to
- * the capabilities section further up the page, so the two never repeat each
- * other — and a list of disciplines answers "what", not "why".
+ * Its own content rather than a slice of the capabilities. Drawing both bands
+ * from one table meant they competed: whatever this section took, the
+ * capabilities grid lost, which is what left that grid missing items.
+ *
+ * Stays off the page until at least one reason is published.
  */
 export function WhyUs({
-  capabilities,
+  reasons,
   title,
   description,
   showIcons,
-  only = ['EXPERIENCE'],
 }: {
-  capabilities: CapabilityItem[];
+  reasons: AdvantageItem[];
   title: string;
   description?: string | null;
   showIcons: boolean;
-  /** Which capability bands answer "why". */
-  only?: CapabilityGroup[];
 }) {
-  const reasons = capabilities.filter((item) => only.includes(item.group));
   if (reasons.length === 0) return null;
 
   return (

@@ -11,14 +11,32 @@ export type IconGridItem = {
   description: string[];
 };
 
+/** Column counts that have a static class string for Tailwind to find. */
+const COLUMN_CLASS: Record<number, string> = {
+  2: 'sm:grid-cols-2',
+  3: 'sm:grid-cols-2 lg:grid-cols-3',
+  4: 'sm:grid-cols-2 lg:grid-cols-4',
+  5: 'sm:grid-cols-2 lg:grid-cols-5',
+};
+
+/**
+ * Picks a column count that leaves no half-empty final row where it can.
+ * Nine cells read far better as three rows of three than as two rows of four
+ * and a lonely ninth.
+ */
+function columnsFor(count: number): string {
+  const even = [4, 3, 5, 2].find((n) => count >= n && count % n === 0);
+  return COLUMN_CLASS[even ?? (count > 6 ? 4 : 3)];
+}
+
 /**
  * A grid of icon cells on the cream panels: a gold line mark over a bold name,
  * with a short line under it where one has been written.
  *
- * Cells are separated by hairlines rather than boxed, so the grid reads as one
- * plate rather than a row of cards. The rules are drawn by the gaps showing the
- * container's colour through — a `divide-*` pair leaves the outer edges
- * unruled, which looks unfinished once the grid wraps.
+ * The hairlines are drawn as an outline on each cell rather than by letting a
+ * tinted container show through 1px gaps. Adjacent outlines sit on the same
+ * pixel, so they read as single rules — and, unlike the gap trick, a row that
+ * does not fill leaves panel behind it instead of a slab of rule colour.
  *
  * Shared by "capabilities & equipment" and "why us" so the two cream sections
  * present their icons identically.
@@ -34,24 +52,16 @@ export function IconGrid({
 }) {
   if (items.length === 0) return null;
 
-  // The column count follows the number of cells, so four never sit in a
-  // six-column grid with two empty slots at the end.
-  const columns =
-    items.length >= 8
-      ? 'sm:grid-cols-2 lg:grid-cols-4'
-      : items.length >= 6
-        ? 'sm:grid-cols-2 lg:grid-cols-3'
-        : items.length >= 4
-          ? 'sm:grid-cols-2 lg:grid-cols-4'
-          : 'sm:grid-cols-3';
-
   return (
-    <ul className={cn('grid gap-px bg-gold-calm/20', columns, className)}>
+    <ul className={cn('grid bg-[#fdfcfa]', columnsFor(items.length), className)}>
       {items.map((item, index) => {
         const icon = showIcons ? resolveIcon(item.icon, item.slug) : null;
 
         return (
-          <li key={item.id} className="bg-[#fdfcfa]">
+          <li
+            key={item.id}
+            className="outline outline-1 -outline-offset-[0.5px] outline-gold-calm/20"
+          >
             <Reveal delay={(index % 4) * 0.06}>
               <div className="flex h-full flex-col items-center px-5 py-8 text-center md:px-6 md:py-10">
                 {icon ? (

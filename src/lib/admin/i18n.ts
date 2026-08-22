@@ -465,6 +465,12 @@ const AR: Record<string, string> = {
   'A photograph on the first theme of a column becomes the backdrop behind that whole panel.':
     'الصورة الموضوعة على أول محور من العمود تصبح خلفية اللوحة كلها.',
 
+  'Why us': 'لماذا الضمراني',
+  Reason: 'سبب',
+  'One short line under the heading. Leave empty to show the heading alone.':
+    'سطر قصير تحت العنوان. اتركه فارغًا ليظهر العنوان وحده.',
+  'The reasons shown in the "Why EL DAMARANY?" band on the homepage. These answer why someone should choose the company — what it can actually do is listed under Capabilities. The band stays off the website until at least one is published.':
+    'الأسباب التي تظهر في قسم «لماذا الضمراني؟» على الصفحة الرئيسية. وهي تجيب عن سبب اختيار الشركة — أما ما تستطيع تنفيذه فعلًا فمكانه صفحة القدرات. ولا يظهر القسم على الموقع حتى يُنشَر سبب واحد على الأقل.',
   News: 'الأخبار',
   'News item': 'خبر',
   Headline: 'العنوان',

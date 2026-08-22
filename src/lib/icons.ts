@@ -111,14 +111,15 @@ export const DEFAULT_ICON_BY_SLUG: Record<string, IconKey> = {
   'oil-gas': 'fuel',
   educational: 'building',
   facilities: 'warehouse',
-  // Capabilities. These sit next to one another in a grid, so no two may fall
-  // back to the same mark — a row of identical icons reads as a rendering bug.
+  // Capabilities. All nine sit next to one another in a single grid, so no two
+  // may fall back to the same mark — a row of identical icons reads as a
+  // rendering fault rather than a design.
   'technical-expertise': 'ruler',
   'specialized-teams': 'users',
-  'operational-capabilities': 'equipment',
+  'operational-capabilities': 'settings',
   roads: 'road',
   paving: 'construction',
-  'project-execution': 'calendar-check',
+  'project-execution': 'clipboard-check',
   // Quality and safety
   quality: 'badge-check',
   materials: 'layers',

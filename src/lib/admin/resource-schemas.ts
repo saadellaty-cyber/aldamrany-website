@@ -52,6 +52,28 @@ export type ResourceSchema = {
 const PUBLISH_HELP = 'Drafts are hidden from the public website.';
 
 export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
+  advantages: {
+    key: 'advantages',
+    title: 'Why us',
+    singular: 'Reason',
+    description:
+      'The reasons shown in the "Why EL DAMARANY?" band on the homepage. These answer why someone should choose the company — what it can actually do is listed under Capabilities. The band stays off the website until at least one is published.',
+    hasStatus: true,
+    hasOrder: true,
+    fields: [
+      { name: 'title', label: 'Reason', type: 'bilingualText', required: true },
+      {
+        name: 'description',
+        label: 'Description',
+        type: 'bilingualTextarea',
+        rows: 2,
+        help: 'One short line under the heading. Leave empty to show the heading alone.',
+      },
+      { name: 'icon', label: 'Icon', type: 'icon' },
+      { name: 'slug', label: 'URL fragment', type: 'text' },
+    ],
+  },
+
   news: {
     key: 'news',
     title: 'News',

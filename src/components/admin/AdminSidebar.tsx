@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import {
   Activity,
+  Award,
   Building2,
   FolderKanban,
   Gauge,
@@ -86,6 +87,7 @@ export function AdminSidebar({
         { href: '/admin/content/services', label: t('Services'), icon: Wrench },
         { href: '/admin/content/sectors', label: t('Sectors'), icon: Layers },
         { href: '/admin/content/capabilities', label: t('Capabilities'), icon: Wrench },
+        { href: '/admin/content/advantages', label: t('Why us'), icon: Award },
         { href: '/admin/content/quality', label: t('Quality & Safety'), icon: ShieldCheck },
         { href: '/admin/content/risk', label: t('Risk Management'), icon: TriangleAlert },
         { href: '/admin/content/timeline', label: t('Timeline'), icon: Milestone },

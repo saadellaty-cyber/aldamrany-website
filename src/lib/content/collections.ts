@@ -146,6 +146,43 @@ export const getSectors = cache(async (locale: Locale): Promise<SectorItem[]> =>
   });
 });
 
+export type AdvantageItem = {
+  id: string;
+  slug: string;
+  title: string;
+  icon: string | null;
+  description: string[];
+};
+
+/**
+ * The reasons behind the "why us" band.
+ *
+ * Held apart from the capabilities: capabilities say what the company can do,
+ * these say why to choose it. Sharing one table made the two homepage bands
+ * compete for the same records.
+ */
+export const getAdvantages = cache(async (locale: Locale): Promise<AdvantageItem[]> => {
+  const rows = await prisma.advantage.findMany({
+    where: { status: 'PUBLISHED' },
+    orderBy: { sortOrder: 'asc' },
+  });
+
+  return rows
+    .map((row) => {
+      const title = pick(locale, row.titleAr, row.titleEn);
+      if (!title) return null;
+
+      return {
+        id: row.id,
+        slug: row.slug,
+        title,
+        icon: row.icon,
+        description: toParagraphs(pick(locale, row.descriptionAr, row.descriptionEn)),
+      };
+    })
+    .filter(Boolean) as AdvantageItem[];
+});
+
 export type CapabilityItem = {
   id: string;
   slug: string;

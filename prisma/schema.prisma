@@ -380,6 +380,28 @@ model Service {
   @@index([status, sortOrder])
 }
 
+/// A reason to choose the company, shown in the "why us" band.
+///
+/// Separate from Capability on purpose: capabilities answer what the company
+/// can do, these answer why someone should pick it. Wiring the band to the
+/// capabilities instead meant the two sections competed for the same records,
+/// and whichever won left the other short.
+model Advantage {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  titleAr       String
+  titleEn       String
+  descriptionAr String?
+  descriptionEn String?
+  icon          String?
+  sortOrder     Int      @default(0)
+  status        PublishStatus @default(PUBLISHED)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status, sortOrder])
+}
+
 /// A news item. Kept deliberately simple — a headline, a date, an optional
 /// picture and a body — because the company publishes occasionally, not daily.
 model NewsPost {
