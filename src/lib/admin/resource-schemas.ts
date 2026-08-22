@@ -13,6 +13,7 @@ export type ResourceFieldType =
   | 'text'
   | 'textarea'
   | 'number'
+  | 'date'
   | 'select'
   | 'checkbox'
   | 'image'
@@ -51,6 +52,57 @@ export type ResourceSchema = {
 const PUBLISH_HELP = 'Drafts are hidden from the public website.';
 
 export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
+  news: {
+    key: 'news',
+    title: 'News',
+    singular: 'News item',
+    description:
+      'Announcements shown on the homepage and the News page, newest first. Nothing appears on the website until an item is published.',
+    hasStatus: true,
+    hasOrder: false,
+    fields: [
+      { name: 'title', label: 'Headline', type: 'bilingualText', required: true },
+      {
+        name: 'excerpt',
+        label: 'Short summary',
+        type: 'bilingualTextarea',
+        rows: 2,
+        help: 'One or two lines, shown on the card. The full text goes below.',
+      },
+      { name: 'body', label: 'Full text', type: 'bilingualTextarea', rows: 8 },
+      {
+        name: 'publishedAt',
+        label: 'Date',
+        type: 'date',
+        help: 'The date shown on the card. Set it to when the work happened, not when you type it.',
+      },
+      { name: 'image', label: 'Image', type: 'image' },
+      { name: 'slug', label: 'URL fragment', type: 'text' },
+    ],
+  },
+
+  partners: {
+    key: 'partners',
+    title: 'Partners',
+    singular: 'Partner',
+    description:
+      'Organisations shown in the partners strip. A partner with no logo uploaded is left off the website rather than shown as an empty box.',
+    hasStatus: true,
+    hasOrder: true,
+    fields: [
+      { name: 'name', label: 'Organisation', type: 'bilingualText', required: true },
+      { name: 'logo', label: 'Logo', type: 'image', help: 'Preferably on a transparent background.' },
+      {
+        name: 'url',
+        label: 'Website',
+        type: 'text',
+        placeholder: 'https://…',
+        help: 'Optional. When set, the logo links to it.',
+      },
+      { name: 'slug', label: 'URL fragment', type: 'text' },
+    ],
+  },
+
   services: {
     key: 'services',
     title: 'Services',

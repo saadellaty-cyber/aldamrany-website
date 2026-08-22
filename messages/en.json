@@ -20,7 +20,26 @@
     "closeMenu": "Close menu",
     "primaryNavigation": "Primary navigation"
   },
-  "common": {
+  "newsletter": {
+    "title": "Stay up to date",
+    "body": "Subscribe to hear about new projects and announcements.",
+    "emailLabel": "Email address",
+    "placeholder": "Enter your email address",
+    "submit": "Subscribe",
+    "thanks": "You are on the list. Thank you.",
+    "invalid": "Please enter a valid email address.",
+    "error": "Could not subscribe just now. Please try again."
+  },
+  "news": {
+    "title": "News",
+    "eyebrow": "Latest",
+    "viewAll": "View all news",
+    "empty": "No news has been published yet.",
+    "back": "All news"
+  },
+  "partners": {
+    "title": "Our Partners"
+  },  "common": {
     "exploreWork": "Explore Our Work",
     "discoverCompany": "Discover EL DAMARANY",
     "discussProject": "Discuss a Project",

@@ -456,6 +456,37 @@ const AR: Record<string, string> = {
   Breadcrumb: 'مسار التنقل',
   'Search projects': 'البحث في المشروعات',
   'Nothing here yet': 'لا يوجد شيء هنا بعد',
+
+  // --- News, partners and the newsletter ----------------------------------
+  News: 'الأخبار',
+  'News item': 'خبر',
+  Headline: 'العنوان',
+  'Full text': 'النص الكامل',
+  Date: 'التاريخ',
+  'One or two lines, shown on the card. The full text goes below.':
+    'سطر أو سطران يظهران على البطاقة. أما النص الكامل فيوضع أسفله.',
+  'The date shown on the card. Set it to when the work happened, not when you type it.':
+    'التاريخ الذي يظهر على البطاقة. اضبطه على وقت حدوث العمل، لا على وقت كتابتك للخبر.',
+  'Announcements shown on the homepage and the News page, newest first. Nothing appears on the website until an item is published.':
+    'الأخبار التي تظهر على الصفحة الرئيسية وصفحة الأخبار، الأحدث أولًا. ولا يظهر أي خبر على الموقع قبل نشره.',
+  Partners: 'الشركاء',
+  Partner: 'شريك',
+  Organisation: 'الجهة',
+  Website: 'الموقع الإلكتروني',
+  'Preferably on a transparent background.': 'يُفضَّل أن يكون بخلفية شفافة.',
+  'Optional. When set, the logo links to it.': 'اختياري. وعند ضبطه يصبح الشعار رابطًا إليه.',
+  'Organisations shown in the partners strip. A partner with no logo uploaded is left off the website rather than shown as an empty box.':
+    'الجهات التي تظهر في شريط الشركاء. والشريك الذي لم يُرفع له شعار يُستبعد من الموقع بدل عرضه كمربع فارغ.',
+  Newsletter: 'النشرة البريدية',
+  subscriber: 'مشترك',
+  subscribers: 'مشترك',
+  'No subscribers yet': 'لا يوجد مشتركون بعد',
+  Language: 'اللغة',
+  Subscribed: 'تاريخ الاشتراك',
+  'Addresses collected by the subscribe form on the website. Copy them into whichever mailing tool you use — nothing is sent from here.':
+    'العناوين التي جمعها نموذج الاشتراك في الموقع. انسخها إلى أداة البريد التي تستخدمها — لا يُرسَل أي بريد من هنا.',
+  'Anyone who subscribes through the website will be listed here.':
+    'سيظهر هنا كل من يشترك عبر الموقع.',
   Hidden: 'مخفي',
   'Save the project first — the photo gallery, hero selection and image cropping become available once it exists.':
     'احفظ المشروع أولًا — يصبح معرض الصور واختيار الصورة الرئيسية وقصّ الصور متاحًا بمجرد وجوده.',

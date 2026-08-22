@@ -170,6 +170,8 @@ model MediaAsset {
   collectionCovers   ProjectCollection[]  @relation("CollectionCover")
   sectorImages       Sector[]             @relation("SectorImage")
   serviceImages      Service[]            @relation("ServiceImage")
+  newsImages         NewsPost[]           @relation("NewsImage")
+  partnerLogos       Partner[]            @relation("PartnerLogo")
   timelineImages     TimelineItem[]       @relation("TimelineImage")
   capabilityImages   Capability[]         @relation("CapabilityImage")
   qualityImages      QualitySection[]     @relation("QualityImage")
@@ -376,6 +378,62 @@ model Service {
   image MediaAsset? @relation("ServiceImage", fields: [imageId], references: [id], onDelete: SetNull)
 
   @@index([status, sortOrder])
+}
+
+/// A news item. Kept deliberately simple — a headline, a date, an optional
+/// picture and a body — because the company publishes occasionally, not daily.
+model NewsPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleAr     String
+  titleEn     String
+  excerptAr   String?
+  excerptEn   String?
+  bodyAr      String?
+  bodyEn      String?
+  imageId     String?
+  /// The date shown on the card. Separate from createdAt so a post can be
+  /// backdated to when the work actually happened.
+  publishedAt DateTime @default(now())
+  status      PublishStatus @default(DRAFT)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  image MediaAsset? @relation("NewsImage", fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([status, publishedAt])
+}
+
+/// An organisation the company works with. Nothing is shown until a logo has
+/// been uploaded — a partner strip of empty boxes is worse than no strip.
+model Partner {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  nameAr    String
+  nameEn    String
+  logoId    String?
+  url       String?
+  sortOrder Int      @default(0)
+  status    PublishStatus @default(PUBLISHED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  logo MediaAsset? @relation("PartnerLogo", fields: [logoId], references: [id], onDelete: SetNull)
+
+  @@index([status, sortOrder])
+}
+
+/// Someone who asked to hear from the company. Held here rather than pushed to
+/// a mailing service: no third-party account is needed for the form to work,
+/// and the list is exportable from the dashboard whenever one is chosen.
+model NewsletterSubscriber {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  locale         String?
+  createdAt      DateTime  @default(now())
+  unsubscribedAt DateTime?
+
+  @@index([createdAt])
 }
 
 model TimelineItem {

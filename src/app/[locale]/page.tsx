@@ -9,6 +9,9 @@ import { WhyUs } from '@/components/sections/WhyUs';
 import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
 import { QualityThemes } from '@/components/sections/QualityThemes';
 import { RiskProcess } from '@/components/sections/RiskProcess';
+import { NewsList } from '@/components/sections/NewsList';
+import { PartnerStrip } from '@/components/sections/PartnerStrip';
+import { NewsletterForm } from '@/components/sections/NewsletterForm';
 import { ContactCTA } from '@/components/sections/ContactCTA';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ButtonLink } from '@/components/ui/Button';
@@ -21,6 +24,7 @@ import {
   getStatistics,
 } from '@/lib/content/collections';
 import { getFeaturedProjects } from '@/lib/content/projects';
+import { getNews, getPartners } from '@/lib/content/news';
 import { getSiteSettings } from '@/lib/content/site';
 import { getPage } from '@/lib/content/pages';
 import { buildMetadata } from '@/lib/seo';
@@ -53,7 +57,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const locale: Locale = rawLocale;
   setRequestLocale(locale);
 
-  const [t, sections, stats, services, projects, capabilities, quality, risks, settings] =
+  const [t, sections, stats, services, projects, capabilities, quality, risks, news, partners, settings] =
     await Promise.all([
       getTranslations(),
       getHomeSections(locale),
@@ -63,6 +67,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       getCapabilities(locale),
       getQualitySections(locale),
       getRiskItems(locale),
+      getNews(locale, 4),
+      getPartners(locale),
       getSiteSettings(),
     ]);
 
@@ -194,6 +200,50 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </section>
       ) : null}
+
+      {/* News — the section removes itself until something is published. */}
+      {news.length > 0 ? (
+        <section className="bg-night py-16 md:py-20">
+          <div className="container-page">
+            <SectionTitle title={t('news.title')} />
+            <NewsList items={news} locale={locale} className="mt-12" />
+            <div className="mt-10 flex justify-center">
+              <ButtonLink href={`/${locale}/news`} variant="outlineGold" withArrow>
+                {t('news.viewAll')}
+              </ButtonLink>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Partners — likewise hidden until logos have been uploaded. */}
+      {partners.length > 0 ? (
+        <section className="bg-night py-16 md:py-20">
+          <div className="container-page">
+            <SectionTitle title={t('partners.title')} />
+            <div className="mt-12">
+              <PartnerStrip partners={partners} />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Newsletter */}
+      <section className="bg-night px-5 py-4 md:px-10 xl:px-16">
+        <div className="panel-dark mx-auto flex max-w-[96rem] flex-col gap-6 p-7 md:flex-row md:items-center md:justify-between md:p-10">
+          <div className="min-w-0">
+            <h2 className="text-lg font-semibold tracking-tight text-paper md:text-xl">
+              {t('newsletter.title')}
+            </h2>
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-paper/60">
+              {t('newsletter.body')}
+            </p>
+          </div>
+          <div className="w-full md:max-w-md">
+            <NewsletterForm locale={locale} />
+          </div>
+        </div>
+      </section>
 
       <ContactCTA
         locale={locale}

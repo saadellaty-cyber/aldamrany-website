@@ -374,6 +374,19 @@ function FieldRenderer({
         />
       );
 
+    case 'date':
+      return (
+        <TextField
+          label={field.label}
+          name={field.name}
+          type="date"
+          dir="ltr"
+          defaultValue={stringValue(field.name)}
+          required={field.required}
+          help={field.help}
+        />
+      );
+
     case 'select':
       return (
         <SelectField

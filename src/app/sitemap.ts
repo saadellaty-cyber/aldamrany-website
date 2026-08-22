@@ -17,6 +17,7 @@ const STATIC_ROUTES: Array<{ path: string; priority: number; changeFrequency: 'w
   { path: '/quality-safety', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/risk-management', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/sectors', priority: 0.6, changeFrequency: 'monthly' },
+  { path: '/news', priority: 0.6, changeFrequency: 'weekly' },
   { path: '/contact', priority: 0.6, changeFrequency: 'monthly' },
 ];
 
@@ -24,11 +25,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const settings = await getSiteSettings();
   if (settings.maintenanceMode) return [];
 
-  const [projects, legalPages] = await Promise.all([
+  const [projects, legalPages, news] = await Promise.all([
     getAllPublishedProjectSlugs(),
     prisma.page.findMany({
       where: { key: { in: ['privacy', 'terms'] }, status: 'PUBLISHED' },
       select: { key: true, updatedAt: true },
+    }),
+    prisma.newsPost.findMany({
+      where: { status: 'PUBLISHED' },
+      select: { slug: true, updatedAt: true },
     }),
   ]);
 
@@ -77,6 +82,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         alternates: alternates((target) =>
           `/projects/${encodeURIComponent(target === 'ar' ? project.slugAr : project.slugEn)}`,
         ),
+      });
+    }
+  }
+
+  // News shares one slug across both languages.
+  for (const post of news) {
+    for (const locale of locales) {
+      entries.push({
+        url: `/${locale}/news/${encodeURIComponent(post.slug)}`,
+        lastModified: post.updatedAt,
+        changeFrequency: 'monthly',
+        priority: 0.5,
+        alternates: alternates(() => `/news/${encodeURIComponent(post.slug)}`),
       });
     }
   }

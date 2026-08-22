@@ -72,7 +72,174 @@ async function ensureSlug(
   return `${base}-${Date.now()}`;
 }
 
+/** Reads a `<input type="date">` value, falling back to now. */
+function publishDate(formData: FormData): Date {
+  const raw = text(formData, 'publishedAt');
+  if (!raw) return new Date();
+  const parsed = new Date(`${raw}T12:00:00`);
+  return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+}
+
+/** Formats a date back into the `yyyy-mm-dd` the input expects. */
+function dateInputValue(value: Date): string {
+  return value.toISOString().slice(0, 10);
+}
+
 export const RESOURCE_REPOS: Record<string, ResourceRepo> = {
+  /* --- News -------------------------------------------------------------- */
+  news: {
+    label: (formData) => text(formData, 'titleEn') || text(formData, 'titleAr'),
+    async list() {
+      const rows = await prisma.newsPost.findMany({
+        orderBy: { publishedAt: 'desc' },
+        include: { image: true },
+      });
+      return rows.map((row) => ({
+        id: row.id,
+        title: row.titleEn || row.titleAr,
+        subtitle: row.titleAr,
+        status: row.status,
+        sortOrder: 0,
+        values: {
+          titleAr: row.titleAr,
+          titleEn: row.titleEn,
+          excerptAr: row.excerptAr,
+          excerptEn: row.excerptEn,
+          bodyAr: row.bodyAr,
+          bodyEn: row.bodyEn,
+          publishedAt: dateInputValue(row.publishedAt),
+          slug: row.slug,
+        },
+        images: { image: toImage(row.image) },
+      }));
+    },
+    async create(formData) {
+      const title = pair(formData, 'title');
+      const excerpt = pair(formData, 'excerpt');
+      const body = pair(formData, 'body');
+
+      const created = await prisma.newsPost.create({
+        data: {
+          titleAr: title.ar ?? '',
+          titleEn: title.en ?? '',
+          excerptAr: excerpt.ar,
+          excerptEn: excerpt.en,
+          bodyAr: body.ar,
+          bodyEn: body.en,
+          slug: await ensureSlug(formData, title.en ?? title.ar ?? 'news', async (slug) =>
+            Boolean(await prisma.newsPost.findUnique({ where: { slug }, select: { id: true } })),
+          ),
+          imageId: optionalText(formData, 'image'),
+          publishedAt: publishDate(formData),
+          status: status(formData),
+        },
+      });
+      return created.id;
+    },
+    async update(id, formData) {
+      const title = pair(formData, 'title');
+      const excerpt = pair(formData, 'excerpt');
+      const body = pair(formData, 'body');
+
+      await prisma.newsPost.update({
+        where: { id },
+        data: {
+          titleAr: title.ar ?? '',
+          titleEn: title.en ?? '',
+          excerptAr: excerpt.ar,
+          excerptEn: excerpt.en,
+          bodyAr: body.ar,
+          bodyEn: body.en,
+          slug: await ensureSlug(formData, title.en ?? title.ar ?? 'news', async (slug) =>
+            Boolean(
+              await prisma.newsPost.findFirst({ where: { slug, NOT: { id } }, select: { id: true } }),
+            ),
+          ),
+          imageId: optionalText(formData, 'image'),
+          publishedAt: publishDate(formData),
+          status: status(formData),
+        },
+      });
+    },
+    async remove(id) {
+      await prisma.newsPost.delete({ where: { id } });
+    },
+    async reorder() {
+      // News is ordered by date, so drag-to-reorder is not offered.
+    },
+  },
+
+  /* --- Partners ---------------------------------------------------------- */
+  partners: {
+    label: (formData) => text(formData, 'nameEn') || text(formData, 'nameAr'),
+    async list() {
+      const rows = await prisma.partner.findMany({
+        orderBy: { sortOrder: 'asc' },
+        include: { logo: true },
+      });
+      return rows.map((row) => ({
+        id: row.id,
+        title: row.nameEn || row.nameAr,
+        subtitle: row.nameAr,
+        status: row.status,
+        sortOrder: row.sortOrder,
+        values: {
+          nameAr: row.nameAr,
+          nameEn: row.nameEn,
+          url: row.url,
+          slug: row.slug,
+        },
+        images: { logo: toImage(row.logo) },
+      }));
+    },
+    async create(formData) {
+      const name = pair(formData, 'name');
+      const count = await prisma.partner.count();
+
+      const created = await prisma.partner.create({
+        data: {
+          nameAr: name.ar ?? '',
+          nameEn: name.en ?? '',
+          slug: await ensureSlug(formData, name.en ?? name.ar ?? 'partner', async (slug) =>
+            Boolean(await prisma.partner.findUnique({ where: { slug }, select: { id: true } })),
+          ),
+          logoId: optionalText(formData, 'logo'),
+          url: optionalText(formData, 'url'),
+          status: status(formData),
+          sortOrder: count,
+        },
+      });
+      return created.id;
+    },
+    async update(id, formData) {
+      const name = pair(formData, 'name');
+
+      await prisma.partner.update({
+        where: { id },
+        data: {
+          nameAr: name.ar ?? '',
+          nameEn: name.en ?? '',
+          slug: await ensureSlug(formData, name.en ?? name.ar ?? 'partner', async (slug) =>
+            Boolean(
+              await prisma.partner.findFirst({ where: { slug, NOT: { id } }, select: { id: true } }),
+            ),
+          ),
+          logoId: optionalText(formData, 'logo'),
+          url: optionalText(formData, 'url'),
+          status: status(formData),
+        },
+      });
+    },
+    async remove(id) {
+      await prisma.partner.delete({ where: { id } });
+    },
+    async reorder(ids) {
+      await prisma.$transaction(
+        ids.map((id, index) => prisma.partner.update({ where: { id }, data: { sortOrder: index } })),
+      );
+    },
+  },
+
   /* --- Services ---------------------------------------------------------- */
   services: {
     label: (formData) => text(formData, 'titleEn') || text(formData, 'titleAr'),
