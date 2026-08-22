@@ -2,6 +2,7 @@ import { Reveal } from '@/components/motion/Reveal';
 import { Icon } from '@/components/ui/Icon';
 import { resolveIcon } from '@/lib/icons';
 import { groupCapabilities, type CapabilityItem } from '@/lib/content/collections';
+import type { CapabilityGroup } from '@/generated/prisma/enums';
 import type { Locale } from '@/i18n/config';
 
 /**
@@ -22,13 +23,18 @@ export function CapabilityBands({
   showIcons,
   /** The dedicated page shows each item's description; the homepage does not. */
   withDescriptions = false,
+  /** Limits the display to these bands. Omitted, all three are shown. */
+  only,
 }: {
   capabilities: CapabilityItem[];
   locale: Locale;
   showIcons: boolean;
   withDescriptions?: boolean;
+  only?: CapabilityGroup[];
 }) {
-  const bands = groupCapabilities(capabilities, locale);
+  const bands = groupCapabilities(capabilities, locale).filter(
+    (band) => !only || only.includes(band.group),
+  );
   if (bands.length === 0) return null;
 
   return (

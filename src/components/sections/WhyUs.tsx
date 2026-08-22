@@ -4,30 +4,32 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { resolveIcon } from '@/lib/icons';
 import { cn } from '@/lib/utils';
 import type { CapabilityItem } from '@/lib/content/collections';
+import type { CapabilityGroup } from '@/generated/prisma/enums';
 
 /**
  * "Why us" — the case for the company, on a cream panel.
  *
- * The content is the experience and resources bands of the capabilities, not a
- * separate list of claims: what the company brings and what it has to bring it
- * with *is* the answer, and keeping it in one place means the owner maintains
- * it once. The fields-of-work band is deliberately left out — a list of
- * disciplines answers "what", not "why".
+ * The content is the experience band of the capabilities, not a separate list
+ * of claims: what the company brings *is* the answer, and keeping it there
+ * means the owner maintains it once. The resources and fields bands belong to
+ * the capabilities section further up the page, so the two never repeat each
+ * other — and a list of disciplines answers "what", not "why".
  */
 export function WhyUs({
   capabilities,
   title,
   description,
   showIcons,
+  only = ['EXPERIENCE'],
 }: {
   capabilities: CapabilityItem[];
   title: string;
   description?: string | null;
   showIcons: boolean;
+  /** Which capability bands answer "why". */
+  only?: CapabilityGroup[];
 }) {
-  const reasons = capabilities.filter(
-    (item) => item.group === 'EXPERIENCE' || item.group === 'RESOURCES',
-  );
+  const reasons = capabilities.filter((item) => only.includes(item.group));
 
   if (reasons.length === 0) return null;
 

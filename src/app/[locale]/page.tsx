@@ -9,6 +9,7 @@ import { WhyUs } from '@/components/sections/WhyUs';
 import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
 import { QualityThemes } from '@/components/sections/QualityThemes';
 import { RiskProcess } from '@/components/sections/RiskProcess';
+import { CapabilityBands } from '@/components/sections/CapabilityBands';
 import { NewsList } from '@/components/sections/NewsList';
 import { PartnerStrip } from '@/components/sections/PartnerStrip';
 import { NewsletterForm } from '@/components/sections/NewsletterForm';
@@ -112,7 +113,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <section className="bg-night py-16 md:py-20">
           <div className="container-page">
             <SectionTitle
-              title={servicesSection?.title ?? (locale === 'ar' ? 'خدماتنا' : 'Our Services')}
+              title={servicesSection?.title ?? (locale === 'ar' ? 'مجالات العمل' : 'Fields of Work')}
               description={servicesSection?.body[0]}
             />
 
@@ -122,7 +123,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 locale={locale}
                 showIcons={settings.showIcons}
                 moreLabel={t('common.readMore')}
-                label={servicesSection?.title ?? (locale === 'ar' ? 'خدماتنا' : 'Our Services')}
+                label={servicesSection?.title ?? (locale === 'ar' ? 'مجالات العمل' : 'Fields of Work')}
               />
             </div>
 
@@ -137,13 +138,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </section>
       ) : null}
 
-      {/* Why us — drawn from the experience and resources capability bands. */}
-      <WhyUs
-        capabilities={capabilities}
-        showIcons={settings.showIcons}
-        title={locale === 'ar' ? 'لماذا الضمراني؟' : 'Why EL DAMARANY?'}
-      />
-
       {/* Featured projects */}
       {projects.length > 0 ? (
         <section className="bg-night py-16 md:py-20">
@@ -151,7 +145,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <SectionTitle
               title={
                 projectsSection?.title ??
-                (locale === 'ar' ? 'مشروعات نفخر بتنفيذها' : 'Projects We Are Proud Of')
+                (locale === 'ar' ? 'نماذج من أعمالنا' : 'Selected Work')
               }
               description={projectsSection?.body[0]}
             />
@@ -168,6 +162,35 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 withArrow
               >
                 {projectsSection?.primaryCta?.label ?? t('common.viewAllProjects')}
+              </ButtonLink>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Capabilities & equipment — the resources and fields bands. The
+          experience band is held back for "why us" further down, so the two
+          sections never list the same thing twice. */}
+      {capabilities.length > 0 ? (
+        <section className="bg-night px-5 py-10 md:px-10 md:py-14 xl:px-16">
+          <div className="panel-light mx-auto max-w-[96rem] px-6 py-12 md:px-10 md:py-14">
+            <SectionTitle
+              tone="light"
+              title={locale === 'ar' ? 'قدراتنا ومعداتنا' : 'Capabilities & Equipment'}
+            />
+            <div className="mt-12">
+              <CapabilityBands
+                capabilities={capabilities}
+                locale={locale}
+                showIcons={settings.showIcons}
+                only={['RESOURCES', 'FIELDS']}
+              />
+            </div>
+            {/* Filled rather than outlined: a gold rule on cream is too faint
+                to read as a control. */}
+            <div className="mt-10 flex justify-center">
+              <ButtonLink href={`/${locale}/capabilities`} variant="gold" withArrow>
+                {locale === 'ar' ? 'كل القدرات' : 'All capabilities'}
               </ButtonLink>
             </div>
           </div>
@@ -191,7 +214,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </section>
       ) : null}
 
-      {/* Risk management */}
+      {/* Risk management — the other half of the quality story, so it follows it. */}
       {riskSection && risks.length > 0 ? (
         <section className="bg-night py-16 md:py-20">
           <div className="container-page">
@@ -200,6 +223,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </section>
       ) : null}
+
+      {/* Why us — the experience band, kept back from the capabilities section
+          above so the page builds to the case rather than opening with it. */}
+      <WhyUs
+        capabilities={capabilities}
+        showIcons={settings.showIcons}
+        title={locale === 'ar' ? 'لماذا الضمراني؟' : 'Why EL DAMARANY?'}
+      />
 
       {/* News — the section removes itself until something is published. */}
       {news.length > 0 ? (
