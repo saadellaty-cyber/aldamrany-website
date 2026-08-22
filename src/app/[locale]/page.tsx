@@ -204,7 +204,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <QualityThemes
               showIcons={settings.showIcons}
               items={quality}
-              images={{ quality: qualitySection.image, safety: qualitySection.image }}
+              fallbackImage={qualitySection.image}
               labels={{
                 quality: locale === 'ar' ? 'الجودة' : 'Quality',
                 safety: locale === 'ar' ? 'السلامة' : 'Safety',

@@ -171,12 +171,18 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
     title: 'Quality & Safety',
     singular: 'Theme',
     description:
-      'Themes shown in the two columns of the Quality & Safety page. Choose which column each one belongs to.',
+      'The two panels on the homepage and the Quality & Safety page. Each panel is built from its own themes: the first theme with a description supplies the panel’s opening line, the first with a photograph supplies its backdrop, and the rest become the ticked list.',
     hasStatus: true,
     hasOrder: true,
     fields: [
       { name: 'title', label: 'Theme', type: 'bilingualText', required: true },
-      { name: 'body', label: 'Description', type: 'bilingualTextarea', rows: 4 },
+      {
+        name: 'body',
+        label: 'Description',
+        type: 'bilingualTextarea',
+        rows: 4,
+        help: 'Filled in on the first theme of a column, this becomes the sentence under the panel heading — and that theme drops out of the ticked list.',
+      },
       {
         name: 'category',
         label: 'Column',
@@ -188,7 +194,12 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
       },
       { name: 'slug', label: 'URL fragment', type: 'text' },
       { name: 'icon', label: 'Icon', type: 'icon' },
-      { name: 'image', label: 'Image', type: 'image' },
+      {
+        name: 'image',
+        label: 'Image',
+        type: 'image',
+        help: 'A photograph on the first theme of a column becomes the backdrop behind that whole panel.',
+      },
     ],
   },
 

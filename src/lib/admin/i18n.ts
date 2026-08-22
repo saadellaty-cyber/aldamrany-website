@@ -458,6 +458,13 @@ const AR: Record<string, string> = {
   'Nothing here yet': 'لا يوجد شيء هنا بعد',
 
   // --- News, partners and the newsletter ----------------------------------
+  'The two panels on the homepage and the Quality & Safety page. Each panel is built from its own themes: the first theme with a description supplies the panel’s opening line, the first with a photograph supplies its backdrop, and the rest become the ticked list.':
+    'اللوحتان اللتان تظهران على الصفحة الرئيسية وصفحة الجودة والسلامة. تُبنى كل لوحة من محاورها: أول محور له وصف يصبح جملة اللوحة الافتتاحية، وأول محور له صورة تصبح خلفيتها، وباقي المحاور تصير القائمة المؤشَّرة.',
+  'Filled in on the first theme of a column, this becomes the sentence under the panel heading — and that theme drops out of the ticked list.':
+    'إذا مُلئ في أول محور من العمود، يصبح الجملة التي تحت عنوان اللوحة — ويخرج ذلك المحور من القائمة المؤشَّرة.',
+  'A photograph on the first theme of a column becomes the backdrop behind that whole panel.':
+    'الصورة الموضوعة على أول محور من العمود تصبح خلفية اللوحة كلها.',
+
   News: 'الأخبار',
   'News item': 'خبر',
   Headline: 'العنوان',
