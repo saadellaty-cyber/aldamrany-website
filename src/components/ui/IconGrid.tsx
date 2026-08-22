@@ -11,12 +11,18 @@ export type IconGridItem = {
   description: string[];
 };
 
-/** Column counts that have a static class string for Tailwind to find. */
+/**
+ * Column counts that have a static class string for Tailwind to find.
+ *
+ * Two columns from the narrowest screen up: a single stacked column turns nine
+ * short labels into a long scroll, and these cells are a mark over one or two
+ * words — they have no need of the full width of a phone.
+ */
 const COLUMN_CLASS: Record<number, string> = {
-  2: 'sm:grid-cols-2',
-  3: 'sm:grid-cols-2 lg:grid-cols-3',
-  4: 'sm:grid-cols-2 lg:grid-cols-4',
-  5: 'sm:grid-cols-2 lg:grid-cols-5',
+  2: 'grid-cols-2',
+  3: 'grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-2 lg:grid-cols-4',
+  5: 'grid-cols-2 lg:grid-cols-5',
 };
 
 /**
