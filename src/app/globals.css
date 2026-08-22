@@ -203,6 +203,34 @@
   color: var(--color-gold-calm);
 }
 
+/* Accented text on the pale grounds.
+   Yellow type on off-white is too faint to read, so the accent moves off the
+   letters and onto a hollow frame around them: charcoal text, yellow rule, no
+   fill. Padding is in `em` so the frame tracks whatever size it wraps.
+
+   Shrink-to-fit comes from `width: fit-content` rather than `inline-block`:
+   these classes land on block-level headings and labels, and making them
+   inline-level would let a heading and its eyebrow share a line. */
+@utility frame-yellow {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--color-ink);
+  border: 2px solid var(--color-yellow);
+  padding: 0.2em 0.4em;
+}
+
+/* The same treatment at label size, where 2px would overpower the text. */
+@utility frame-yellow-sm {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  color: var(--color-ink);
+  border: 1px solid var(--color-yellow);
+  padding: 0.5em 0.9em;
+}
+
 /* Numerals stay Latin inside Arabic pages where the design calls for it. */
 @utility latin-nums {
   font-family: var(--font-sans);

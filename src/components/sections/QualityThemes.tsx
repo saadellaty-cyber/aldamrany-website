@@ -25,17 +25,24 @@ export function QualityThemes({
   if (quality.length === 0 && safety.length === 0) return null;
 
   const muted = tone === 'dark' ? 'text-paper/50' : 'text-ink-muted';
+  // Yellow reads on the dark band; on the paper ground the accent moves to a
+  // hollow frame around charcoal text instead.
+  const onDark = tone === 'dark';
 
   const column = (title: string, entries: QualityItem[]) => {
     if (entries.length === 0) return null;
 
     return (
       <div>
-        <Reveal>
-          <h3 className="eyebrow heading-yellow flex items-center gap-3 pb-6">
-            <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
-            {title}
-          </h3>
+        <Reveal className="pb-6">
+          {onDark ? (
+            <h3 className="eyebrow heading-yellow flex items-center gap-3">
+              <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
+              {title}
+            </h3>
+          ) : (
+            <h3 className="eyebrow frame-yellow-sm">{title}</h3>
+          )}
         </Reveal>
 
         <ul className="border-t border-current/15">
@@ -47,7 +54,7 @@ export function QualityThemes({
                     {showIcons && resolveIcon(item.icon, item.slug) ? (
                       <Icon
                         name={resolveIcon(item.icon, item.slug)!}
-                        className="size-5 heading-yellow"
+                        className={cn('size-5', onDark ? 'heading-yellow' : 'heading-gold-calm')}
                       />
                     ) : null}
                     {item.title}

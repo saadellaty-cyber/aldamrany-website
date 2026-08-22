@@ -16,7 +16,6 @@ export function SectionHeader({
   titleClass = 'display-3',
   className,
   tone = 'dark-text',
-  accent = 'heading-yellow',
 }: {
   eyebrow?: string | null;
   title?: string | null;
@@ -26,12 +25,15 @@ export function SectionHeader({
   titleClass?: string;
   className?: string;
   tone?: 'dark-text' | 'light-text';
-  /** Accent for the eyebrow and title. The cream sections use the calm gold. */
-  accent?: 'heading-yellow' | 'heading-gold-calm';
 }) {
   if (!eyebrow && !title && !description && !action) return null;
 
   const muted = tone === 'light-text' ? 'text-paper/55' : 'text-ink-muted';
+
+  // On the dark bands the yellow carries itself. On the pale grounds it does
+  // not, so the accent moves to a hollow frame around charcoal text — and the
+  // leading rule is dropped, since a frame already separates the label.
+  const onDark = tone === 'light-text';
 
   return (
     <div
@@ -43,16 +45,20 @@ export function SectionHeader({
     >
       <div className={cn('max-w-3xl', align === 'center' && 'mx-auto')}>
         {eyebrow ? (
-          <Reveal>
-            <p className={cn('eyebrow mb-5 flex items-center gap-3', accent)}>
-              <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
-              {eyebrow}
-            </p>
+          <Reveal className="mb-5">
+            {onDark ? (
+              <p className="eyebrow heading-yellow flex items-center gap-3">
+                <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
+                {eyebrow}
+              </p>
+            ) : (
+              <p className="eyebrow frame-yellow-sm">{eyebrow}</p>
+            )}
           </Reveal>
         ) : null}
 
         {title ? (
-          <h2 className={cn(titleClass, 'text-balance', accent)}>
+          <h2 className={cn(titleClass, 'text-balance', onDark ? 'heading-yellow' : 'frame-yellow')}>
             <RevealHeading>{title}</RevealHeading>
           </h2>
         ) : null}

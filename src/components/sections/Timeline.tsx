@@ -23,7 +23,9 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
 
               <div className="md:col-span-6">
                 {entry.title ? (
-                  <h3 className="heading-yellow display-4 text-balance">{entry.title}</h3>
+                  <h3 className="display-4 text-balance">
+                    <span className="frame-yellow">{entry.title}</span>
+                  </h3>
                 ) : null}
                 {entry.description.length > 0 ? (
                   <div className="prose-editorial mt-4 max-w-xl text-ink-muted">

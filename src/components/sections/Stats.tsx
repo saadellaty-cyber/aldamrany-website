@@ -29,16 +29,15 @@ export function Stats({
     <section className={cn(isDark ? 'surface-dark' : 'bg-paper-soft', className)}>
       <div className="container-page py-16 md:py-20">
         {eyebrow ? (
-          <Reveal>
-            <p
-              className={cn(
-                'eyebrow mb-10 flex items-center gap-3',
-                isDark ? 'text-paper/50' : 'text-ink-muted',
-              )}
-            >
-              <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
-              {eyebrow}
-            </p>
+          <Reveal className="mb-10">
+            {isDark ? (
+              <p className="eyebrow heading-yellow flex items-center gap-3">
+                <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
+                {eyebrow}
+              </p>
+            ) : (
+              <p className="eyebrow frame-yellow-sm">{eyebrow}</p>
+            )}
           </Reveal>
         ) : null}
 

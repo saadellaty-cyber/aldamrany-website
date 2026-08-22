@@ -97,8 +97,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <div className="lg:col-span-5">
               {about.eyebrow ? (
                 <Reveal>
-                  <p className="eyebrow heading-yellow flex items-center gap-3">
-                    <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
+                  <p className="eyebrow frame-yellow-sm">
                     {about.eyebrow}
                   </p>
                 </Reveal>
@@ -107,7 +106,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
             <div className="lg:col-span-7">
               {about.title ? (
-                <h2 className="heading-yellow display-2 text-balance">
+                <h2 className="frame-yellow display-2 text-balance">
                   <RevealHeading>{about.title}</RevealHeading>
                 </h2>
               ) : null}
@@ -143,7 +142,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <section className="section-y bg-paper-soft">
           <div className="container-page">
             <SectionHeader
-              accent="heading-gold-calm"
               eyebrow={locale === 'ar' ? 'قدراتنا' : 'Capabilities'}
               title={
                 locale === 'ar'
@@ -270,8 +268,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="container-page grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <Reveal>
-                <p className="eyebrow heading-yellow flex items-center gap-3">
-                  <span className="inline-block h-px w-8 bg-current opacity-50" aria-hidden="true" />
+                <p className="eyebrow frame-yellow-sm">
                   {locale === 'ar' ? 'مسيرتنا' : 'Our Story'}
                 </p>
               </Reveal>

@@ -107,7 +107,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                       <div className="flex gap-4">
                         <MapPin className="mt-0.5 size-4 shrink-0 text-ink-muted" aria-hidden="true" />
                         <div>
-                          <p className="eyebrow heading-yellow">{office.label}</p>
+                          <p className="eyebrow frame-yellow-sm">{office.label}</p>
                           <p className="mt-2 leading-relaxed">{office.value}</p>
                         </div>
                       </div>
@@ -161,7 +161,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
 
             {socials.length > 0 ? (
               <div className="mt-10">
-                <p className="eyebrow heading-yellow">{t('common.followUs')}</p>
+                <p className="eyebrow frame-yellow-sm">{t('common.followUs')}</p>
                 <SocialLinks links={socials} size="sm" className="mt-4" />
               </div>
             ) : null}
