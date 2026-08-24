@@ -29,7 +29,7 @@ export function FeaturedProjects({
         <ProjectCard
           key={project.id}
           project={project}
-          ratio="portrait"
+          ratio="square"
           priority={index < 3}
           sizes="(min-width: 768px) 15.5rem, 13.5rem"
         />
