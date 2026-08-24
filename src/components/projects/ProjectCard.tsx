@@ -41,7 +41,7 @@ export function ProjectCard({
     <Link
       href={project.href}
       className={cn(
-        'group relative block overflow-hidden rounded-[var(--radius-card)] border border-night-line bg-night-raised',
+        'group relative block overflow-hidden rounded-[var(--radius-tile)] border border-night-line bg-night-raised',
         RATIOS[ratio],
         className,
       )}

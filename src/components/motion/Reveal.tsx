@@ -80,8 +80,12 @@ export function RevealHeading({
     return <span className={cn('block', className)}>{children}</span>;
   }
 
+  // The mask has to clear the descenders. Arabic drops well below the baseline
+  // — the tail of ع, ج, ي — and a mask sized to the line box shears them off.
+  // The padding gives it room and the matching negative margin keeps the
+  // heading's position and spacing unchanged.
   return (
-    <span ref={wrapper} className="block overflow-hidden">
+    <span ref={wrapper} className="block overflow-hidden pb-[0.28em] -mb-[0.28em]">
       <motion.span
         data-reveal
         className={cn('block', className)}
