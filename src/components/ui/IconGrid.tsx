@@ -59,7 +59,7 @@ export function IconGrid({
   if (items.length === 0) return null;
 
   return (
-    <ul className={cn('grid bg-[#fdfcfa]', columnsFor(items.length), className)}>
+    <ul className={cn('grid bg-cream', columnsFor(items.length), className)}>
       {items.map((item, index) => {
         const icon = showIcons ? resolveIcon(item.icon, item.slug) : null;
 

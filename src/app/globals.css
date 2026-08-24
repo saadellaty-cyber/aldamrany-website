@@ -38,6 +38,9 @@
   --color-night-raised: #1b1f27;
   --color-night-line: #262b34;
 
+  /* The light ground lifted out of the dark house. */
+  --color-cream: #fdfcfa;
+
   /* The gold. Warm and slightly muted — it has to sit on near-black without
      glaring and on cream without disappearing, which a brighter yellow cannot
      do. Reserved for rules, icons, buttons and short labels. */
@@ -262,8 +265,16 @@
 }
 
 @utility panel-light {
-  background-color: #fdfcfa;
+  background-color: var(--color-cream);
   border-radius: var(--radius-panel);
+  color: var(--color-ink);
+}
+
+/* The same ground run edge to edge instead of inset as a card. Used where a
+   light passage should read as a band of the page rather than something
+   floating on top of it. */
+@utility band-light {
+  background-color: var(--color-cream);
   color: var(--color-ink);
 }
 

@@ -191,8 +191,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* Capabilities & equipment — every capability in one grid. "Why us"
           below has content of its own, so nothing has to be held back here. */}
       {capabilities.length > 0 ? (
-        <section className="bg-night px-5 py-10 md:px-10 md:py-14 xl:px-16">
-          <div className="panel-light mx-auto max-w-[96rem] px-6 py-12 md:px-10 md:py-14">
+        <section className="band-light py-14 md:py-20">
+          <div className="container-page">
             <SectionTitle
               tone="light"
               title={locale === 'ar' ? 'قدراتنا ومعداتنا' : 'Capabilities & Equipment'}
