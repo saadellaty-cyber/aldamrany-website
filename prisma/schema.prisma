@@ -545,6 +545,8 @@ model Statistic {
   value     String?
   prefix    String?
   suffix    String?
+  /// Mark shown above the figure — see src/lib/icons.ts for the set.
+  icon      String?
   sortOrder Int      @default(0)
   status    PublishStatus @default(PUBLISHED)
   createdAt DateTime @default(now())

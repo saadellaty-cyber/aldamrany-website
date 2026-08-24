@@ -267,6 +267,7 @@ export const RESOURCE_SCHEMAS: Record<string, ResourceSchema> = {
     fields: [
       { name: 'label', label: 'Label', type: 'bilingualText', required: true },
       { name: 'value', label: 'Value', type: 'text', help: 'Leave empty to hide this statistic.' },
+      { name: 'icon', label: 'Icon', type: 'icon' },
       { name: 'prefix', label: 'Prefix', type: 'text', placeholder: 'e.g. +' },
       { name: 'suffix', label: 'Suffix', type: 'text', placeholder: 'e.g. +' },
       { name: 'key', label: 'Reference key', type: 'text', help: 'Internal identifier; must be unique.' },

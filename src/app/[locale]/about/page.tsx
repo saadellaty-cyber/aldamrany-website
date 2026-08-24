@@ -10,6 +10,7 @@ import { Reveal, RevealHeading } from '@/components/motion/Reveal';
 import { ArrowLink } from '@/components/ui/Button';
 import { findBlock, getPage, getPageBlocks } from '@/lib/content/pages';
 import { getCapabilities, getStatistics, getTimeline } from '@/lib/content/collections';
+import { getSiteSettings } from '@/lib/content/site';
 import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from '@/lib/seo';
 import { isLocale, type Locale } from '@/i18n/config';
 
@@ -40,13 +41,14 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   const locale: Locale = rawLocale;
   setRequestLocale(locale);
 
-  const [t, page, blocks, stats, timeline, capabilities] = await Promise.all([
+  const [t, page, blocks, stats, timeline, capabilities, settings] = await Promise.all([
     getTranslations(),
     getPage('about', locale),
     getPageBlocks('about', locale),
     getStatistics(locale),
     getTimeline(locale),
     getCapabilities(locale),
+    getSiteSettings(),
   ]);
 
   const vision = findBlock(blocks, 'vision');
@@ -83,6 +85,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         stats={stats}
         locale={locale}
         eyebrow={locale === 'ar' ? 'بالأرقام' : 'At a Glance'}
+        showIcons={settings.showIcons}
       />
 
       {/* Vision & mission */}
@@ -103,7 +106,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 ) : null}
                 {vision.body.length > 0 ? (
                   <Reveal delay={0.1}>
-                    <div className="prose-editorial mt-6 text-ink-muted">
+                    <div className="prose-editorial mt-6 text-paper/55">
                       {vision.body.map((paragraph, index) => (
                         <p key={index}>{paragraph}</p>
                       ))}
@@ -142,7 +145,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <SectionHeader eyebrow={values.title} />
             <ul className="mt-12 grid gap-px bg-night-line sm:grid-cols-2 lg:grid-cols-4">
               {values.lines.map((value, index) => (
-                <li key={value} className="bg-ink p-8">
+                <li key={value} className="bg-night-soft p-8">
                   <Reveal delay={index * 0.07}>
                     <span className="latin-nums text-xs tracking-[0.2em] text-paper/40">
                       {String(index + 1).padStart(2, '0')}
@@ -181,11 +184,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 </ArrowLink>
               }
             />
-            <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-5 border-t border-line pt-10">
+            <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-5 border-t border-night-line pt-10">
               {capabilities.map((capability, index) => (
                 <li key={capability.id}>
                   <Reveal delay={index * 0.04}>
-                    <span className="display-4 text-ink/85">{capability.title}</span>
+                    <span className="display-4 text-paper/85">{capability.title}</span>
                   </Reveal>
                 </li>
               ))}
@@ -226,7 +229,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 ) : null}
                 {block.body.length > 0 ? (
                   <Reveal delay={0.08}>
-                    <div className="prose-editorial mt-5 text-ink-muted">
+                    <div className="prose-editorial mt-5 text-paper/55">
                       {block.body.map((paragraph, index) => (
                         <p key={index}>{paragraph}</p>
                       ))}

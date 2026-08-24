@@ -6,6 +6,7 @@ import { ICON_GLYPHS } from '@/components/ui/Icon';
 import { ICON_KEYS, ICON_LABELS, isIconKey, type IconKey } from '@/lib/icons';
 import { AdminButton } from '@/components/admin/ui';
 import { cn } from '@/lib/utils';
+import { useTranslateNode } from '@/components/admin/AdminLocaleProvider';
 
 /**
  * Chooses one icon from the curated set. The key is written to a hidden input,
@@ -25,13 +26,14 @@ export function IconPicker({
   initial?: string | null;
 }) {
   const [selected, setSelected] = useState<IconKey | ''>(isIconKey(initial) ? initial : '');
+  const tr = useTranslateNode();
   const Selected = selected ? ICON_GLYPHS[selected] : null;
 
   return (
     <div>
-      <p className="mb-1.5 text-sm font-medium">{label}</p>
+      <p className="mb-1.5 text-sm font-medium">{tr(label)}</p>
       {description ? (
-        <p className="mb-2 text-xs leading-relaxed text-ink-muted">{description}</p>
+        <p className="mb-2 text-xs leading-relaxed text-ink-muted">{tr(description)}</p>
       ) : null}
 
       <input type="hidden" name={name} value={selected} />
@@ -54,7 +56,7 @@ export function IconPicker({
             {selected ? (
               <AdminButton variant="ghost" onClick={() => setSelected('')}>
                 <X className="size-3.5" aria-hidden="true" />
-                Clear
+                {tr('Clear')}
               </AdminButton>
             ) : null}
           </div>

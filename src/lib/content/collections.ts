@@ -61,7 +61,14 @@ export const getHomeSections = cache(
   },
 );
 
-export type Stat = { id: string; label: string; value: string; prefix: string | null; suffix: string | null };
+export type Stat = {
+  id: string;
+  label: string;
+  value: string;
+  icon: string | null;
+  prefix: string | null;
+  suffix: string | null;
+};
 
 /** Statistics without a value are dropped — an empty figure is never rendered. */
 export const getStatistics = cache(async (locale: Locale): Promise<Stat[]> => {
@@ -76,6 +83,7 @@ export const getStatistics = cache(async (locale: Locale): Promise<Stat[]> => {
       id: row.id,
       label: pick(locale, row.labelAr, row.labelEn) ?? '',
       value: row.value!.trim(),
+      icon: row.icon,
       prefix: row.prefix,
       suffix: row.suffix,
     }));

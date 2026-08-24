@@ -121,7 +121,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         />
       ) : null}
 
-      <Stats stats={stats} locale={locale} eyebrow={sections.STATS?.eyebrow} />
+      <Stats
+        stats={stats}
+        locale={locale}
+        eyebrow={sections.STATS?.eyebrow}
+        showIcons={settings.showIcons}
+      />
 
       {/* Services */}
       {services.length > 0 ? (
