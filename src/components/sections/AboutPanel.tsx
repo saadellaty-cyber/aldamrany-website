@@ -1,14 +1,15 @@
 import { Reveal, RevealHeading } from '@/components/motion/Reveal';
 import { ButtonLink } from '@/components/ui/Button';
 import { SmartImage } from '@/components/ui/SmartImage';
+import { cn } from '@/lib/utils';
 import type { ImageRef } from '@/lib/content/media';
 
 /**
- * The company introduction, held in a cream panel lifted off the dark ground.
+ * The company introduction, on a cream band running the full width of the page.
  *
  * This is the one long passage on the homepage, and long prose is tiring in
- * paper-on-black. Lifting it onto a light panel gives the reading its own
- * space and marks it as the moment the page slows down.
+ * paper-on-black. Putting it on a light ground gives the reading its own space
+ * and marks it as the moment the page slows down.
  */
 export function AboutPanel({
   eyebrow,
@@ -29,8 +30,8 @@ export function AboutPanel({
   if (!title && body.length === 0) return null;
 
   return (
-    <section className="bg-night px-5 pb-4 md:px-10 xl:px-16">
-      <div className="panel-light mx-auto max-w-[96rem] overflow-hidden">
+    <section className="band-light">
+      <div className="mx-auto max-w-[120rem]">
         <div className="grid gap-0 lg:grid-cols-12">
           {image ? (
             <div className="lg:col-span-5">
@@ -44,8 +45,16 @@ export function AboutPanel({
             </div>
           ) : null}
 
+          {/* Without a photograph beside it the column is the full width of the
+              screen, and prose set across 1400px is unreadable — so the text is
+              held to a measure and centred rather than allowed to run. */}
           <div className={image ? 'lg:col-span-7' : 'lg:col-span-12'}>
-            <div className="p-6 md:p-10 lg:p-12">
+            <div
+              className={cn(
+                'px-5 py-10 md:px-10 md:py-14 lg:py-16 xl:px-16',
+                !image && 'mx-auto max-w-4xl',
+              )}
+            >
               {eyebrow ? (
                 <Reveal>
                   <p className="mb-4 flex items-center gap-3">
