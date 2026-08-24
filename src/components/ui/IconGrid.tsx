@@ -78,8 +78,13 @@ export function IconGrid({
                   {item.title}
                 </h3>
 
+                {/* Held to a reading measure so a long line wraps to two or
+                    three balanced rows instead of one wide one, which would
+                    leave the cells looking uneven beside each other. */}
                 {item.description.length > 0 ? (
-                  <p className="mt-2 text-xs leading-[1.9] text-ink/55">{item.description[0]}</p>
+                  <p className="mx-auto mt-2.5 max-w-[24ch] text-pretty text-xs leading-[1.9] text-ink/55">
+                    {item.description[0]}
+                  </p>
                 ) : null}
               </div>
             </Reveal>

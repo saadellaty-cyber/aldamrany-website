@@ -74,7 +74,9 @@ export function Stats({
               // narrow enough for that to look right. Above it the cell would be
               // a third of the page wide, and a square of that becomes a
               // half-empty block — so it takes a fixed height instead.
-              className="flex aspect-square flex-col items-center justify-center gap-3 bg-night-soft px-4 text-center sm:aspect-auto sm:min-h-[12rem] sm:py-8"
+              // A touch lighter than the page behind it, so the cells read as
+              // cells rather than as one flat block of near-black.
+              className="flex aspect-square flex-col items-center justify-center gap-3 bg-night-raised px-4 text-center sm:aspect-auto sm:min-h-[12rem] sm:py-8"
             >
               {icon ? <Icon name={icon} className="size-8 shrink-0 text-gold md:size-9" /> : null}
 
