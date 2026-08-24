@@ -81,12 +81,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         image={page?.hero}
       />
 
-      <Stats
-        stats={stats}
-        locale={locale}
-        eyebrow={locale === 'ar' ? 'بالأرقام' : 'At a Glance'}
-        showIcons={settings.showIcons}
-      />
+      <Stats stats={stats} locale={locale} showIcons={settings.showIcons} />
 
       {/* Vision & mission */}
       {vision || mission ? (

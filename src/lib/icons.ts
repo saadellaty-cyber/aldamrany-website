@@ -23,6 +23,7 @@ export const ICON_KEYS = [
   'warehouse',
   'tunnel',
   'equipment',
+  'heavy-equipment',
   // Utilities and energy
   'pipeline',
   'fuel',
@@ -68,6 +69,7 @@ export const ICON_LABELS: Record<IconKey, { ar: string; en: string }> = {
   warehouse: { ar: 'مستودع', en: 'Warehouse' },
   tunnel: { ar: 'نفق', en: 'Tunnel' },
   equipment: { ar: 'معدات', en: 'Equipment' },
+  'heavy-equipment': { ar: 'معدة ثقيلة', en: 'Heavy equipment' },
   pipeline: { ar: 'خطوط أنابيب', en: 'Pipeline' },
   fuel: { ar: 'وقود', en: 'Fuel' },
   zap: { ar: 'كهرباء', en: 'Power' },

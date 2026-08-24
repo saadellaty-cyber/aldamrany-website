@@ -80,13 +80,20 @@ export function Stats({
             >
               {icon ? <Icon name={icon} className="size-8 shrink-0 text-gold md:size-9" /> : null}
 
-              <dd className="latin-nums flex items-baseline justify-center gap-1 text-[clamp(1.75rem,1.2rem+1.8vw,2.75rem)] font-semibold leading-none tracking-tight text-gold">
-                {stat.prefix ? <span className="text-[0.6em] opacity-70">{stat.prefix}</span> : null}
+              {/* The sign sits inline at full size — shrunk and faded it read
+                  as a footnote hanging off the number rather than part of it. */}
+              <dd className="latin-nums flex items-baseline justify-center text-[clamp(1.75rem,1.2rem+1.8vw,2.75rem)] font-semibold leading-none tracking-tight text-gold">
+                {stat.prefix ? <span>{stat.prefix}</span> : null}
                 <Counter value={stat.value} locale={locale} />
-                {stat.suffix ? <span className="text-[0.6em] opacity-70">{stat.suffix}</span> : null}
+                {stat.suffix ? <span>{stat.suffix}</span> : null}
               </dd>
 
-              <dt className="text-xs leading-snug text-paper/60 md:text-sm">{stat.label}</dt>
+              {/* Labels are written on one or two lines in the dashboard, and
+                  the break is kept — "فريق عمل / وفنيين" reads as one caption
+                  stacked, not as a sentence that happened to wrap. */}
+              <dt className="whitespace-pre-line text-xs leading-relaxed text-paper/65 md:text-sm">
+                {stat.label}
+              </dt>
             </Reveal>
           );
         })}
