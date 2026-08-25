@@ -209,7 +209,7 @@ export default async function ProjectDetailPage({ params, searchParams }: PagePr
                 <Reveal key={item.id} delay={index * 0.08} distance={30}>
                   <ProjectCard
                     project={item}
-                    ratio="landscape"
+                    ratio="square"
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
                 </Reveal>

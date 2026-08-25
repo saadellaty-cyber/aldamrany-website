@@ -113,7 +113,7 @@ export default async function ProjectsPage({
                   {/* One ratio for every card — the archive reads as a catalogue. */}
                   <ProjectCard
                     project={project}
-                    ratio="landscape"
+                    ratio="square"
                     priority={index < 3}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
