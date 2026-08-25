@@ -23,7 +23,10 @@ export function FeaturedProjects({
     <Carousel
       label={label}
       className="mt-12"
-      itemClass="w-[17rem] shrink-0 snap-start md:w-[21rem]"
+      // Wide enough that roughly two and a half sit in view on a desktop: the
+      // photograph is the point of this row, and at the previous size four of
+      // them competed rather than showing anything.
+      itemClass="w-[19rem] shrink-0 snap-start md:w-[24rem] lg:w-[27rem]"
     >
       {projects.map((project, index) => (
         <ProjectCard
