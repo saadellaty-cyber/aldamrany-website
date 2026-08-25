@@ -23,7 +23,7 @@ export function FeaturedProjects({
     <Carousel
       label={label}
       className="mt-12"
-      itemClass="w-[13.5rem] shrink-0 snap-start md:w-[15.5rem]"
+      itemClass="w-[17rem] shrink-0 snap-start md:w-[21rem]"
     >
       {projects.map((project, index) => (
         <ProjectCard
@@ -31,7 +31,9 @@ export function FeaturedProjects({
           project={project}
           ratio="square"
           priority={index < 3}
-          sizes="(min-width: 768px) 15.5rem, 13.5rem"
+          // Asked for at twice the frame, so the crop stays sharp on the
+          // high-density screens most of these are read on.
+          sizes="(min-width: 768px) 42rem, 34rem"
         />
       ))}
     </Carousel>
