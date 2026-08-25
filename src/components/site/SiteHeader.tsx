@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl';
 import type { Locale } from '@/i18n/config';
 import type { NavItem } from '@/lib/content/site';
 import { LanguageSwitcher } from '@/components/site/LanguageSwitcher';
+import { ThemeToggle } from '@/components/site/ThemeToggle';
 import { cn } from '@/lib/utils';
 
 type SiteHeaderProps = {
@@ -149,6 +150,8 @@ export function SiteHeader({ locale, nav, logo, companyName, contactHref }: Site
 
           <div className="flex items-center gap-4 md:gap-6">
             <LanguageSwitcher locale={locale} tone="dark" className="text-paper" />
+
+            <ThemeToggle className="text-paper" />
 
             <Link
               href={contactHref}

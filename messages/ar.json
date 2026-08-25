@@ -39,6 +39,10 @@
   },
   "partners": {
     "title": "شركاؤنا في النجاح"
+  },  "theme": {
+    "toggle": "تبديل الوضع",
+    "toDay": "الوضع النهاري",
+    "toNight": "الوضع الليلي"
   },  "common": {
     "exploreWork": "استكشف أعمالنا",
     "discoverCompany": "تعرف علينا",

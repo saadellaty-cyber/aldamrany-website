@@ -58,9 +58,6 @@
 
   --radius-panel: 1.25rem;
   --radius-card: 0.875rem;
-  /* The project tiles are read as objects rather than panels, so they carry a
-     rounder corner than the rest of the system. */
-  --radius-tile: 1.75rem;
   --radius-control: 0.5rem;
 
   --color-danger: #a33a2a;
@@ -74,6 +71,35 @@
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+/* --- Day mode ------------------------------------------------------------
+
+   The site is drawn dark. Day mode does not restyle it — it re-points the
+   surface tokens, so every `bg-night`, `text-paper` and hairline already in
+   the components follows without a single component knowing about themes.
+
+   Scoped to the attribute, which only the public shell sets. The dashboard
+   renders its own document and keeps its own ink/paper pair either way.
+
+   `--color-paper` is the type that sits on those surfaces, so in day mode it
+   becomes near-black rather than off-white: the name describes its role, not
+   its lightness. */
+[data-theme='day'] {
+  color-scheme: light;
+
+  --color-night: #f2f0eb;
+  --color-night-soft: #ffffff;
+  --color-night-raised: #fbfaf7;
+  --color-night-line: #e3ded3;
+
+  --color-paper: #16181d;
+  --color-cream: #ffffff;
+
+  /* The bright gold disappears on white, so day mode runs the calm value. */
+  --color-gold: #9c7418;
+  --color-gold-soft: #7f5e10;
+  --color-gold-dim: #b8913c;
 }
 
 /* --- Base ---------------------------------------------------------------- */

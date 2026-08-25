@@ -39,6 +39,10 @@
   },
   "partners": {
     "title": "Our Partners"
+  },  "theme": {
+    "toggle": "Switch theme",
+    "toDay": "Day mode",
+    "toNight": "Night mode"
   },  "common": {
     "exploreWork": "Explore Our Work",
     "discoverCompany": "Discover EL DAMARANY",

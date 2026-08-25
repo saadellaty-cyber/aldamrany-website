@@ -83,6 +83,19 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Applies the saved theme before anything paints. Without this the
+            page renders dark and then snaps to day mode once React runs, which
+            is worse than having no toggle at all. Deliberately tiny and
+            synchronous — it has to finish before the first frame. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var s=localStorage.getItem('eldamarany-theme');" +
+              "if(!s){s=window.matchMedia('(prefers-color-scheme: light)').matches?'day':'night';}" +
+              "document.documentElement.dataset.theme=s;}catch(e){}})();",
+          }}
+        />
+
         {/* Without scripts, entrance animations must not leave content hidden. */}
         <noscript>
           <style>{'[data-reveal]{opacity:1 !important;transform:none !important;}'}</style>
