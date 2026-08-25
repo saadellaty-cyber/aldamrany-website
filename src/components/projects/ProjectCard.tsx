@@ -8,6 +8,7 @@ const RATIOS = {
   tall: 'aspect-[3/4]',
   portrait: 'aspect-[4/5]',
   square: 'aspect-square',
+  classic: 'aspect-[5/4]',
   landscape: 'aspect-[4/3]',
   wide: 'aspect-[16/9]',
   panorama: 'aspect-[21/9]',

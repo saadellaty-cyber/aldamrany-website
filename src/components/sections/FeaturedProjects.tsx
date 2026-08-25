@@ -23,22 +23,26 @@ export function FeaturedProjects({
     <Carousel
       label={label}
       className="mt-12"
-      // Wide enough that roughly two and a half sit in view on a desktop: the
-      // photograph is the point of this row, and at the previous size four of
-      // them competed rather than showing anything.
-      itemClass="w-[19rem] shrink-0 snap-start md:w-[24rem] lg:w-[27rem]"
+      // Wide enough that roughly two sit in view on a desktop: the photograph
+      // is the point of this row, and at any smaller size the tiles compete
+      // with each other rather than showing anything.
+      // The phone size stays put: any wider and a tile fills the track exactly,
+      // losing the sliver of the next one that shows the row can be scrolled.
+      itemClass="w-[19.5rem] shrink-0 snap-start md:w-[26rem] lg:w-[30rem]"
     >
       {projects.map((project, index) => (
         <ProjectCard
           key={project.id}
           project={project}
-          // The 4:3 the gallery uses. It is also close to what the cameras
-          // actually shot, so the crop takes very little off the sides.
-          ratio="landscape"
+          // 5:4 rather than the gallery's 4:3. A road photographed head-on is
+          // mostly sky and mostly verge; the wider frame spent that extra width
+          // on both and left the machinery small. The taller frame keeps the
+          // same road filling more of the tile.
+          ratio="classic"
           priority={index < 3}
           // Asked for at twice the frame, so the crop stays sharp on the
           // high-density screens most of these are read on.
-          sizes="(min-width: 768px) 42rem, 34rem"
+          sizes="(min-width: 1024px) 60rem, (min-width: 768px) 52rem, 41rem"
         />
       ))}
     </Carousel>
