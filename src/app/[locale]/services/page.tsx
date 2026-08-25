@@ -67,9 +67,9 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       />
 
       {services.length > 0 ? (
-        <section className="section-y">
+        <section className="band-light section-y">
           <div className="container-page">
-            <ServiceBlocks services={services} showIcons={settings.showIcons} />
+            <ServiceBlocks services={services} showIcons={settings.showIcons} tone="light" />
           </div>
         </section>
       ) : null}

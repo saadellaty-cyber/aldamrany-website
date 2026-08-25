@@ -8,15 +8,25 @@ import { cn } from '@/lib/utils';
 /**
  * Services rendered as full-width editorial bands — a large index, a
  * photograph and the copy — rather than a grid of identical cards.
+ *
+ * `tone` is the ground it sits on, not the colour of the type.
  */
 export function ServiceBlocks({
   services,
   showIcons = true,
+  tone = 'dark',
 }: {
   services: ServiceItem[];
   showIcons?: boolean;
+  tone?: 'dark' | 'light';
 }) {
   if (services.length === 0) return null;
+
+  const onDark = tone === 'dark';
+  const rule = onDark ? 'border-night-line' : 'border-gold-calm/25';
+  const muted = onDark ? 'text-paper/55' : 'text-ink/60';
+  const heading = onDark ? 'text-paper' : 'text-ink';
+  const mark = onDark ? 'text-gold' : 'text-gold-calm';
 
   return (
     <div className="flex flex-col">
@@ -28,7 +38,8 @@ export function ServiceBlocks({
             key={service.id}
             id={service.slug}
             className={cn(
-              'group grid scroll-mt-24 items-center gap-8 border-t border-night-line py-12 lg:grid-cols-12 lg:gap-14 lg:py-16',
+              'group grid scroll-mt-24 items-center gap-8 border-t py-12 lg:grid-cols-12 lg:gap-14 lg:py-16',
+              rule,
               index === 0 && 'border-t-0 pt-0',
             )}
           >
@@ -42,18 +53,18 @@ export function ServiceBlocks({
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 topicSlug={service.slug}
                 placeholderLabel={service.title}
-                className="aspect-[4/3] w-full"
+                className="aspect-[4/3] w-full rounded-[var(--radius-card)]"
                 imageClassName="transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
               />
             </Reveal>
 
             <div className={cn('lg:col-span-6', reversed && 'lg:order-1')}>
               <Reveal>
-                <span className="flex items-center gap-3 text-paper/55">
+                <span className={cn('flex items-center gap-3', muted)}>
                   {showIcons && resolveIcon(service.icon, service.slug) ? (
                     <Icon
                       name={resolveIcon(service.icon, service.slug)!}
-                      className="size-7 text-gold"
+                      className={cn('size-7', mark)}
                     />
                   ) : null}
                   <span className="latin-nums text-sm font-medium tracking-[0.2em]">
@@ -62,13 +73,18 @@ export function ServiceBlocks({
                 </span>
               </Reveal>
 
-              <h3 className="mt-5 text-balance text-2xl font-semibold tracking-tight text-paper">
+              <h3
+                className={cn(
+                  'mt-5 text-balance text-2xl font-semibold tracking-tight',
+                  heading,
+                )}
+              >
                 <RevealHeading>{service.title}</RevealHeading>
               </h3>
 
               {service.description.length > 0 ? (
                 <Reveal delay={0.1}>
-                  <div className="prose-editorial mt-6 max-w-xl text-paper/55">
+                  <div className={cn('prose-editorial mt-6 max-w-xl', muted)}>
                     {service.description.map((paragraph, paragraphIndex) => (
                       <p key={paragraphIndex}>{paragraph}</p>
                     ))}
@@ -80,53 +96,5 @@ export function ServiceBlocks({
         );
       })}
     </div>
-  );
-}
-
-/**
- * Condensed variant for the homepage: a numbered list of services with a
- * single shared image, keeping the page from becoming a stack of photos.
- */
-export function ServiceList({
-  services,
-  showIcons = true,
-}: {
-  services: ServiceItem[];
-  showIcons?: boolean;
-}) {
-  if (services.length === 0) return null;
-
-  return (
-    <ul className="mt-14 border-t border-night-line">
-      {services.map((service, index) => (
-        <li key={service.id} className="border-b border-night-line">
-          <Reveal delay={index * 0.05}>
-            <div className="grid items-baseline gap-3 py-7 md:grid-cols-12 md:gap-8 md:py-9">
-              <span className="flex items-center gap-2.5 text-paper/55 md:col-span-1">
-                {showIcons && resolveIcon(service.icon, service.slug) ? (
-                  <Icon
-                    name={resolveIcon(service.icon, service.slug)!}
-                    className="size-5 text-gold"
-                  />
-                ) : null}
-                <span className="latin-nums text-sm font-medium tracking-[0.2em]">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-              </span>
-
-              <h3 className="display-4 text-balance md:col-span-5">
-                        <span className="text-paper">{service.title}</span>
-                      </h3>
-
-              {service.description.length > 0 ? (
-                <p className="max-w-prose text-sm leading-relaxed text-paper/55 md:col-span-6">
-                  {service.description[0]}
-                </p>
-              ) : null}
-            </div>
-          </Reveal>
-        </li>
-      ))}
-    </ul>
   );
 }

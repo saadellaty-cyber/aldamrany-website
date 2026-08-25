@@ -78,7 +78,7 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
       />
 
       {withProjects.length > 0 ? (
-        <section className="section-y">
+        <section className="band-light section-y">
           <div className="container-page">
             <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {withProjects.map((sector, index) => (
@@ -92,15 +92,15 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       topicSlug={sector.slug}
                       placeholderLabel={sector.name}
-                      className="aspect-[4/3] w-full"
+                      className="aspect-[4/3] w-full rounded-[var(--radius-card)]"
                       imageClassName="transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
                     />
                     <div className="mt-5 flex items-baseline justify-between gap-4">
-                      <h2 className="flex items-center gap-2.5 text-xl font-semibold tracking-tight text-paper transition-colors duration-300 group-hover:text-gold">
+                      <h2 className="flex items-center gap-2.5 text-xl font-semibold tracking-tight text-ink transition-colors duration-300 group-hover:text-gold-calm">
                         {settings.showIcons && resolveIcon(sector.icon, sector.slug) ? (
                           <Icon
                             name={resolveIcon(sector.icon, sector.slug)!}
-                            className="size-5 text-gold"
+                            className="size-5 text-gold-calm"
                           />
                         ) : null}
                         {sector.name}
@@ -125,9 +125,10 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
       {/* Sectors the company works in that have no published project yet are
           listed as plain text — never presented as delivered work. */}
       {withoutProjects.length > 0 ? (
-        <section className="section-y pt-0 md:pt-0 xl:pt-0">
+        <section className="band-light section-y pt-0 md:pt-0 xl:pt-0">
           <div className="container-page pt-16 md:pt-20">
             <SectionHeader
+              tone="light"
               eyebrow={locale === 'ar' ? 'قطاعات أخرى' : 'Other Sectors'}
             />
             <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
@@ -138,7 +139,7 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
                       {settings.showIcons && resolveIcon(sector.icon, sector.slug) ? (
                         <Icon
                           name={resolveIcon(sector.icon, sector.slug)!}
-                          className="size-5 text-gold"
+                          className="size-5 text-gold-calm"
                         />
                       ) : null}
                       {sector.name}
@@ -152,9 +153,10 @@ export default async function SectorsPage({ params }: { params: Promise<{ locale
       ) : null}
 
       {collections.length > 0 ? (
-        <section className="section-y">
+        <section className="band-light section-y">
           <div className="container-page">
             <SectionHeader
+              tone="light"
               eyebrow={locale === 'ar' ? 'مجموعات المشروعات' : 'Project Collections'}
             />
             <ul className="mt-10 border-t border-line">
