@@ -29,7 +29,9 @@ export function FeaturedProjects({
         <ProjectCard
           key={project.id}
           project={project}
-          ratio="square"
+          // The 4:3 the gallery uses. It is also close to what the cameras
+          // actually shot, so the crop takes very little off the sides.
+          ratio="landscape"
           priority={index < 3}
           // Asked for at twice the frame, so the crop stays sharp on the
           // high-density screens most of these are read on.
