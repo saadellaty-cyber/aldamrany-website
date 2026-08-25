@@ -24,6 +24,8 @@ const CUSTOM_COLORS = [
   'night-raised',
   'night-line',
   'cream',
+  'shade',
+  'shade-ink',
   'gold',
   'gold-soft',
   'gold-dim',

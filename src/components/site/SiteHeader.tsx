@@ -91,7 +91,7 @@ export function SiteHeader({ locale, nav, logo, companyName, contactHref }: Site
           'fixed inset-x-0 top-0 z-50 text-paper transition-[transform,background-color,backdrop-filter,border-color] duration-500',
           'border-b',
           scrolled
-            ? 'border-white/10 bg-ink/85 backdrop-blur-xl'
+            ? 'border-night-line bg-night/85 backdrop-blur-xl'
             : 'border-transparent bg-transparent',
           hidden && !menuOpen ? '-translate-y-full' : 'translate-y-0',
         )}
@@ -155,7 +155,7 @@ export function SiteHeader({ locale, nav, logo, companyName, contactHref }: Site
 
             <Link
               href={contactHref}
-              className="hidden h-10 items-center border border-paper/35 px-5 text-sm font-medium transition-colors duration-300 hover:bg-paper hover:text-ink lg:inline-flex"
+              className="hidden h-10 items-center border border-paper/35 px-5 text-sm font-medium transition-colors duration-300 hover:bg-paper hover:text-night lg:inline-flex"
             >
               {t('common.discussProject')}
             </Link>
@@ -179,7 +179,7 @@ export function SiteHeader({ locale, nav, logo, companyName, contactHref }: Site
           <motion.div
             id="mobile-menu"
             key="mobile-menu"
-            className="fixed inset-0 z-60 flex flex-col bg-ink text-paper xl:hidden"
+            className="fixed inset-0 z-60 flex flex-col bg-night text-paper xl:hidden"
             initial={reduceMotion ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
             animate={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
@@ -229,7 +229,7 @@ export function SiteHeader({ locale, nav, logo, companyName, contactHref }: Site
               <div className="mt-10">
                 <Link
                   href={contactHref}
-                  className="inline-flex h-12 items-center justify-center bg-paper px-7 text-sm font-medium text-ink"
+                  className="inline-flex h-12 items-center justify-center bg-paper px-7 text-sm font-medium text-night"
                 >
                   {t('common.discussProject')}
                 </Link>

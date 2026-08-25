@@ -41,6 +41,11 @@
   /* The light ground lifted out of the dark house. */
   --color-cream: #fdfcfa;
 
+  /* Stays dark in both themes: the photo lightbox, where a light ground would
+     fight the photograph it is there to show. */
+  --color-shade: #0d0f13;
+  --color-shade-ink: #f4f3ef;
+
   /* The gold. Warm and slightly muted — it has to sit on near-black without
      glaring and on cream without disappearing, which a brighter yellow cannot
      do. Reserved for rules, icons, buttons and short labels. */

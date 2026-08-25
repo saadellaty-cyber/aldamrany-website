@@ -130,7 +130,7 @@ export function ProjectGallery({ images }: { images: ImageRef[] }) {
             role="dialog"
             aria-modal="true"
             aria-label={t('projects.gallery')}
-            className="fixed inset-0 z-100 flex flex-col bg-ink/97 backdrop-blur-sm"
+            className="fixed inset-0 z-100 flex flex-col bg-shade/97 text-shade-ink backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -145,7 +145,7 @@ export function ProjectGallery({ images }: { images: ImageRef[] }) {
                 type="button"
                 onClick={close}
                 aria-label={t('projects.closeGallery')}
-                className="inline-flex size-11 items-center justify-center border border-paper/25 transition-colors hover:bg-paper hover:text-ink"
+                className="inline-flex size-11 items-center justify-center border border-shade-ink/25 transition-colors hover:bg-shade-ink hover:text-shade"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>
@@ -157,7 +157,7 @@ export function ProjectGallery({ images }: { images: ImageRef[] }) {
                   type="button"
                   onClick={() => step(-1)}
                   aria-label={t('projects.previousImage')}
-                  className="absolute start-2 z-10 hidden size-12 items-center justify-center border border-paper/25 text-paper transition-colors hover:bg-paper hover:text-ink md:inline-flex"
+                  className="absolute start-2 z-10 hidden size-12 items-center justify-center border border-shade-ink/25 text-shade-ink transition-colors hover:bg-shade-ink hover:text-shade md:inline-flex"
                 >
                   <ChevronLeft className="size-6 rtl:-scale-x-100" aria-hidden="true" />
                 </button>
@@ -193,7 +193,7 @@ export function ProjectGallery({ images }: { images: ImageRef[] }) {
                   type="button"
                   onClick={() => step(1)}
                   aria-label={t('projects.nextImage')}
-                  className="absolute end-2 z-10 hidden size-12 items-center justify-center border border-paper/25 text-paper transition-colors hover:bg-paper hover:text-ink md:inline-flex"
+                  className="absolute end-2 z-10 hidden size-12 items-center justify-center border border-shade-ink/25 text-shade-ink transition-colors hover:bg-shade-ink hover:text-shade md:inline-flex"
                 >
                   <ChevronRight className="size-6 rtl:-scale-x-100" aria-hidden="true" />
                 </button>
@@ -272,7 +272,7 @@ function GalleryThumb({
       />
       <span
         aria-hidden="true"
-        className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/10"
+        className="absolute inset-0 bg-shade/0 transition-colors duration-500 group-hover:bg-shade/10"
       />
     </button>
   );

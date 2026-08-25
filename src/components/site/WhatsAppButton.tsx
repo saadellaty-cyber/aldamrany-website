@@ -43,7 +43,7 @@ export function WhatsAppButton({ href }: { href: string }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={t('common.chatOnWhatsapp')}
-          className="fixed bottom-5 end-5 z-40 inline-flex size-13 items-center justify-center rounded-full bg-ink text-paper shadow-[0_8px_30px_rgba(17,17,17,0.28)] transition-colors duration-300 hover:bg-ink-raised md:bottom-8 md:end-8"
+          className="fixed bottom-5 end-5 z-40 inline-flex size-13 items-center justify-center rounded-full border border-night-line bg-night-soft text-paper shadow-[0_8px_30px_rgba(0,0,0,0.28)] transition-colors duration-300 hover:border-gold/50 md:bottom-8 md:end-8"
           initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 12 }}

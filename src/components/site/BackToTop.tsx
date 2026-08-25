@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
  * Hidden until the reader is far enough down that scrolling back would be a
  * chore, and it respects reduced motion by jumping rather than gliding.
  */
-export function BackToTop() {
+export function BackToTop({ raised = false }: { raised?: boolean }) {
   const t = useTranslations();
   const [visible, setVisible] = useState(false);
 
@@ -35,7 +35,9 @@ export function BackToTop() {
         })
       }
       className={cn(
-        'fixed bottom-5 end-5 z-40 inline-flex size-11 items-center justify-center rounded-full',
+        'fixed end-5 z-40 inline-flex size-11 items-center justify-center rounded-full',
+        // Clears the floating WhatsApp button when that is enabled.
+        raised ? 'bottom-[5.25rem] md:bottom-[6.5rem]' : 'bottom-5',
         'bg-gold text-night shadow-lg transition-all duration-300 hover:bg-gold-soft',
         visible ? 'opacity-100' : 'pointer-events-none translate-y-3 opacity-0',
       )}

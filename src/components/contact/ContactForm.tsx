@@ -14,7 +14,7 @@ const PROJECT_TYPES = ['roads', 'asphalt', 'infrastructure', 'concrete', 'contra
 const initialState: ContactFormState = { status: 'idle' };
 
 const fieldClass =
-  'h-12 w-full border border-line bg-transparent px-3.5 text-sm transition-colors placeholder:text-ink-muted/60 focus:border-ink focus:outline-none';
+  'h-12 w-full border border-night-line bg-transparent px-3.5 text-sm transition-colors placeholder:text-paper/40 focus:border-gold focus:outline-none';
 
 export function ContactForm({ locale }: { locale: Locale }) {
   const t = useTranslations();
@@ -24,7 +24,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
     return (
       <div
         role="status"
-        className="flex items-start gap-4 border border-ink/15 bg-paper-soft p-8"
+        className="flex items-start gap-4 border border-night-line bg-night-soft p-8"
       >
         <Check className="mt-0.5 size-5 shrink-0 text-success" aria-hidden="true" />
         <div>
@@ -118,7 +118,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           aria-invalid={invalid('message') || undefined}
           className={cn(
             'w-full border bg-transparent p-3.5 text-sm leading-relaxed transition-colors focus:outline-none',
-            invalid('message') ? 'border-danger focus:border-danger' : 'border-line focus:border-ink',
+            invalid('message') ? 'border-danger focus:border-danger' : 'border-night-line focus:border-gold',
           )}
         />
         {invalid('message') ? (
@@ -153,7 +153,7 @@ function SubmitButton({ idle, busy }: { idle: string; busy: string }) {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" size="lg" disabled={pending} withArrow={!pending}>
+    <Button type="submit" variant="gold" size="lg" disabled={pending} withArrow={!pending}>
       {pending ? busy : idle}
     </Button>
   );
@@ -185,7 +185,7 @@ function Field({
       <span className="mb-2 flex items-baseline gap-2 text-sm font-medium">
         {label}
         {required ? <span aria-hidden="true">*</span> : null}
-        {hint ? <span className="text-xs font-normal text-ink-muted">({hint})</span> : null}
+        {hint ? <span className="text-xs font-normal text-paper/50">({hint})</span> : null}
       </span>
       <input
         name={name}

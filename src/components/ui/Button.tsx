@@ -20,11 +20,15 @@ export type ButtonSize = 'md' | 'lg';
 const VARIANTS: Record<ButtonVariant, string> = {
   gold: 'bg-gold text-night hover:bg-gold-soft',
   outlineGold: 'border border-gold/50 text-gold hover:border-gold hover:bg-gold hover:text-night',
-  solid: 'bg-ink text-paper hover:bg-ink-raised',
-  inverse: 'bg-paper text-ink hover:bg-white',
-  outline: 'border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-paper',
-  outlineLight: 'border border-paper/35 text-paper hover:border-paper hover:bg-paper hover:text-ink',
-  ghost: 'text-ink hover:bg-ink/5',
+  // "paper" is the type colour and "night" the page ground, and the two flip
+  // together between themes — so a variant built from that pair is correct in
+  // both. Pairing "ink" with "paper", as these once did, is not: ink is fixed
+  // while paper inverts, which in day mode put black type on a black button.
+  solid: 'bg-paper text-night hover:opacity-90',
+  inverse: 'bg-paper text-night hover:opacity-90',
+  outline: 'border border-paper/30 text-paper hover:border-paper hover:bg-paper hover:text-night',
+  outlineLight: 'border border-paper/35 text-paper hover:border-paper hover:bg-paper hover:text-night',
+  ghost: 'text-paper hover:bg-paper/10',
 };
 
 const SIZES: Record<ButtonSize, string> = {
