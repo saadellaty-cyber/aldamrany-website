@@ -5,7 +5,6 @@ import {
   ClipboardCheck,
   Construction,
   Container,
-  Tractor,
   Cylinder,
   Droplets,
   Eye,
@@ -34,6 +33,7 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react';
+import { Excavator } from '@/components/ui/glyphs';
 import type { IconKey } from '@/lib/icons';
 import { cn } from '@/lib/utils';
 
@@ -55,7 +55,7 @@ const GLYPHS: Record<IconKey, LucideIcon> = {
   warehouse: Warehouse,
   tunnel: Cylinder,
   equipment: Container,
-  'heavy-equipment': Tractor,
+  'heavy-equipment': Excavator,
   pipeline: Waypoints,
   fuel: Fuel,
   zap: Zap,
