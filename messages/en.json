@@ -39,11 +39,13 @@
   },
   "partners": {
     "title": "Our Partners"
-  },  "theme": {
+  },
+  "theme": {
     "toggle": "Switch theme",
     "toDay": "Day mode",
     "toNight": "Night mode"
-  },  "common": {
+  },
+  "common": {
     "exploreWork": "Explore Our Work",
     "discoverCompany": "Discover EL DAMARANY",
     "discussProject": "Discuss a Project",
@@ -116,6 +118,7 @@
     "headline": "Have a Project? Let's Start Here.",
     "headOffice": "Head Office",
     "branch": "Branch",
+    "mapTitle": "Company location on the map",
     "phone": "Phone",
     "mobile": "Mobile",
     "email": "Email",

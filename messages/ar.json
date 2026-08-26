@@ -39,11 +39,13 @@
   },
   "partners": {
     "title": "شركاؤنا في النجاح"
-  },  "theme": {
+  },
+  "theme": {
     "toggle": "تبديل الوضع",
     "toDay": "الوضع النهاري",
     "toNight": "الوضع الليلي"
-  },  "common": {
+  },
+  "common": {
     "exploreWork": "استكشف أعمالنا",
     "discoverCompany": "تعرف علينا",
     "discussProject": "ناقش مشروعك",
@@ -116,6 +118,7 @@
     "headline": "لديك مشروع؟ دعنا نبدأ من هنا.",
     "headOffice": "المركز الرئيسي",
     "branch": "الفرع",
+    "mapTitle": "موقع الشركة على الخريطة",
     "phone": "الهاتف",
     "mobile": "المحمول",
     "email": "البريد الإلكتروني",
