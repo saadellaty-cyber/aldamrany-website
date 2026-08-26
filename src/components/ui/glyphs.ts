@@ -22,13 +22,13 @@ import { createLucideIcon } from 'lucide-react';
  */
 export const Excavator = createLucideIcon('Excavator', [
   // Track frame.
-  ['path', { d: 'M4.25 16h7a2 2 0 1 1 0 4h-7a2 2 0 1 1 0-4Z' }],
+  ['path', { d: 'M3.75 17.25h8a1.75 1.75 0 1 1 0 3.5h-8a1.75 1.75 0 1 1 0-3.5Z' }],
   // Cab and upper structure.
-  ['path', { d: 'M5.75 16v-4A1.25 1.25 0 0 1 7 10.75h4A1.25 1.25 0 0 1 12.25 12v4' }],
-  // Boom, curved as on the machine.
-  ['path', { d: 'M12.25 11.75c.7-3.7 2.55-5.85 4.7-5.85' }],
-  // Dipper arm.
-  ['path', { d: 'm16.95 5.9 1.6 5.1' }],
-  // Bucket.
-  ['path', { d: 'M15.75 11h5.5l-1 4.1h-3.5z' }],
+  ['path', { d: 'M4 17.25V12a1.5 1.5 0 0 1 1.5-1.5h5A1.5 1.5 0 0 1 12 12v5.25' }],
+  // Boom and dipper arm, drawn as one jointed path: as two they met at a pair
+  // of round caps that piled into a blob at the elbow.
+  ['path', { d: 'M12 12.25c.5-4.75 2.6-7.75 5.25-7.75L19 10.5' }],
+  // Bucket. Deliberately the largest single shape after the tracks — at the
+  // size these render it is what tells an excavator from any other machine.
+  ['path', { d: 'M15.25 10.5h6.75l-1.4 5.75h-3.95z' }],
 ]);
