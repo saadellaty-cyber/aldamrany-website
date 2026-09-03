@@ -21,27 +21,46 @@ Both have free tiers that comfortably fit a corporate site.
 2. Choose a region close to your visitors (Frankfurt is a good choice for Egypt).
 3. Set a strong database password and save it.
 4. Wait for provisioning, then open **Connect** (top of the project page).
-5. Choose the **Session pooler** connection string.
+5. Choose the **Transaction pooler** connection string (port **6543**).
 
-> **Use the Session pooler, not the direct connection and not Transaction mode.**
+> **Use the Transaction pooler — not the direct connection, and not Session
+> mode.**
 >
 > - The *direct* connection is IPv6-only on new projects; most shared hosts
 >   cannot reach it.
-> - *Transaction* mode (port 6543) disables prepared statements, which Prisma
->   relies on.
-> - *Session* mode is IPv4-compatible and behaves like a normal PostgreSQL
->   connection, which is what a long-running Node server wants.
+> - *Session* mode (port 5432) pins one database connection per client for the
+>   whole session, and Supavisor caps that at **15**. Every public page is
+>   `force-dynamic`, so a handful of overlapping visitors exhausts the pool and
+>   the site starts returning 500 to everybody:
+>
+>   ```
+>   Database error. Code: XX000
+>   (EMAXCONNSESSION) max clients reached in session mode
+>     - max clients are limited to pool_size: 15
+>   ```
+>
+>   It recovers on its own once traffic stops, which makes it easy to miss.
+> - *Transaction* mode holds a database connection only for the length of a
+>   transaction, so the same 15 server connections serve far more visitors.
+
+Transaction mode has one real constraint: no named prepared statements, and no
+session state (`SET`, `LISTEN`, advisory locks) surviving between statements.
+That is why older notes here recommended session mode — but that warning was
+about Prisma's own query engine. This project uses a **Prisma 7 driver adapter**
+(`@prisma/adapter-pg`, i.e. node-postgres), which sends unnamed queries, so the
+constraint does not apply. Verified against the production database: repeated
+identical `findUnique` calls, `$transaction`, and parallel queries all pass.
 
 The string looks like:
 
 ```
-postgresql://postgres.abcdefghijkl:YOUR-PASSWORD@aws-0-eu-central-1.pooler.supabase.com:5432/postgres
+postgresql://postgres.abcdefghijkl:YOUR-PASSWORD@aws-0-eu-central-1.pooler.supabase.com:6543/postgres
 ```
 
 Append `?sslmode=require`:
 
 ```
-postgresql://postgres.abcdefghijkl:YOUR-PASSWORD@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require
+postgresql://postgres.abcdefghijkl:YOUR-PASSWORD@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?sslmode=require
 ```
 
 Keep this as your production `DATABASE_URL`.
