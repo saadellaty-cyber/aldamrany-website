@@ -6,12 +6,10 @@ import { PageHero } from '@/components/site/PageHero';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { SocialLinks } from '@/components/site/SocialLinks';
 import { WhatsAppInlineIcon } from '@/components/site/WhatsAppButton';
-import { LocationMap } from '@/components/site/LocationMap';
 import { Reveal } from '@/components/motion/Reveal';
 import { ArrowLink } from '@/components/ui/Button';
 import { getPage } from '@/lib/content/pages';
 import { contactChannels, getSiteSettings, getSocialLinks } from '@/lib/content/site';
-import { mapEmbedSrc } from '@/lib/maps';
 import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from '@/lib/seo';
 import { isLocale, type Locale } from '@/i18n/config';
 
@@ -74,15 +72,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     contact.headOffice ? { label: t('contact.headOffice'), value: contact.headOffice } : null,
     contact.branch ? { label: t('contact.branch'), value: contact.branch } : null,
   ].filter(Boolean) as Array<{ label: string; value: string }>;
-
-  // Geocoded off the English address whichever language the page is in: Google
-  // finds "Smouha, Alexandria" more reliably than its Arabic spelling, while
-  // `hl` still puts the map's own labels in the reader's language.
-  const mapSrc = mapEmbedSrc({
-    mapsUrl: contact.googleMapsUrl,
-    address: settings.headOfficeEn ?? settings.headOfficeAr,
-    locale,
-  });
 
   const breadcrumbs = breadcrumbJsonLd(
     [
@@ -190,25 +179,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
         </div>
       </section>
 
-      {mapSrc ? (
-        <section className="border-t border-line">
-          <div className="container-page py-12">
-            <Reveal>
-              <div className="flex flex-wrap items-baseline justify-between gap-4">
-                <h2 className="display-4">{t('common.openInMaps')}</h2>
-                {contact.headOffice ? (
-                  <p className="flex items-center gap-2 text-sm text-ink-muted">
-                    <MapPin className="size-4 shrink-0" aria-hidden="true" />
-                    {contact.headOffice}
-                  </p>
-                ) : null}
-              </div>
-            </Reveal>
-
-            <LocationMap src={mapSrc} title={t('contact.mapTitle')} className="mt-8 border border-line" />
-          </div>
-        </section>
-      ) : null}
     </>
   );
 }

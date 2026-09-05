@@ -14,15 +14,22 @@ import { cn } from '@/lib/utils';
 export function LocationMap({
   src,
   title,
+  sizeClassName = 'aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]',
   className,
 }: {
   src: string;
   /** Names the frame for screen readers, e.g. "Head office on the map". */
   title: string;
+  /**
+   * How tall the frame is. A ratio suits a map given a section of its own; a
+   * fixed height suits a strip at the foot of the page, where a ratio would
+   * make the map enormous on a phone.
+   */
+  sizeClassName?: string;
   className?: string;
 }) {
   return (
-    <div className={cn('aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:aspect-[21/9]', className)}>
+    <div className={cn('w-full overflow-hidden', sizeClassName, className)}>
       <iframe
         src={src}
         title={title}

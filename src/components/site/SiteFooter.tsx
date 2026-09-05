@@ -13,6 +13,8 @@ import { getServices } from '@/lib/content/collections';
 import { SocialLinks } from '@/components/site/SocialLinks';
 import { WhatsAppInlineIcon } from '@/components/site/WhatsAppButton';
 import { LanguageSwitcher } from '@/components/site/LanguageSwitcher';
+import { LocationMap } from '@/components/site/LocationMap';
+import { mapEmbedSrc } from '@/lib/maps';
 import type { Locale } from '@/i18n/config';
 
 /** Legal pages appear in the footer only once they have been published. */
@@ -42,6 +44,15 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
   const contact = contactChannels(settings, locale);
   const brand = brandAssets(settings, locale);
   const year = new Date().getFullYear();
+
+  // Geocoded off the English address whichever language the page is in: Google
+  // finds "Smouha, Alexandria" more reliably than its Arabic spelling, while
+  // `hl` still puts the map's own labels in the reader's language.
+  const mapSrc = mapEmbedSrc({
+    mapsUrl: contact.googleMapsUrl,
+    address: settings.headOfficeEn ?? settings.headOfficeAr,
+    locale,
+  });
 
   return (
     <footer className="surface-dark">
@@ -182,6 +193,18 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
           </div>
         </div>
       </div>
+
+      {/* The office, at the very foot of every page. Edge to edge rather than
+          inside the container: a map reads as a place, not as another column of
+          the footer. It loads only once a reader scrolls down to it. */}
+      {mapSrc ? (
+        <LocationMap
+          src={mapSrc}
+          title={t('contact.mapTitle')}
+          sizeClassName="h-60 md:h-72 lg:h-80"
+          className="border-t border-white/10"
+        />
+      ) : null}
     </footer>
   );
 }
