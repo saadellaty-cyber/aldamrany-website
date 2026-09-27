@@ -19,9 +19,21 @@ export const config = {
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const [, firstSegment = ''] = pathname.split('/');
+  const [, firstSegment = '', secondSegment = ''] = pathname.split('/');
 
-  if ((locales as readonly string[]).includes(firstSegment)) return NextResponse.next();
+  if ((locales as readonly string[]).includes(firstSegment)) {
+    // The dashboard sits outside the locale tree, but someone already reading
+    // /ar/… who types "admin" after it lands on /ar/admin. That is the obvious
+    // guess and it used to 404, so it is sent to the real address instead.
+    if (RESERVED_PREFIXES.includes(secondSegment)) {
+      const target = new URL(pathname.slice(firstSegment.length + 1), request.url);
+      target.search = request.nextUrl.search;
+      return NextResponse.redirect(target);
+    }
+
+    return NextResponse.next();
+  }
+
   if (RESERVED_PREFIXES.includes(firstSegment)) return NextResponse.next();
 
   const locale = negotiateLocale(request.headers.get('accept-language'));
