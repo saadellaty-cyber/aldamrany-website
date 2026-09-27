@@ -2,8 +2,7 @@
   "brand": {
     "name": "EL DAMARANY",
     "latin": "EL DAMARANY",
-    "legalName": "EL DAMARANY for Contracting & Road Paving",
-    "since": "Since 1978"
+    "legalName": "EL DAMARANY for Contracting & Road Paving"
   },
   "nav": {
     "home": "Home",
@@ -172,6 +171,6 @@
   },
   "seo": {
     "defaultTitle": "EL DAMARANY for Contracting & Road Paving",
-    "defaultDescription": "Accumulated experience since 1978 in roads, paving, infrastructure and concrete works across Egypt."
+    "defaultDescription": "Accumulated experience in roads, paving, infrastructure and concrete works across Egypt."
   }
 }

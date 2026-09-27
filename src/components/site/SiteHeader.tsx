@@ -117,9 +117,6 @@ export function SiteHeader({ locale, nav, logo, companyName, contactHref }: Site
                 <span className="text-base font-semibold tracking-[0.16em] md:text-lg">
                   EL DAMARANY
                 </span>
-                <span className="mt-1 text-[0.5625rem] tracking-[0.3em] opacity-60">
-                  SINCE 1978
-                </span>
               </span>
             )}
           </Link>

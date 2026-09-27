@@ -25,8 +25,6 @@ const prisma = new PrismaClient({
   adapter: new PrismaPg(pgScriptConfig(process.env.DATABASE_URL ?? '')),
 });
 
-const FOUNDED = 1978;
-
 // ---------------------------------------------------------------------------
 // Reference data
 // ---------------------------------------------------------------------------
@@ -207,9 +205,9 @@ async function seedSettings() {
     defaultSeoTitleAr: 'شركة الضمراني للمقاولات ورصف الطرق',
     defaultSeoTitleEn: 'EL DAMARANY for Contracting & Road Paving',
     defaultSeoDescriptionAr:
-      'خبرة متراكمة منذ 1978 في تنفيذ مشروعات الطرق والرصف والبنية التحتية والأعمال الخرسانية داخل جمهورية مصر العربية.',
+      'خبرة متراكمة في تنفيذ مشروعات الطرق والرصف والبنية التحتية والأعمال الخرسانية داخل جمهورية مصر العربية.',
     defaultSeoDescriptionEn:
-      'Accumulated experience since 1978 in roads, paving, infrastructure and concrete works across Egypt.',
+      'Accumulated experience in roads, paving, infrastructure and concrete works across Egypt.',
     // Contact channels are intentionally empty until the company supplies them.
   };
 
@@ -355,28 +353,17 @@ async function seedRisk() {
   console.log(`• Risk management steps: ${RISK_STEPS.length}`);
 }
 
+/**
+ * No milestones are seeded. The founding year the site used to carry has been
+ * withdrawn at the owner's instruction, and inventing a history to replace it
+ * is exactly what this seed refuses to do. Milestones are added in the
+ * dashboard once there are dates to publish.
+ */
 async function seedTimeline() {
-  const existing = await prisma.timelineItem.findFirst({ where: { year: FOUNDED } });
-  const data = {
-    year: FOUNDED,
-    titleAr: 'بداية المسيرة',
-    titleEn: 'The Beginning',
-    descriptionAr: 'انطلقت خبرة الشركة في مجال المقاولات وتنفيذ الأعمال.',
-    descriptionEn: "EL DAMARANY's experience in contracting and project execution began in 1978.",
-    sortOrder: 0,
-  };
-
-  if (existing) {
-    await prisma.timelineItem.update({ where: { id: existing.id }, data });
-  } else {
-    await prisma.timelineItem.create({ data });
-  }
-  console.log('• Timeline: 1978 milestone only (no further history invented)');
+  console.log('• Timeline: nothing seeded (no dates supplied)');
 }
 
 async function seedStatistics() {
-  const yearsOfExperience = new Date().getFullYear() - FOUNDED;
-
   const stats: Array<{
     key: string;
     labelAr: string;
@@ -384,15 +371,8 @@ async function seedStatistics() {
     value: string | null;
     suffix?: string | null;
   }> = [
-    { key: 'founded', labelAr: 'سنة التأسيس', labelEn: 'Founded', value: String(FOUNDED) },
-    {
-      key: 'years-of-experience',
-      labelAr: 'سنة من الخبرة',
-      labelEn: 'Years of Experience',
-      value: String(yearsOfExperience),
-      suffix: '+',
-    },
-    // Left empty on purpose: the real figures have not been supplied.
+    // Every figure is left empty: the founding year and the years-of-experience
+    // count derived from it have been withdrawn, and the rest were never given.
     { key: 'projects', labelAr: 'مشروع', labelEn: 'Projects', value: null },
     { key: 'governorates', labelAr: 'محافظة', labelEn: 'Governorates', value: null },
     { key: 'capabilities', labelAr: 'مجالات العمل', labelEn: 'Capabilities', value: null },
@@ -406,15 +386,13 @@ async function seedStatistics() {
       create: { key, ...rest, sortOrder: index },
     });
   }
-  console.log('• Statistics: 1978 + years of experience populated, the rest left empty');
+  console.log('• Statistics: labels only, every figure left empty');
 }
 
 async function seedHomepage() {
   const sections = [
     {
       key: 'HERO',
-      eyebrowAr: 'منذ 1978',
-      eyebrowEn: 'Since 1978',
       titleAr: 'خبرة تتجدد، وقدرات تتطور.',
       titleEn: 'Experience That Evolves. Capabilities That Grow.',
       bodyAr:
@@ -435,9 +413,9 @@ async function seedHomepage() {
       titleAr: 'خبرة راسخة، قدرات متكاملة، وتنفيذ يصنع الفارق.',
       titleEn: 'Established Experience. Integrated Capabilities. Execution That Makes a Difference.',
       bodyAr:
-        'منذ عام 1978، تعمل شركة الضمراني للمقاولات ورصف الطرق في مجال المقاولات وتنفيذ مشروعات الطرق والرصف والبنية التحتية والأعمال الخرسانية، مستندة إلى خبرة متراكمة وقدرات فنية وتشغيلية متطورة.',
+        'تعمل شركة الضمراني للمقاولات ورصف الطرق في مجال المقاولات وتنفيذ مشروعات الطرق والرصف والبنية التحتية والأعمال الخرسانية، مستندة إلى خبرة متراكمة وقدرات فنية وتشغيلية متطورة.',
       bodyEn:
-        'Since 1978, EL DAMARANY has built experience in contracting, roads, paving, infrastructure and concrete works, supported by accumulated expertise and continuously developing technical and operational capabilities.',
+        'EL DAMARANY works in contracting, roads, paving, infrastructure and concrete works, supported by accumulated expertise and continuously developing technical and operational capabilities.',
       primaryCtaLabelAr: 'المزيد عن الشركة',
       primaryCtaLabelEn: 'More About the Company',
       primaryCtaHref: '/about',
@@ -524,9 +502,9 @@ async function seedPages() {
       titleAr: 'خبرة راسخة، قدرات متكاملة، وتنفيذ يصنع الفارق.',
       titleEn: 'Established Experience. Integrated Capabilities. Execution That Makes a Difference.',
       introAr:
-        'منذ عام 1978، تعمل شركة الضمراني للمقاولات ورصف الطرق في مجال المقاولات وتنفيذ مشروعات الطرق والرصف والبنية التحتية والأعمال الخرسانية، مستندة إلى خبرة متراكمة وقدرات فنية وتشغيلية متطورة.',
+        'تعمل شركة الضمراني للمقاولات ورصف الطرق في مجال المقاولات وتنفيذ مشروعات الطرق والرصف والبنية التحتية والأعمال الخرسانية، مستندة إلى خبرة متراكمة وقدرات فنية وتشغيلية متطورة.',
       introEn:
-        'Since 1978, EL DAMARANY has built experience in contracting, roads, paving, infrastructure and concrete works, supported by accumulated expertise and continuously developing technical and operational capabilities.',
+        'EL DAMARANY works in contracting, roads, paving, infrastructure and concrete works, supported by accumulated expertise and continuously developing technical and operational capabilities.',
     },
     {
       key: 'services',

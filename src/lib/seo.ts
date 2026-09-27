@@ -117,7 +117,6 @@ export async function organizationJsonLd(locale: Locale) {
     name,
     alternateName: 'EL DAMARANY',
     url: env.siteUrl,
-    foundingDate: '1978',
     areaServed: { '@type': 'Country', name: 'Egypt' },
   };
 

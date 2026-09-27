@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone, Smartphone } from 'lucide-react';
 import { prisma } from '@/lib/db';
 import {
   brandAssets,
@@ -62,9 +62,6 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
           <div className="lg:col-span-4">
             <Link href={`/${locale}`} className="inline-flex flex-col leading-none">
               <span className="text-xl font-semibold tracking-[0.16em]">EL DAMARANY</span>
-              <span className="mt-2 text-[0.5625rem] tracking-[0.3em] text-paper/50">
-                SINCE 1978
-              </span>
             </Link>
 
             {brand.companyName ? (
@@ -141,6 +138,19 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
                     className="transition-colors duration-200 hover:text-paper"
                   >
                     {contact.phone}
+                  </a>
+                </li>
+              ) : null}
+
+              {contact.mobileHref && contact.mobile ? (
+                <li className="flex gap-3">
+                  <Smartphone className="mt-0.5 size-4 shrink-0 text-gold/70" aria-hidden="true" />
+                  <a
+                    href={contact.mobileHref}
+                    dir="ltr"
+                    className="transition-colors duration-200 hover:text-paper"
+                  >
+                    {contact.mobile}
                   </a>
                 </li>
               ) : null}

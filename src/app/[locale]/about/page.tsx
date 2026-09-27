@@ -160,7 +160,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div className="container-page">
             <SectionHeader
               eyebrow={locale === 'ar' ? 'مسيرتنا' : 'Our Story'}
-              title={locale === 'ar' ? 'مسيرة تمتد منذ 1978' : 'A Story That Began in 1978'}
+              title={locale === 'ar' ? 'مسيرتنا' : 'Our Story'}
             />
             <Timeline entries={timeline} />
           </div>
