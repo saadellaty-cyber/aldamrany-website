@@ -61,9 +61,15 @@
      bright value is too loud against a warm ground. */
   --color-gold-calm: #a8801a;
 
-  --radius-panel: 1.25rem;
-  --radius-card: 0.875rem;
-  --radius-control: 0.5rem;
+  /* Square corners throughout, at the owner's request: panels, cards, buttons
+     and inputs all meet at a right angle. Kept as tokens rather than deleted
+     so the rounding is one edit away if it is ever wanted back.
+
+     Circles are not affected — the round icon buttons use `rounded-full`, and
+     a circle is a shape in its own right, not a rounded rectangle. */
+  --radius-panel: 0;
+  --radius-card: 0;
+  --radius-control: 0;
 
   --color-danger: #a33a2a;
   --color-success: #3f6b4a;
