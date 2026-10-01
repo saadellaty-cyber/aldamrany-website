@@ -55,6 +55,32 @@ export const env = {
     return (Number.isFinite(megabytes) && megabytes > 0 ? megabytes : 15) * 1024 * 1024;
   },
 
+  /**
+   * Outgoing mail, for the enquiry notification.
+   *
+   * Returns null when it is not configured, rather than throwing: an enquiry
+   * must never be lost because the mail server is unreachable or the settings
+   * have not been filled in yet. The form stores every submission either way.
+   */
+  get smtp(): { host: string; port: number; secure: boolean; user: string; password: string; from: string } | null {
+    const host = read('SMTP_HOST');
+    const user = read('SMTP_USER');
+    const password = read('SMTP_PASSWORD');
+    if (!host || !user || !password) return null;
+
+    const port = Number(read('SMTP_PORT') ?? '465');
+    return {
+      host,
+      port: Number.isFinite(port) && port > 0 ? port : 465,
+      // Port 465 is implicit TLS; 587 upgrades with STARTTLS.
+      secure: (read('SMTP_SECURE') ?? (port === 465 ? 'true' : 'false')) === 'true',
+      user,
+      password,
+      // Most providers reject a From that is not the authenticated mailbox.
+      from: read('SMTP_FROM') ?? user,
+    };
+  },
+
   get r2(): {
     endpoint: string;
     accessKeyId: string;

@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { z } from 'zod';
 import { prisma } from '@/lib/db';
 import { clientAddress, rateLimit } from '@/lib/rate-limit';
+import { notifyNewEnquiry } from '@/lib/content/enquiry-notification';
 import { blankToNull } from '@/lib/utils';
 
 const schema = z.object({
@@ -68,20 +69,31 @@ export async function submitContactForm(
 
   const data = parsed.data;
 
+  const record = {
+    name: data.name,
+    company: blankToNull(data.company),
+    email: data.email.toLowerCase(),
+    phone: blankToNull(data.phone),
+    projectType: blankToNull(data.projectType),
+    message: data.message,
+    locale: blankToNull(data.locale),
+  };
+
   await prisma.contactSubmission.create({
     data: {
-      name: data.name,
-      company: blankToNull(data.company),
-      email: data.email.toLowerCase(),
-      phone: blankToNull(data.phone),
-      projectType: blankToNull(data.projectType),
-      message: data.message,
+      ...record,
       consent: true,
-      locale: blankToNull(data.locale),
       ipAddress: address === 'unknown' ? null : address,
       userAgent: requestHeaders.get('user-agent')?.slice(0, 500) ?? null,
     },
   });
+
+  // Awaited rather than left floating: a server action's work can be cut short
+  // once it returns, which would silently drop the notification. This cannot
+  // fail or hang the submission — `notifyNewEnquiry` swallows its own errors
+  // and the transport is capped by timeouts — and the enquiry is already saved,
+  // so it reaches the dashboard inbox whatever the mail server does.
+  await notifyNewEnquiry(record);
 
   return { status: 'success' };
 }

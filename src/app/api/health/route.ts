@@ -48,6 +48,9 @@ export async function GET() {
     'R2_SECRET_ACCESS_KEY',
     'R2_BUCKET',
     'R2_PUBLIC_URL',
+    'SMTP_HOST',
+    'SMTP_USER',
+    'SMTP_PASSWORD',
   ]) {
     configured[key] = Boolean(process.env[key]?.trim());
   }
@@ -126,6 +129,35 @@ export async function GET() {
     checks.translations = { ok: false, error: describe(error) };
   }
 
+  // --- Outgoing mail --------------------------------------------------------
+  // Enquiry notifications fail quietly by design, so the only way to know the
+  // mailbox still works is to ask. This connects and authenticates; it sends
+  // nothing. Reported but deliberately left out of `healthy`: enquiries are
+  // stored and reach the dashboard inbox either way.
+  const mailStarted = Date.now();
+  try {
+    const { verifyMail, isMailConfigured } = await import('@/lib/mail');
+    if (!isMailConfigured()) {
+      checks.mail = {
+        ok: false,
+        configured: false,
+        note: 'SMTP_HOST / SMTP_USER / SMTP_PASSWORD not set — notifications are off',
+      };
+    } else {
+      const result = await verifyMail();
+      checks.mail = result.ok
+        ? { ok: true, configured: true, ms: Date.now() - mailStarted }
+        : {
+            ok: false,
+            configured: true,
+            ms: Date.now() - mailStarted,
+            error: scrub(result.error ?? ''),
+          };
+    }
+  } catch (error) {
+    checks.mail = { ok: false, configured: true, error: describe(error) };
+  }
+
   // --- Sitemap --------------------------------------------------------------
   // Generated from the database; a failure here is invisible to visitors but
   // breaks search-engine indexing, so it is worth surfacing.
@@ -138,9 +170,13 @@ export async function GET() {
     checks.sitemap = { ok: false, ms: Date.now() - sitemapStarted, error: describe(error) };
   }
 
-  const healthy = Object.values(checks).every(
-    (check) => (check as { ok: boolean }).ok === true,
-  );
+  // Mail is reported but not graded. An unreachable or unconfigured mailbox
+  // costs a notification, not an enquiry — the submission is stored and shows
+  // in the dashboard inbox regardless — so it must not take the site down in
+  // whatever is watching this endpoint.
+  const healthy = Object.entries(checks)
+    .filter(([name]) => name !== 'mail')
+    .every(([, check]) => (check as { ok: boolean }).ok === true);
 
   return NextResponse.json(
     {
