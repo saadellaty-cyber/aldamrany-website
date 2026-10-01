@@ -96,7 +96,10 @@
    `--color-paper` is the type that sits on those surfaces, so in day mode it
    becomes near-black rather than off-white: the name describes its role, not
    its lightness. */
-[data-theme='day'] {
+/* `:root[...]` rather than the bare attribute: `:root` below carries the night
+   defaults at equal specificity and comes later in the file, so it would win
+   the tie and leave day mode declaring a dark colour scheme. */
+:root[data-theme='day'] {
   color-scheme: light;
 
   --color-night: #f2f0eb;
@@ -116,7 +119,12 @@
 /* --- Base ---------------------------------------------------------------- */
 
 :root {
-  color-scheme: light;
+  /* Night is the default theme, so the browser has to be told the page is
+     dark. It draws the native widgets itself — the select dropdown above all
+     — and while this read `light` it painted that popup white and filled it
+     with the near-white type the control inherits, leaving the options
+     unreadable. Day mode sets it back alongside its own tokens. */
+  color-scheme: dark;
   --header-height: 4.5rem;
 }
 
@@ -424,6 +432,16 @@
   button {
     font: inherit;
     color: inherit;
+  }
+
+  /* `color-scheme` gets the dropdown right on its own in most browsers, but a
+     few paint the popup in the system scheme whatever the page says. Naming
+     the colours covers those: both tokens flip with the theme, so this one
+     rule reads correctly on night and on day. */
+  option,
+  optgroup {
+    background-color: var(--color-night-soft);
+    color: var(--color-paper);
   }
 
   input[type='search']::-webkit-search-cancel-button {
